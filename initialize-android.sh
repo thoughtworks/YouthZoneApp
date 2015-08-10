@@ -12,6 +12,7 @@ if [ ! -e ${INITIALIZATION_FILE} ]; then
   # Use the latest android sdk tools
   echo y | android update sdk --no-ui --filter platform-tool > /dev/null
   echo y | android update sdk --no-ui --filter tool > /dev/null
+  echo y | android update sdk --no-ui --filter android-22 > /dev/null
 
   # The BuildTools version used by your project
   echo y | android update sdk --no-ui --filter build-tools-22.0.1 --all > /dev/null
