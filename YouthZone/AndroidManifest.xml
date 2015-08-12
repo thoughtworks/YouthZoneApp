@@ -30,6 +30,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thoughtworks.youthzone.MainActivity" />
         </activity>
+        <activity
+            android:name=".PickMemberActivity"
+            android:label="@string/title_activity_pick_member"
+            android:parentActivityName=".PickProjectActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thoughtworks.youthzone.PickProjectActivity" />
+        </activity>
     </application>
 
     <uses-sdk

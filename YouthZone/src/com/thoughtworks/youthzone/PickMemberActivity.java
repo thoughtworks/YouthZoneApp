@@ -6,54 +6,39 @@ import java.util.List;
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class PickProjectActivity extends Activity {
+public class PickMemberActivity extends Activity {
 	
-	private List<String> projectList;
-	private ListView projectListview;
+	private List<String> membersForProjectList;
+	private ListView membersForProjectListview;
 	private ArrayAdapter<String> adapter;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_pick_project);
+		setContentView(R.layout.activity_pick_member);
 		
-		projectListview = (ListView) findViewById(R.id.projects_listview);
+		membersForProjectListview = (ListView) findViewById(R.id.members_listview);
+
+		String extra = getIntent().getStringExtra("selectedProject");
+		Toast.makeText(this, extra, Toast.LENGTH_SHORT).show();
 		
-		projectListview.setOnItemClickListener(new OnItemClickListener() {
-		    @Override 
-		    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-		    	String projectName = projectListview.getItemAtPosition(position).toString();
-		    	handleListItemClick(projectName);
-		    }
-		});
+		membersForProjectList = new ArrayList<String>();
 		
-		projectList = new ArrayList<String>();
-		
-	    new RetrieveProject().execute("");
-	}
-	
-	private void handleListItemClick(String projectName) {
-		Intent intent = new Intent(this, PickMemberActivity.class);
-		intent.putExtra("selectedProject", projectName);
-		startActivity(intent);
+	    new RetrieveMembers().execute("");
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.pick_project, menu);
+		getMenuInflater().inflate(R.menu.pick_member, menu);
 		return true;
 	}
 
@@ -70,8 +55,7 @@ public class PickProjectActivity extends Activity {
 	}
 	
 	
-	
-	private class RetrieveProject extends AsyncTask<String, Void, Void> {
+	private class RetrieveMembers extends AsyncTask<String, Void, Void> {
 		DatastoreFacade datastoreFacade;
 
 		@Override
@@ -84,7 +68,7 @@ public class PickProjectActivity extends Activity {
 		@Override
 		protected Void doInBackground(String... params) {
 			try {
-				projectList = datastoreFacade.getProjects();
+				membersForProjectList = datastoreFacade.getMembersForProject("any string");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -95,9 +79,9 @@ public class PickProjectActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			
-			adapter = new ArrayAdapter<String>(PickProjectActivity.this,
-		            android.R.layout.simple_list_item_1, projectList);
-			projectListview.setAdapter(adapter);
+			adapter = new ArrayAdapter<String>(PickMemberActivity.this,
+		            android.R.layout.simple_list_item_1, membersForProjectList);
+			membersForProjectListview.setAdapter(adapter);
 		}
 		
 	}
