@@ -6,6 +6,7 @@ import java.util.List;
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,31 +14,21 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class PickProjectActivity extends Activity {
-
+	
+	private List<String> projectList;
+	private ListView projectListview;
+	private ArrayAdapter<String> adapter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pick_project);
 		
-		final ListView listview = (ListView) findViewById(R.id.listview);
+		projectListview = (ListView) findViewById(R.id.listview);
+		projectList = new ArrayList<String>();
 		
-		DatastoreFacade datastoreFacade = YouthZoneApp.getInstance().getDatastoreFacade();
-		
-		List<String> list = new ArrayList<String>();
-		list.add("Sport Europe");
-		try {
-			list = datastoreFacade.getProjects();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-	            android.R.layout.simple_list_item_1, list);
-	    listview.setAdapter(adapter);
+	    new RetrieveProject().execute("");
 	}
-	
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,5 +47,38 @@ public class PickProjectActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	
+	
+	private class RetrieveProject extends AsyncTask<String, Void, Void> {
+		DatastoreFacade datastoreFacade;
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			
+			datastoreFacade = YouthZoneApp.getInstance().getDatastoreFacade();
+		}
+
+		@Override
+		protected Void doInBackground(String... params) {
+			try {
+				projectList = datastoreFacade.getProjects();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			
+			adapter = new ArrayAdapter<String>(PickProjectActivity.this,
+		            android.R.layout.simple_list_item_1, projectList);
+			projectListview.setAdapter(adapter);
+		}
+		
 	}
 }
