@@ -23,7 +23,14 @@ public class PickProjectActivity extends Activity {
 		
 		DatastoreFacade datastoreFacade = YouthZoneApp.getInstance().getDatastoreFacade();
 		
-		final List<String> list = datastoreFacade.getProjects();
+		List<String> list = new ArrayList<String>();
+		list.add("Sport Europe");
+		try {
+			list = datastoreFacade.getProjects();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 	            android.R.layout.simple_list_item_1, list);

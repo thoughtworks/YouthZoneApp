@@ -79,7 +79,7 @@ public class MainActivity extends SalesforceActivity {
         // Keeping reference to rest client
         this.client = client;
         
-        YouthZoneApp.getInstance().setDatastoreFacade(new SalesforceFacade(client));
+        YouthZoneApp.getInstance().setDatastoreFacade(new SalesforceFacade(client, getString(R.string.api_version)));
 
 		// Show everything
 		findViewById(R.id.root).setVisibility(View.VISIBLE);
