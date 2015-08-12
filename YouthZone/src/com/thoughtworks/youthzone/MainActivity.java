@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -43,6 +44,7 @@ import com.salesforce.androidsdk.rest.RestClient.AsyncRequestCallback;
 import com.salesforce.androidsdk.rest.RestRequest;
 import com.salesforce.androidsdk.rest.RestResponse;
 import com.salesforce.androidsdk.ui.sfnative.SalesforceActivity;
+import com.thoughtworks.youthzone.helper.SalesforceFacade;
 
 /**
  * Main activity
@@ -75,10 +77,17 @@ public class MainActivity extends SalesforceActivity {
 	@Override
 	public void onResume(RestClient client) {
         // Keeping reference to rest client
-        this.client = client; 
+        this.client = client;
+        
+        YouthZoneApp.getInstance().setDatastoreFacade(new SalesforceFacade(client));
 
 		// Show everything
 		findViewById(R.id.root).setVisibility(View.VISIBLE);
+	}
+	
+	public void pickProject(View view) {
+		Intent intent = new Intent(this, PickProjectActivity.class);
+		startActivity(intent);
 	}
 
 	/**

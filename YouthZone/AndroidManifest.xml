@@ -1,28 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.thoughtworks.youthzone"
-	android:versionCode="1"
-	android:versionName="1.0"
-	android:installLocation="internalOnly">
+    package="com.thoughtworks.youthzone"
+    android:installLocation="internalOnly"
+    android:versionCode="1"
+    android:versionName="1.0" >
 
-	<application android:icon="@drawable/sf__icon"
-	    android:label="@string/app_name"
-		android:name=".YouthZoneApp"
-		android:manageSpaceActivity="com.salesforce.androidsdk.ui.ManageSpaceActivity">
+    <application
+        android:name=".YouthZoneApp"
+        android:icon="@drawable/sf__icon"
+        android:label="@string/app_name"
+        android:manageSpaceActivity="com.salesforce.androidsdk.ui.ManageSpaceActivity" >
 
-		<!-- Launcher screen -->
-		<activity android:name=".MainActivity"
-		    android:label="@string/app_name"
-			android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-	</application>
+        <!-- Launcher screen -->
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-    <uses-sdk android:minSdkVersion="17"
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PickProjectActivity"
+            android:label="@string/title_activity_pick_project"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thoughtworks.youthzone.MainActivity" />
+        </activity>
+    </application>
+
+    <uses-sdk
+        android:minSdkVersion="17"
         android:targetSdkVersion="21" />
 
     <!--
@@ -30,8 +41,10 @@
         receive the messages and registration result. This must be of
         the format <app-package-name>.C2D_MESSAGE for it to work.
     -->
-    <permission android:name="com.thoughtworks.youthzone.C2D_MESSAGE"
+    <permission
+        android:name="com.thoughtworks.youthzone.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.thoughtworks.youthzone.C2D_MESSAGE" />
+
 </manifest>

@@ -29,15 +29,25 @@ package com.thoughtworks.youthzone;
 import android.app.Application;
 
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
+import com.thoughtworks.youthzone.helper.DatastoreFacade;
+import com.thoughtworks.youthzone.helper.SalesforceFacade;
 
 /**
  * Application class for our application.
  */
 public class YouthZoneApp extends Application {
 
+	private static YouthZoneApp singleton;
+	private DatastoreFacade datastoreFacade;
+	
+	public static YouthZoneApp getInstance() {
+		return singleton;
+	}
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		singleton = this;
 		SalesforceSDKManager.initNative(getApplicationContext(), new KeyImpl(), MainActivity.class);
 
 		/*
@@ -47,5 +57,13 @@ public class YouthZoneApp extends Application {
 		 * for the key 'androidPushNotificationClientId'.
 		 */
 		// SalesforceSDKManager.getInstance().setPushNotificationReceiver(pnInterface);
+	}
+	
+	public DatastoreFacade getDatastoreFacade() {
+		return datastoreFacade;
+	}
+	
+	public void setDatastoreFacade(DatastoreFacade datastoreFacade) {
+		this.datastoreFacade = datastoreFacade;
 	}
 }
