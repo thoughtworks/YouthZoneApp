@@ -6,14 +6,21 @@ import java.util.List;
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class PickMemberActivity extends Activity {
+	
+	public static final String MEMBER_NAME_PREF = "memberName";
 	
 	private List<String> membersForProjectList;
 	private ListView membersForProjectListview;
@@ -25,12 +32,32 @@ public class PickMemberActivity extends Activity {
 		setContentView(R.layout.activity_pick_member);
 		
 		membersForProjectListview = (ListView) findViewById(R.id.members_listview);
+		
+		membersForProjectListview.setOnItemClickListener(new OnItemClickListener() {
+		    @Override 
+		    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+		    	String memberName = membersForProjectListview.getItemAtPosition(position).toString();
+		    	handleListItemClick(memberName);
+		    }
+		});
+		
 
 		String selectedProject = getIntent().getStringExtra("selectedProject");
 		
 		membersForProjectList = new ArrayList<String>();
 		
 	    new RetrieveMembers().execute(selectedProject);
+	}
+	
+	private void handleListItemClick(String memberName) {
+		SharedPreferences selectedMember = getSharedPreferences(MEMBER_NAME_PREF, MODE_PRIVATE);
+		SharedPreferences.Editor editor = selectedMember.edit();
+		editor.putString("selectedMember", memberName);
+		editor.commit();
+		
+		Intent intent = new Intent(this, SelectEvaluationActivity.class);
+		intent.putExtra("selectedMember", memberName);
+		startActivity(intent);
 	}
 
 	@Override

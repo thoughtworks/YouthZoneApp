@@ -5,4 +5,5 @@ import java.util.List;
 public interface DatastoreFacade {
     List<String> getProjects() throws Exception; 
     List<String> getMembersForProject(String project) throws Exception;
+    List<String> getIndicatorsForProject(String project) throws Exception;
 }

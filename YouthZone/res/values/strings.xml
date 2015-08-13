@@ -14,5 +14,7 @@
     <string name="action_settings">Settings</string>
     <string name="pick_project">Pick a Project</string>
     <string name="title_activity_pick_member">Pick a Member</string>
+    <string name="title_activity_select_evaluation">Evaluation Options</string>
+    <string name="title_activity_pick_outcome">Choose an Outcome</string>
 
 </resources>

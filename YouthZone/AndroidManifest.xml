@@ -38,6 +38,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thoughtworks.youthzone.PickProjectActivity" />
         </activity>
+        <activity
+            android:name=".SelectEvaluationActivity"
+            android:label="@string/title_activity_select_evaluation"
+            android:parentActivityName=".PickMemberActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thoughtworks.youthzone.PickMemberActivity" />
+        </activity>
+        <activity
+            android:name=".PickOutcomeActivity"
+            android:label="@string/title_activity_pick_outcome"
+            android:parentActivityName=".SelectEvaluationActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thoughtworks.youthzone.SelectEvaluationActivity" />
+        </activity>
     </application>
 
     <uses-sdk
