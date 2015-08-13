@@ -10,48 +10,52 @@ import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.rest.RestRequest;
 import com.salesforce.androidsdk.rest.RestResponse;
 
-
 public class SalesforceFacade implements DatastoreFacade {
 
 	private RestClient client;
 	private String apiVersion;
-	private List<String> projectList;
-	private List<String> membersForProjectList;
 	
 	public SalesforceFacade(RestClient client, String apiVersion) {
 		super();
 		this.apiVersion = apiVersion;
 		this.client = client;
-		projectList = new ArrayList<String>();
-		membersForProjectList = new ArrayList<String>();
 	}
 
-	public List<String> getProjects() throws UnsupportedEncodingException {
+	public List<String> getProjects() throws Exception {
 
-		sendRequest("SELECT Name FROM Projects__c", projectList);
+		String requiredField = "Name";
+		JSONArray records = sendRequest("SELECT "+requiredField+" FROM Projects__c");
+		List<String> projectList = new ArrayList<String>();
+		
+		for (int i = 0; i < records.length(); i++) {
+			projectList.add(records.getJSONObject(i).getString(requiredField));
+		}
 		return projectList;
 	}
 	
-	public List<String> getMembersForProject(String project) throws UnsupportedEncodingException {
+	public List<String> getMembersForProject(String project) throws Exception {
 
-		sendRequest("SELECT Name FROM Project_Members__c", membersForProjectList);
+		String requiredField = "Name";
+		JSONArray records = sendRequest("SELECT Member__r.Name FROM Project_Members__c WHERE Project__r.Name = '"+project+"'");
+		List<String> membersForProjectList = new ArrayList<String>();
+		
+		for (int i = 0; i < records.length(); i++) {
+			membersForProjectList.add(records.getJSONObject(i).getJSONObject("Member__r").getString(requiredField));
+		}
+		
 		return membersForProjectList;
 	}
 	
-	private void sendRequest(String soql, List<String> data) throws UnsupportedEncodingException {
+	private JSONArray sendRequest(String soql) throws UnsupportedEncodingException {
 		RestRequest restRequest = RestRequest.getRequestForQuery(apiVersion, soql);
-
+		
 		try {
 			RestResponse result = client.sendSync(restRequest);
-			data.clear();
-			JSONArray records = result.asJSONObject().getJSONArray("records");
-			for (int i = 0; i < records.length(); i++) {
-				data.add(records.getJSONObject(i).getString("Name"));
-			}
+			return result.asJSONObject().getJSONArray("records");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}
-
 	}
+	
 }

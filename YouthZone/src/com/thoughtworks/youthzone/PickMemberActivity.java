@@ -27,12 +27,11 @@ public class PickMemberActivity extends Activity {
 		
 		membersForProjectListview = (ListView) findViewById(R.id.members_listview);
 
-		String extra = getIntent().getStringExtra("selectedProject");
-		Toast.makeText(this, extra, Toast.LENGTH_SHORT).show();
+		String selectedProject = getIntent().getStringExtra("selectedProject");
 		
 		membersForProjectList = new ArrayList<String>();
 		
-	    new RetrieveMembers().execute("");
+	    new RetrieveMembers().execute(selectedProject);
 	}
 
 	@Override
@@ -68,7 +67,7 @@ public class PickMemberActivity extends Activity {
 		@Override
 		protected Void doInBackground(String... params) {
 			try {
-				membersForProjectList = datastoreFacade.getMembersForProject("any string");
+				membersForProjectList = datastoreFacade.getMembersForProject(params[0]);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
