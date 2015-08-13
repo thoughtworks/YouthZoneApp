@@ -30,7 +30,6 @@ import android.app.Application;
 
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
-import com.thoughtworks.youthzone.helper.SalesforceFacade;
 
 /**
  * Application class for our application.
