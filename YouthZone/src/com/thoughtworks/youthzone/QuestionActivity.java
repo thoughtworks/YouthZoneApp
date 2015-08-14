@@ -1,8 +1,10 @@
 package com.thoughtworks.youthzone;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
 
@@ -10,18 +12,27 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class QuestionActivity extends Activity {
 	
-	private List<String> indicatorsForProjectList;
+	private RatingBar ratingBar;
+	private Map<String, String> questionsToOutcomes;
+	private Set<String> questions;
 	private TextView questionTextview;
 	private Iterator<String> iterator;
 	private String currentQuestion;
 	private String selectedProject;
+	
+	
+	
+	private Map<String, Float> outcomeToRating;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +40,37 @@ public class QuestionActivity extends Activity {
 		setContentView(R.layout.activity_question);
 		
 		questionTextview = (TextView) findViewById(R.id.question_textview);
+		ratingBar = (RatingBar) findViewById(R.id.question_ratingbar);
 		
-		indicatorsForProjectList = new ArrayList<String>();
+		questionsToOutcomes = new LinkedHashMap<String, String>();
+		questions = new LinkedHashSet<String>();
 		
 		SharedPreferences prefs = getSharedPreferences(PickProjectActivity.PROJET_NAME_PREF, MODE_PRIVATE);
 		selectedProject = prefs.getString("selectedProject", "");
+		
+		
+		
+		outcomeToRating = new LinkedHashMap<String, Float>();
 		
 		new RetrieveIndicators().execute(selectedProject);
 
 	}
 	
 	public void onNextQuestionClick(View view) {
+		outcomeToRating.put(questionsToOutcomes.get(currentQuestion), ratingBar.getRating());
+		ratingBar.setRating(0.0F);
+		
 		if (iterator.hasNext()) {
 			currentQuestion = (String) iterator.next();
 			questionTextview.setText(currentQuestion);
+		} else {
+			String toDisplay = "";
+			
+			for(String key : outcomeToRating.keySet()){
+				toDisplay += key + " " + outcomeToRating.get(key) + "\n"; 
+			}
+			Log.i("***** THE WHEEL *****", toDisplay);
+			Toast.makeText(this, toDisplay, Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -78,7 +106,8 @@ public class QuestionActivity extends Activity {
 		@Override
 		protected Void doInBackground(String... params) {
 			try {
-				indicatorsForProjectList = datastoreFacade.getIndicatorsForProject(params[0]);
+				questionsToOutcomes = datastoreFacade.getIndicatorsForProject(params[0]);
+				questions = questionsToOutcomes.keySet();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -89,7 +118,7 @@ public class QuestionActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			
-			iterator = indicatorsForProjectList.iterator();
+			iterator = questions.iterator();
 			if (iterator.hasNext()) {
 				currentQuestion = (String) iterator.next();
 				questionTextview.setText(currentQuestion);

@@ -3,7 +3,9 @@ package com.thoughtworks.youthzone.helper;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,8 +13,6 @@ import org.json.JSONObject;
 import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.rest.RestRequest;
 import com.salesforce.androidsdk.rest.RestResponse;
-
-import android.util.Log;
 
 public class SalesforceFacade implements DatastoreFacade {
 
@@ -50,9 +50,10 @@ public class SalesforceFacade implements DatastoreFacade {
 		return membersForProjectList;
 	}
 	
-	public List<String> getIndicatorsForProject(String project) throws Exception {
+	public Map<String, String> getIndicatorsForProject(String project) throws Exception {
+		Map<String, String> questionsToOutcomes = new LinkedHashMap<String, String>();
+		
 		JSONArray records = sendRequest("SELECT Aspirations_Indicator_1__c,Aspirations_Indicator_2__c,Aspirations_Indicator_3__c,Citizenship_Indicator_1__c,Citizenship_Indicator_2__c,Citizenship_Indicator_3__c,Cohesion_Indicator_1__c,Cohesion_Indicator_2__c,Cohesion_Indicator_3__c,Communication_Skills_Indicator_1__c,Communication_Skills_Indicator_2__c,Communication_Skills_Indicator_3__c,Confidence_Indicator_1__c,Confidence_Indicator_2__c,Confidence_Indicator_3__c,Determination_Indicator_1__c,Determination_Indicator_2__c,Determination_Indicator_3__c,Empathy_Indicator_1__c,Empathy_Indicator_2__c,Empathy_Indicator_3__c,Leadership_Skills_Indicator_1__c,Leadership_Skills_Indicator_2__c,Leadership_Skills_Indicator_3__c,Life_Skills_Indicator_1__c,Life_Skills_Indicator_2__c,Life_Skills_Indicator_3__c,Managing_Feelings_Indicator_1__c,Managing_Feelings_Indicator_2__c,Managing_Feelings_Indicator_3__c,Mental_Wellbeing_Indicator_1__c,Mental_Wellbeing_Indicator_2__c,Mental_Wellbeing_Indicator_3__c,Physical_Health_Indicator_1__c,Physical_Health_Indicator_2__c,Physical_Health_Indicator_3__c,Positive_Health_Choices_Indicator_1__c,Positive_Health_Choices_Indicator_2__c,Positive_Health_Choices_Indicator_3__c,Problem_Solving_Indicator_1__c,Problem_Solving_Indicator_2__c,Problem_Solving_Indicator_3__c,Ready_for_Work_LLL_Indicator_1__c,Ready_for_Work_LLL_Indicator_2__c,Ready_for_Work_LLL_Indicator_3__c,Resilience_Indicator_1__c,Resilience_Indicator_2__c,Resilience_Indicator_3__c,Self_Awareness_Indicator_1__c,Self_Awareness_Indicator_2__c,Self_Awareness_Indicator_3__c,Self_Efficiency_Indicator_1__c,Self_Efficiency_Indicator_2__c,Self_Efficiency_Indicator_3__c,Self_Esteem_Indicator_1__c,Self_Esteem_Indicator_2__c,Self_Esteem_Indicator_3__c,Social_Skills_Indicator_1__c,Social_Skills_Indicator_2__c,Social_Skills_Indicator_3__c FROM Projects__c WHERE Name = '"+project+"'");
-	    List<String> indicatorsForProjectList = new ArrayList<String>();
 	    
 	    for (int i = 0; i < records.length(); i++) {
 	    	JSONObject jsonObject = records.getJSONObject(i);
@@ -61,12 +62,12 @@ public class SalesforceFacade implements DatastoreFacade {
 	    		String key = (String) keys.next();
 	    		if (jsonObject.get(key) instanceof String) {
 	    			String value = jsonObject.get(key).toString();
-	    			indicatorsForProjectList.add(value);
+	    			questionsToOutcomes.put(value, key.replace("_Indicator_", "_Outcome_"));
 	    		}
 	    	}
 		}
 	    
-		return indicatorsForProjectList;
+		return questionsToOutcomes;
 	}
 	
 	private JSONArray sendRequest(String soql) throws UnsupportedEncodingException {

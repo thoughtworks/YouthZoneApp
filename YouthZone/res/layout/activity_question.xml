@@ -12,6 +12,7 @@
         android:id="@+id/question_ratingbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:stepSize="1.0"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
@@ -28,7 +29,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/next_question_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -41,7 +42,7 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/button1"
+        android:layout_alignBottom="@+id/next_question_button"
         android:layout_alignLeft="@+id/question_ratingbar"
         android:text="Back" />
 
