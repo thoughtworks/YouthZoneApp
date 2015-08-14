@@ -1,34 +1,23 @@
 package com.thoughtworks.youthzone;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.thoughtworks.youthzone.helper.DatastoreFacade;
-
 import android.app.Activity;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.View;
 
 public class PickOutcomeActivity extends Activity {
-
-	private List<String> indicatorsForProjectList;
-	private ListView indicatorsForProjectListview;
-	private ArrayAdapter<String> adapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pick_outcome);
-		
-		indicatorsForProjectListview = (ListView) findViewById(R.id.indicators_listview);
-		
-		indicatorsForProjectList = new ArrayList<String>();
-		
-		new RetrieveIndicators().execute("Sport for Development");
+	}
+	
+	public void onStartQuestionsClick(View view) {
+		Intent intent = new Intent(this, QuestionActivity.class);
+		startActivity(intent);
 	}
 
 	@Override
@@ -48,36 +37,5 @@ public class PickOutcomeActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-	
-	private class RetrieveIndicators extends AsyncTask<String, Void, Void> {
-		DatastoreFacade datastoreFacade;
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			
-			datastoreFacade = YouthZoneApp.getInstance().getDatastoreFacade();
-		}
-
-		@Override
-		protected Void doInBackground(String... params) {
-			try {
-				indicatorsForProjectList = datastoreFacade.getIndicatorsForProject(params[0]);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Void result) {
-			super.onPostExecute(result);
-			
-			adapter = new ArrayAdapter<String>(PickOutcomeActivity.this,
-		            android.R.layout.simple_list_item_1, indicatorsForProjectList);
-			indicatorsForProjectListview.setAdapter(adapter);
-		}
-		
 	}
 }

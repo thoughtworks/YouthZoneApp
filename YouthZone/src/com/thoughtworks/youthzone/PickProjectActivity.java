@@ -7,6 +7,7 @@ import com.thoughtworks.youthzone.helper.DatastoreFacade;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,6 +19,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class PickProjectActivity extends Activity {
+	
+	public static final String PROJET_NAME_PREF = "projectName";
 	
 	private List<String> projectList;
 	private ListView projectListview;
@@ -44,6 +47,11 @@ public class PickProjectActivity extends Activity {
 	}
 	
 	private void handleListItemClick(String projectName) {
+		SharedPreferences selectedProject = getSharedPreferences(PROJET_NAME_PREF, MODE_PRIVATE);
+		SharedPreferences.Editor editor = selectedProject.edit();
+		editor.putString("selectedProject", projectName);
+		editor.commit();
+		
 		Intent intent = new Intent(this, PickMemberActivity.class);
 		intent.putExtra("selectedProject", projectName);
 		startActivity(intent);
