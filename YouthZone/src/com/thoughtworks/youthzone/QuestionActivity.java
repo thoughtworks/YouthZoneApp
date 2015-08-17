@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 public class QuestionActivity extends Activity {
 	
+	DatastoreFacade datastoreFacade;
+	
 	private RatingBar ratingBar;
 	private Map<String, String> questionsToOutcomes;
 	private Set<String> questions;
@@ -29,10 +31,10 @@ public class QuestionActivity extends Activity {
 	private Iterator<String> iterator;
 	private String currentQuestion;
 	private String selectedProject;
+	private String selectedMemberSalesforceId;
+	private String projectMemberId;
 	
-	
-	
-	private Map<String, Float> outcomeToRating;
+	private Map<String, Object> outcomeToRating;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +47,14 @@ public class QuestionActivity extends Activity {
 		questionsToOutcomes = new LinkedHashMap<String, String>();
 		questions = new LinkedHashSet<String>();
 		
-		SharedPreferences prefs = getSharedPreferences(PickProjectActivity.PROJET_NAME_PREF, MODE_PRIVATE);
+		SharedPreferences prefs = getSharedPreferences(PickProjectActivity.PROJECT_NAME_PREF, MODE_PRIVATE);
 		selectedProject = prefs.getString("selectedProject", "");
+		prefs = getSharedPreferences(PickMemberActivity.MEMBER_NAME_PREF, MODE_PRIVATE);
+		selectedMemberSalesforceId = prefs.getString("selectedMemberSalesforceId", "");
+		projectMemberId = prefs.getString("projectMemberId", "");
 		
 		
-		
-		outcomeToRating = new LinkedHashMap<String, Float>();
+		outcomeToRating = new LinkedHashMap<String, Object>();
 		
 		new RetrieveIndicators().execute(selectedProject);
 
@@ -71,6 +75,12 @@ public class QuestionActivity extends Activity {
 			}
 			Log.i("***** THE WHEEL *****", toDisplay);
 			Toast.makeText(this, toDisplay, Toast.LENGTH_LONG).show();
+			
+			try {
+				datastoreFacade.uploadOutcome(selectedMemberSalesforceId, projectMemberId, outcomeToRating);
+			} catch (Exception e) {
+				e.printStackTrace();           
+			}
 		}
 	}
 
@@ -94,7 +104,6 @@ public class QuestionActivity extends Activity {
 	}
 	
 	private class RetrieveIndicators extends AsyncTask<String, Void, Void> {
-		DatastoreFacade datastoreFacade;
 
 		@Override
 		protected void onPreExecute() {

@@ -20,7 +20,7 @@ import android.widget.ListView;
 
 public class PickProjectActivity extends Activity {
 	
-	public static final String PROJET_NAME_PREF = "projectName";
+	public static final String PROJECT_NAME_PREF = "projectName";
 	
 	private List<String> projectList;
 	private ListView projectListview;
@@ -47,13 +47,12 @@ public class PickProjectActivity extends Activity {
 	}
 	
 	private void handleListItemClick(String projectName) {
-		SharedPreferences selectedProject = getSharedPreferences(PROJET_NAME_PREF, MODE_PRIVATE);
+		SharedPreferences selectedProject = getSharedPreferences(PROJECT_NAME_PREF, MODE_PRIVATE);
 		SharedPreferences.Editor editor = selectedProject.edit();
 		editor.putString("selectedProject", projectName);
 		editor.commit();
 		
 		Intent intent = new Intent(this, PickMemberActivity.class);
-		intent.putExtra("selectedProject", projectName);
 		startActivity(intent);
 	}
 

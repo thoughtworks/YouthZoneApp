@@ -11,6 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.salesforce.androidsdk.rest.RestClient;
+import com.salesforce.androidsdk.rest.RestClient.AsyncRequestCallback;
+
+import android.util.Log;
+
 import com.salesforce.androidsdk.rest.RestRequest;
 import com.salesforce.androidsdk.rest.RestResponse;
 
@@ -37,17 +41,23 @@ public class SalesforceFacade implements DatastoreFacade {
 		return projectList;
 	}
 	
-	public List<String> getMembersForProject(String project) throws Exception {
-
-		String requiredField = "Name";
-		JSONArray records = sendRequest("SELECT Member__r.Name FROM Project_Members__c WHERE Project__r.Name = '"+project+"'");
-		List<String> membersForProjectList = new ArrayList<String>();
+	public List<ProjectMember> getMembersForProject(String project) throws Exception {
+		JSONArray records = sendRequest("SELECT Id, Member__r.Name, Member__r.Birthdate__c, Member__r.Member_Id__c, Member__r.Id  FROM Project_Members__c WHERE Project__r.Name = '"+project+"'");
+		List<ProjectMember> projectMembers = new ArrayList<ProjectMember>();
 		
 		for (int i = 0; i < records.length(); i++) {
-			membersForProjectList.add(records.getJSONObject(i).getJSONObject("Member__r").getString(requiredField));
+			
+			ProjectMember projectMember = new ProjectMember(
+					records.getJSONObject(i).getString("Id"),
+					records.getJSONObject(i).getJSONObject("Member__r").getString("Name"),
+					records.getJSONObject(i).getJSONObject("Member__r").getString("Birthdate__c"),
+					records.getJSONObject(i).getJSONObject("Member__r").getString("Member_Id__c"),
+					records.getJSONObject(i).getJSONObject("Member__r").getString("Id")
+			);
+			projectMembers.add(projectMember);
 		}
 		
-		return membersForProjectList;
+		return projectMembers;
 	}
 	
 	public Map<String, String> getIndicatorsForProject(String project) throws Exception {
@@ -80,6 +90,28 @@ public class SalesforceFacade implements DatastoreFacade {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+
+	@Override
+	public void uploadOutcome(String memberSalesforceId, String projectMemberNumber, Map<String, Object> outcomeToRating) throws Exception {
+		outcomeToRating.put("Member_Name__c", memberSalesforceId);
+		outcomeToRating.put("Project_Member__c", projectMemberNumber);
+		RestRequest restRequest = RestRequest.getRequestForCreate(apiVersion, "Outcome__c", outcomeToRating);
+		client.sendAsync(restRequest, new AsyncRequestCallback() {
+
+            @Override
+            public void onError(Exception e) {
+            	e.printStackTrace();
+                Log.d("*** uploadOutcome", "Error Occurred! ");
+            }
+
+            @Override
+            public void onSuccess(RestRequest request, RestResponse response) {
+            	Log.d("*** uploadOutcome", "Success!");
+            }
+        });
+		
 	}
 	
 }

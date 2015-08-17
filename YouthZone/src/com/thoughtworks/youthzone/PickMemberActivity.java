@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
+import com.thoughtworks.youthzone.helper.ProjectMember;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +26,7 @@ public class PickMemberActivity extends Activity {
 	
 	private List<String> membersForProjectList;
 	private ListView membersForProjectListview;
+	private List<ProjectMember> membersForProject;
 	private ArrayAdapter<String> adapter;
 
 	@Override
@@ -41,22 +44,26 @@ public class PickMemberActivity extends Activity {
 		    }
 		});
 		
-
-		String selectedProject = getIntent().getStringExtra("selectedProject");
-		
-		membersForProjectList = new ArrayList<String>();
+		SharedPreferences prefs = getSharedPreferences(PickProjectActivity.PROJECT_NAME_PREF, MODE_PRIVATE);
+		String selectedProject = prefs.getString("selectedProject", "");
 		
 	    new RetrieveMembers().execute(selectedProject);
 	}
 	
-	private void handleListItemClick(String memberName) {
+	private void handleListItemClick(String listElementText) {
 		SharedPreferences selectedMember = getSharedPreferences(MEMBER_NAME_PREF, MODE_PRIVATE);
 		SharedPreferences.Editor editor = selectedMember.edit();
-		editor.putString("selectedMember", memberName);
-		editor.commit();
+		
+		for(ProjectMember projectMember : membersForProject){
+			if(projectMember.toString().equals(listElementText)){
+				editor.putString("selectedMember", listElementText);
+				editor.putString("projectMemberId", projectMember.getProjectMemberId());
+				editor.putString("selectedMemberSalesforceId", projectMember.getSalesForceId());
+				editor.commit();
+			}
+		}
 		
 		Intent intent = new Intent(this, SelectEvaluationActivity.class);
-		intent.putExtra("selectedMember", memberName);
 		startActivity(intent);
 	}
 
@@ -93,7 +100,14 @@ public class PickMemberActivity extends Activity {
 		@Override
 		protected Void doInBackground(String... params) {
 			try {
-				membersForProjectList = datastoreFacade.getMembersForProject(params[0]);
+				membersForProject = datastoreFacade.getMembersForProject(params[0]);
+				List<String> displayAdapterText = new ArrayList<String>();
+				Log.d("*******", "membersForProject size: " + membersForProject.size());
+				for(ProjectMember projectMember : membersForProject){
+					displayAdapterText.add(projectMember.toString());
+				}
+				
+				membersForProjectList = new ArrayList<String>(displayAdapterText);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
