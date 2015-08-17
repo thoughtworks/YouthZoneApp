@@ -94,9 +94,9 @@ public class SalesforceFacade implements DatastoreFacade {
 	
 
 	@Override
-	public void uploadOutcome(String memberSalesforceId, String projectMemberNumber, Map<String, Object> outcomeToRating) throws Exception {
+	public void uploadOutcome(String memberSalesforceId, String projectMemberId, Map<String, Object> outcomeToRating) throws Exception {
 		outcomeToRating.put("Member_Name__c", memberSalesforceId);
-		outcomeToRating.put("Project_Member__c", projectMemberNumber);
+		outcomeToRating.put("Project_Member__c", projectMemberId);
 		RestRequest restRequest = RestRequest.getRequestForCreate(apiVersion, "Outcome__c", outcomeToRating);
 		client.sendAsync(restRequest, new AsyncRequestCallback() {
 
