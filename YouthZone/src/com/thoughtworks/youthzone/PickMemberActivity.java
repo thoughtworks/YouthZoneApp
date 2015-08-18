@@ -11,14 +11,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class PickMemberActivity extends Activity {
 	
@@ -101,7 +100,6 @@ public class PickMemberActivity extends Activity {
 			try {
 				membersForProject = datastoreFacade.getMembersForProject(params[0]);
 				List<String> displayAdapterText = new ArrayList<String>();
-				Log.d("*******", "membersForProject size: " + membersForProject.size());
 				for(ProjectMember projectMember : membersForProject){
 					displayAdapterText.add(projectMember.toString());
 				}
