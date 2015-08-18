@@ -59,7 +59,7 @@ public class MainActivity extends SalesforceActivity {
 	@Override
 	public void onResume(RestClient client) {
         
-        YouthZoneApp.getInstance().setDatastoreFacade(new SalesforceFacade(client, getString(R.string.api_version)));
+        ((YouthZoneApp) getApplication()).setDatastoreFacade(new SalesforceFacade(client, getString(R.string.api_version)));
 
 		// Show everything
 		findViewById(R.id.root).setVisibility(View.VISIBLE);

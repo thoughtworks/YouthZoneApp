@@ -109,7 +109,7 @@ public class QuestionActivity extends Activity {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			
-			datastoreFacade = YouthZoneApp.getInstance().getDatastoreFacade();
+			datastoreFacade = ((YouthZoneApp) getApplication()).getDatastoreFacade();
 		}
 
 		@Override

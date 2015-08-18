@@ -36,17 +36,11 @@ import com.thoughtworks.youthzone.helper.DatastoreFacade;
  */
 public class YouthZoneApp extends Application {
 
-	private static YouthZoneApp singleton;
 	private DatastoreFacade datastoreFacade;
-	
-	public static YouthZoneApp getInstance() {
-		return singleton;
-	}
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		singleton = this;
 		SalesforceSDKManager.initNative(getApplicationContext(), new KeyImpl(), MainActivity.class);
 
 		/*

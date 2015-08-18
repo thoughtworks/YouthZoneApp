@@ -93,8 +93,7 @@ public class PickMemberActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			
-			datastoreFacade = YouthZoneApp.getInstance().getDatastoreFacade();
+			datastoreFacade = ((YouthZoneApp) getApplication()).getDatastoreFacade();
 		}
 
 		@Override
