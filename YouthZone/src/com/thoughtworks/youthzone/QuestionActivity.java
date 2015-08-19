@@ -115,7 +115,7 @@ public class QuestionActivity extends Activity {
 		@Override
 		protected Void doInBackground(String... params) {
 			try {
-				questionsToOutcomes = datastoreFacade.getIndicatorsForProject(params[0]);
+				questionsToOutcomes = datastoreFacade.getQuestionsToOutcomes(params[0]);
 				questions = questionsToOutcomes.keySet();
 			} catch (Exception e) {
 				e.printStackTrace();
