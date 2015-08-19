@@ -14,8 +14,25 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="159dp"
         android:onClick="onNewEvaluationClick"
-        android:text="New evaluation" />
+        android:text="@string/new_evaluation" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/new_evaluation_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="59dp"
+        android:text="@string/continue_previous_evaluation" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/view_previous_evaluations" />
 
 </RelativeLayout>
