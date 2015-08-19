@@ -1,18 +1,41 @@
 package com.thoughtworks.youthzone;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.thoughtworks.youthzone.helper.Outcome;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class PickOutcomeActivity extends Activity {
+	
+	private ListView themesListView;
+	private ArrayAdapter<String> adapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pick_outcome);
+		
+		themesListView = (ListView) findViewById(R.id.themes_listview); 
+		
+		List<String> themeTitles = new ArrayList<String>();
+		
+		for(Outcome outcome : Outcome.values()){
+			themeTitles.add(outcome.getTitle());
+		}
+		
+		adapter = new ArrayAdapter<String>(this,
+	            android.R.layout.simple_list_item_1, themeTitles);
+		themesListView.setAdapter(adapter);
+		
 	}
 	
 	public void onStartQuestionsClick(View view) {

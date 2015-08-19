@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public enum Outcomes {
+public enum Outcome {
 	CONFIDENCE("Confidence", new ArrayList<String>(Arrays.asList(
 			"Confidence_Outcome_1__c",
 			"Confidence_Outcome_2__c",
@@ -79,7 +79,7 @@ public enum Outcomes {
 	private final String title;
 	private final List<String> outcomes;
 	
-	private Outcomes(String title, List<String> outcomes){
+	private Outcome(String title, List<String> outcomes){
 		this.title = title;
 		this.outcomes = outcomes;
 	}
