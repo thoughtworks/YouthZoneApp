@@ -19,12 +19,13 @@
         android:text="@string/new_evaluation" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/in_progress_evaluations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/new_evaluation_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="59dp"
+        android:onClick="onContinueEvaluationClick"
         android:text="@string/continue_previous_evaluation" />
 
     <Button

@@ -1,43 +1,38 @@
 package com.thoughtworks.youthzone;
 
-import java.util.Map;
+import java.util.List;
 
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-public class SelectEvaluationActivity extends Activity {
-
-	private Map<String, String> questionsToOutcomes;
+public class PickInProgressEvaluationActivity extends Activity {
 	
-	private Button newEvaluation;
-	private Button inProgressEvaluations;
+	private ListView inProgressEvaluationsListView;
+	private ArrayAdapter<String> adapter;
+	private List<String> inProgressEvaluations;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_select_evaluation);
+		setContentView(R.layout.activity_pick_in_progress_evaluation);
 		
-		newEvaluation = (Button) findViewById(R.id.new_evaluation_button);
-		newEvaluation.setEnabled(false);
+		inProgressEvaluationsListView = (ListView) findViewById(R.id.in_progress_evaluations_listview);
 		
-
-		inProgressEvaluations = (Button) findViewById(R.id.in_progress_evaluations);
-
-		new RetrieveQuestionsToOutcomes().execute(((YouthZoneApp) getApplication()).getSelectedProjectName());
+		new RetrieveInProgressEvaluations().execute("");
+		
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.select_evaluation, menu);
+		getMenuInflater().inflate(R.menu.pick_in_progress_evaluation, menu);
 		return true;
 	}
 
@@ -52,18 +47,8 @@ public class SelectEvaluationActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	public void onNewEvaluationClick(View view) {
-		Intent intent = new Intent(this, PickOutcomeActivity.class);
-		startActivity(intent);
-	}
 	
-	public void onContinueEvaluationClick(View view) {
-		Intent intent = new Intent(this, PickInProgressEvaluationActivity.class);
-		startActivity(intent);
-	}
-	
-	private class RetrieveQuestionsToOutcomes extends AsyncTask<String, Void, Void> {
+	private class RetrieveInProgressEvaluations extends AsyncTask<String, Void, Void> {
 		private DatastoreFacade datastoreFacade;
 
 		@Override
@@ -76,7 +61,9 @@ public class SelectEvaluationActivity extends Activity {
 		@Override
 		protected Void doInBackground(String... params) {
 			try {
-				questionsToOutcomes = datastoreFacade.getQuestionsToOutcomes(params[0]);
+				String projectName = ((YouthZoneApp) getApplication()).getSelectedProjectName();
+				String memberName = ((YouthZoneApp) getApplication()).getSelectedProjectMember().getName();
+				inProgressEvaluations = datastoreFacade.getInProgressEvaluations(projectName, memberName);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -86,10 +73,10 @@ public class SelectEvaluationActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			
-			((YouthZoneApp) getApplication()).setQuestionsToOutcomes(questionsToOutcomes);
-			
-			newEvaluation.setEnabled(true);
+
+			adapter = new ArrayAdapter<String>(PickInProgressEvaluationActivity.this, android.R.layout.simple_list_item_1,
+					inProgressEvaluations);
+			inProgressEvaluationsListView.setAdapter(adapter);
 		}
 	}
 }

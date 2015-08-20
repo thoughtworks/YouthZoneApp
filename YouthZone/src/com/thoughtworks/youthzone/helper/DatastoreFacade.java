@@ -12,4 +12,6 @@ public interface DatastoreFacade {
 
 	void uploadOutcome(String memberId, String projectMemberNumber, Map<String, Object> outcomeToRating)
 			throws Exception;
+
+	List<String> getInProgressEvaluations(String projectName, String memberName) throws Exception;
 }

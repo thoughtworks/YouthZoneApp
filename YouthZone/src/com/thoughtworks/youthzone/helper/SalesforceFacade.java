@@ -40,10 +40,10 @@ public class SalesforceFacade implements DatastoreFacade {
 		return projectList;
 	}
 
-	public List<ProjectMember> getMembersForProject(String project) throws Exception {
+	public List<ProjectMember> getMembersForProject(String projectName) throws Exception {
 		JSONArray records = sendRequest(
 				"SELECT Id, Member__r.Name, Member__r.Birthdate__c, Member__r.Member_Id__c, Member__r.Id  FROM Project_Members__c WHERE Project__r.Name = '"
-						+ project + "'");
+						+ projectName + "'");
 		List<ProjectMember> projectMembers = new ArrayList<ProjectMember>();
 
 		for (int i = 0; i < records.length(); i++) {
@@ -113,6 +113,23 @@ public class SalesforceFacade implements DatastoreFacade {
 			}
 		});
 
+	}
+
+	@Override
+	public List<String> getInProgressEvaluations(String projectName, String memberName) throws Exception{
+		JSONArray records = sendRequest(
+				"SELECT Date__c, Name FROM Outcome__c WHERE Status__c = 'In Progress' AND Project1__c = '"+ projectName +"' AND Member_Name__r.Name = '"+memberName+"'");
+		List<String> inProgressEvaluations = new ArrayList<String>();
+
+		for (int i = 0; i < records.length(); i++) {
+             String text = 
+            		memberName + " " + 
+					records.getJSONObject(i).getString("Date__c") + " " +
+					records.getJSONObject(i).getString("Name");
+             inProgressEvaluations.add(text);
+		}
+
+		return inProgressEvaluations;
 	}
 
 }
