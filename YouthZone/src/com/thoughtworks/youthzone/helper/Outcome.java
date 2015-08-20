@@ -85,6 +85,7 @@ public enum Outcome {
 	}
 	
 	public String getTitle(){
+
 		return title;
 	}
 	

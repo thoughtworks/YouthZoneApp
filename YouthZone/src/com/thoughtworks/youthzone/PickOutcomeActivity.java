@@ -11,8 +11,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class PickOutcomeActivity extends Activity {
 	
@@ -36,12 +38,26 @@ public class PickOutcomeActivity extends Activity {
 	            android.R.layout.simple_list_item_1, themeTitles);
 		themesListView.setAdapter(adapter);
 		
+		themesListView.setOnItemClickListener(new OnItemClickListener() {
+		    @Override 
+		    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+		    	String title = themesListView.getItemAtPosition(position).toString();
+		    	handleListItemClick(title);
+		    }
+		});
+		
 	}
 	
-	public void onStartQuestionsClick(View view) {
+	private void handleListItemClick(String title){
 		Intent intent = new Intent(this, QuestionActivity.class);
+		intent.putExtra("title", title);
 		startActivity(intent);
 	}
+	
+//	public void onStartQuestionsClick(View view) {
+//		Intent intent = new Intent(this, QuestionActivity.class);
+//		startActivity(intent);
+//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

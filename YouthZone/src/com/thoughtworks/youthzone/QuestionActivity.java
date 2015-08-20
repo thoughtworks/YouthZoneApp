@@ -1,12 +1,13 @@
 package com.thoughtworks.youthzone;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
+import com.thoughtworks.youthzone.helper.Outcome;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -26,7 +27,7 @@ public class QuestionActivity extends Activity {
 	
 	private RatingBar ratingBar;
 	private Map<String, String> questionsToOutcomes;
-	private Set<String> questions;
+	private List<String> questions;
 	private TextView questionTextview;
 	private Iterator<String> iterator;
 	private String currentQuestion;
@@ -35,6 +36,7 @@ public class QuestionActivity extends Activity {
 	private String projectMemberId;
 	
 	private Map<String, Object> outcomeToRating;
+	private List<String> outcomesForTheme;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +46,19 @@ public class QuestionActivity extends Activity {
 		questionTextview = (TextView) findViewById(R.id.question_textview);
 		ratingBar = (RatingBar) findViewById(R.id.question_ratingbar);
 		
+		String themeTitle = getIntent().getStringExtra("title");
+		outcomesForTheme = new ArrayList<String>();
+		
+		for(Outcome outcome : Outcome.values()){
+			if(outcome.getTitle().equals(themeTitle)){
+				outcomesForTheme = outcome.getOutcomes();
+				break;
+			}
+		}
+		
+		
 		questionsToOutcomes = new LinkedHashMap<String, String>();
-		questions = new LinkedHashSet<String>();
+		questions = new ArrayList<String>();
 		
 		SharedPreferences prefs = getSharedPreferences(PickProjectActivity.PROJECT_NAME_PREF, MODE_PRIVATE);
 		selectedProject = prefs.getString("selectedProject", "");
@@ -77,7 +90,7 @@ public class QuestionActivity extends Activity {
 			Toast.makeText(this, toDisplay, Toast.LENGTH_LONG).show();
 			
 			try {
-				datastoreFacade.uploadOutcome(selectedMemberSalesforceId, projectMemberId, outcomeToRating);
+				//datastoreFacade.uploadOutcome(selectedMemberSalesforceId, projectMemberId, outcomeToRating);
 			} catch (Exception e) {
 				e.printStackTrace();           
 			}
@@ -116,7 +129,11 @@ public class QuestionActivity extends Activity {
 		protected Void doInBackground(String... params) {
 			try {
 				questionsToOutcomes = datastoreFacade.getQuestionsToOutcomes(params[0]);
-				questions = questionsToOutcomes.keySet();
+				for(String question : questionsToOutcomes.keySet()){
+					if(outcomesForTheme.contains(questionsToOutcomes.get(question))){
+						questions.add(question);
+					}
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
