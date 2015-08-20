@@ -1,27 +1,33 @@
 package com.thoughtworks.youthzone;
 
+import java.util.Map;
+
+import com.thoughtworks.youthzone.helper.DatastoreFacade;
+
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.Button;
 
 public class SelectEvaluationActivity extends Activity {
+
+	private Map<String, String> questionsToOutcomes;
 	
-	private String selectedMember;
+	private Button newEvaluation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_select_evaluation);
 		
-		SharedPreferences prefs = getSharedPreferences(PickMemberActivity.MEMBER_NAME_PREF, MODE_PRIVATE);
-		selectedMember = prefs.getString("selectedMember", "");
+		newEvaluation = (Button) findViewById(R.id.new_evaluation_button);
+		newEvaluation.setEnabled(false);
 		
-		Toast.makeText(this, "Member is: " + selectedMember, Toast.LENGTH_SHORT).show();
+		new RetrieveQuestionsToOutcomes().execute(((YouthZoneApp) getApplication()).getSelectedProjectName());
 	}
 
 	@Override
@@ -42,9 +48,42 @@ public class SelectEvaluationActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	public void onNewEvaluationClick(View view) {
 		Intent intent = new Intent(this, PickOutcomeActivity.class);
 		startActivity(intent);
+	}
+	
+	public void onContinueEvaluationClick(View view) {
+	}
+	
+	private class RetrieveQuestionsToOutcomes extends AsyncTask<String, Void, Void> {
+		private DatastoreFacade datastoreFacade;
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			datastoreFacade = ((YouthZoneApp) getApplication()).getDatastoreFacade();
+		}
+
+		@Override
+		protected Void doInBackground(String... params) {
+			try {
+				questionsToOutcomes = datastoreFacade.getQuestionsToOutcomes(params[0]);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			
+			((YouthZoneApp) getApplication()).setQuestionsToOutcomes(questionsToOutcomes);
+			
+			newEvaluation.setEnabled(true);
+		}
 	}
 }

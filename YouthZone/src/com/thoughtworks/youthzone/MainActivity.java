@@ -26,20 +26,20 @@
  */
 package com.thoughtworks.youthzone;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.ui.sfnative.SalesforceActivity;
 import com.thoughtworks.youthzone.helper.SalesforceFacade;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
 /**
  * Main activity
  */
 public class MainActivity extends SalesforceActivity {
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,31 +47,32 @@ public class MainActivity extends SalesforceActivity {
 		// Setup view
 		setContentView(R.layout.main);
 	}
-	
-	@Override 
+
+	@Override
 	public void onResume() {
 		// Hide everything until we are logged in
 		findViewById(R.id.root).setVisibility(View.INVISIBLE);
-				
+
 		super.onResume();
-	}		
-	
+	}
+
 	@Override
 	public void onResume(RestClient client) {
-        
-        ((YouthZoneApp) getApplication()).setDatastoreFacade(new SalesforceFacade(client, getString(R.string.api_version)));
+
+		((YouthZoneApp) getApplication())
+				.setDatastoreFacade(new SalesforceFacade(client, getString(R.string.api_version)));
 
 		// Show everything
 		findViewById(R.id.root).setVisibility(View.VISIBLE);
 	}
-	
+
 	public void pickProject(View view) {
 		Intent intent = new Intent(this, PickProjectActivity.class);
 		startActivity(intent);
 	}
 
 	/**
-	 * Called when "Logout" button is clicked. 
+	 * Called when "Logout" button is clicked.
 	 * 
 	 * @param v
 	 */

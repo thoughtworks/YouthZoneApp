@@ -12,52 +12,46 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class PickOutcomeActivity extends Activity {
-	
+
 	private ListView themesListView;
 	private ArrayAdapter<String> adapter;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pick_outcome);
-		
-		themesListView = (ListView) findViewById(R.id.themes_listview); 
-		
+
+		themesListView = (ListView) findViewById(R.id.themes_listview);
+
 		List<String> themeTitles = new ArrayList<String>();
-		
-		for(Outcome outcome : Outcome.values()){
+
+		for (Outcome outcome : Outcome.values()) {
 			themeTitles.add(outcome.getTitle());
 		}
-		
-		adapter = new ArrayAdapter<String>(this,
-	            android.R.layout.simple_list_item_1, themeTitles);
+
+		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, themeTitles);
 		themesListView.setAdapter(adapter);
-		
+
 		themesListView.setOnItemClickListener(new OnItemClickListener() {
-		    @Override 
-		    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-		    	String title = themesListView.getItemAtPosition(position).toString();
-		    	handleListItemClick(title);
-		    }
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+				String title = themesListView.getItemAtPosition(position).toString();
+				handleListItemClick(title);
+			}
 		});
-		
+
 	}
-	
-	private void handleListItemClick(String title){
+
+	private void handleListItemClick(String title) {
 		Intent intent = new Intent(this, QuestionActivity.class);
 		intent.putExtra("title", title);
 		startActivity(intent);
 	}
-	
-//	public void onStartQuestionsClick(View view) {
-//		Intent intent = new Intent(this, QuestionActivity.class);
-//		startActivity(intent);
-//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

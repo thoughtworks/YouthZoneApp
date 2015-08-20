@@ -26,10 +26,13 @@
  */
 package com.thoughtworks.youthzone;
 
-import android.app.Application;
+import java.util.Map;
 
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
+import com.thoughtworks.youthzone.helper.ProjectMember;
+
+import android.app.Application;
 
 /**
  * Application class for our application.
@@ -37,7 +40,12 @@ import com.thoughtworks.youthzone.helper.DatastoreFacade;
 public class YouthZoneApp extends Application {
 
 	private DatastoreFacade datastoreFacade;
+
+	private Map<String, String> questionsToOutcomes;
+	private String selectedProjectName;
 	
+	private ProjectMember selectedProjectMember;
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -45,18 +53,43 @@ public class YouthZoneApp extends Application {
 
 		/*
 		 * Un-comment the line below to enable push notifications in this app.
-		 * Replace 'pnInterface' with your implementation of 'PushNotificationInterface'.
-		 * Add your Google package ID in 'bootonfig.xml', as the value
-		 * for the key 'androidPushNotificationClientId'.
+		 * Replace 'pnInterface' with your implementation of
+		 * 'PushNotificationInterface'. Add your Google package ID in
+		 * 'bootonfig.xml', as the value for the key
+		 * 'androidPushNotificationClientId'.
 		 */
 		// SalesforceSDKManager.getInstance().setPushNotificationReceiver(pnInterface);
 	}
-	
+
 	public DatastoreFacade getDatastoreFacade() {
 		return datastoreFacade;
 	}
-	
+
 	public void setDatastoreFacade(DatastoreFacade datastoreFacade) {
 		this.datastoreFacade = datastoreFacade;
+	}
+
+	public Map<String, String> getQuestionsToOutcomes() {
+		return questionsToOutcomes;
+	}
+
+	public void setQuestionsToOutcomes(Map<String, String> questionsToOutcomes) {
+		this.questionsToOutcomes = questionsToOutcomes;
+	}
+
+	public String getSelectedProjectName() {
+		return selectedProjectName;
+	}
+
+	public void setSelectedProjectName(String selectedProjectName) {
+		this.selectedProjectName = selectedProjectName;
+	}
+
+	public ProjectMember getSelectedProjectMember() {
+		return selectedProjectMember;
+	}
+
+	public void setSelectedProjectMember(ProjectMember selectedProjectMember) {
+		this.selectedProjectMember = selectedProjectMember;
 	}
 }

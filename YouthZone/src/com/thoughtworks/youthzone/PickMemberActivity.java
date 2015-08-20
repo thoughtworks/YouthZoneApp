@@ -8,7 +8,6 @@ import com.thoughtworks.youthzone.helper.ProjectMember;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,9 +19,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class PickMemberActivity extends Activity {
-	
+
 	public static final String MEMBER_NAME_PREF = "memberName";
-	
+
 	private List<String> membersForProjectList;
 	private ListView membersForProjectListview;
 	private List<ProjectMember> membersForProject;
@@ -32,36 +31,29 @@ public class PickMemberActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pick_member);
-		
+
 		membersForProjectListview = (ListView) findViewById(R.id.members_listview);
-		
+
 		membersForProjectListview.setOnItemClickListener(new OnItemClickListener() {
-		    @Override 
-		    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-		    	String memberName = membersForProjectListview.getItemAtPosition(position).toString();
-		    	handleListItemClick(memberName);
-		    }
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+				String memberName = membersForProjectListview.getItemAtPosition(position).toString();
+				handleListItemClick(memberName);
+			}
 		});
-		
-		SharedPreferences prefs = getSharedPreferences(PickProjectActivity.PROJECT_NAME_PREF, MODE_PRIVATE);
-		String selectedProject = prefs.getString("selectedProject", "");
-		
-	    new RetrieveMembers().execute(selectedProject);
+
+		new RetrieveMembers().execute(((YouthZoneApp) getApplication()).getSelectedProjectName());
 	}
-	
+
 	private void handleListItemClick(String listElementText) {
-		SharedPreferences selectedMember = getSharedPreferences(MEMBER_NAME_PREF, MODE_PRIVATE);
-		SharedPreferences.Editor editor = selectedMember.edit();
-		
-		for(ProjectMember projectMember : membersForProject){
-			if(projectMember.toString().equals(listElementText)){
-				editor.putString("selectedMember", listElementText);
-				editor.putString("projectMemberId", projectMember.getProjectMemberId());
-				editor.putString("selectedMemberSalesforceId", projectMember.getSalesForceId());
-				editor.commit();
+
+		for (ProjectMember projectMember : membersForProject) {
+			if (projectMember.toString().equals(listElementText)) {
+				((YouthZoneApp) getApplication()).setSelectedProjectMember(projectMember);
+				break;
 			}
 		}
-		
+
 		Intent intent = new Intent(this, SelectEvaluationActivity.class);
 		startActivity(intent);
 	}
@@ -84,8 +76,7 @@ public class PickMemberActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	
+
 	private class RetrieveMembers extends AsyncTask<String, Void, Void> {
 		DatastoreFacade datastoreFacade;
 
@@ -100,10 +91,9 @@ public class PickMemberActivity extends Activity {
 			try {
 				membersForProject = datastoreFacade.getMembersForProject(params[0]);
 				List<String> displayAdapterText = new ArrayList<String>();
-				for(ProjectMember projectMember : membersForProject){
+				for (ProjectMember projectMember : membersForProject) {
 					displayAdapterText.add(projectMember.toString());
 				}
-				
 				membersForProjectList = new ArrayList<String>(displayAdapterText);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -114,11 +104,10 @@ public class PickMemberActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			
-			adapter = new ArrayAdapter<String>(PickMemberActivity.this,
-		            android.R.layout.simple_list_item_1, membersForProjectList);
+
+			adapter = new ArrayAdapter<String>(PickMemberActivity.this, android.R.layout.simple_list_item_1,
+					membersForProjectList);
 			membersForProjectListview.setAdapter(adapter);
 		}
-		
 	}
 }

@@ -7,7 +7,6 @@ import com.thoughtworks.youthzone.helper.DatastoreFacade;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,39 +18,34 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class PickProjectActivity extends Activity {
-	
-	public static final String PROJECT_NAME_PREF = "projectName";
-	
+
 	private List<String> projectList;
 	private ListView projectListview;
 	private ArrayAdapter<String> adapter;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pick_project);
-		
+
 		projectListview = (ListView) findViewById(R.id.projects_listview);
-		
+
 		projectListview.setOnItemClickListener(new OnItemClickListener() {
-		    @Override 
-		    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-		    	String projectName = projectListview.getItemAtPosition(position).toString();
-		    	handleListItemClick(projectName);
-		    }
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+				String projectName = projectListview.getItemAtPosition(position).toString();
+				handleListItemClick(projectName);
+			}
 		});
-		
+
 		projectList = new ArrayList<String>();
-		
-	    new RetrieveProject().execute("");
+
+		new RetrieveProject().execute("");
 	}
-	
+
 	private void handleListItemClick(String projectName) {
-		SharedPreferences selectedProject = getSharedPreferences(PROJECT_NAME_PREF, MODE_PRIVATE);
-		SharedPreferences.Editor editor = selectedProject.edit();
-		editor.putString("selectedProject", projectName);
-		editor.commit();
-		
+		((YouthZoneApp) getApplication()).setSelectedProjectName(projectName);
+
 		Intent intent = new Intent(this, PickMemberActivity.class);
 		startActivity(intent);
 	}
@@ -74,16 +68,14 @@ public class PickProjectActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	
-	
+
 	private class RetrieveProject extends AsyncTask<String, Void, Void> {
 		DatastoreFacade datastoreFacade;
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			
+
 			datastoreFacade = ((YouthZoneApp) getApplication()).getDatastoreFacade();
 		}
 
@@ -100,11 +92,11 @@ public class PickProjectActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			
-			adapter = new ArrayAdapter<String>(PickProjectActivity.this,
-		            android.R.layout.simple_list_item_1, projectList);
+
+			adapter = new ArrayAdapter<String>(PickProjectActivity.this, android.R.layout.simple_list_item_1,
+					projectList);
 			projectListview.setAdapter(adapter);
 		}
-		
+
 	}
 }
