@@ -162,8 +162,8 @@ public class SalesforceFacade implements DatastoreFacade {
 		Iterator<?> keys = jsonObject.keys();
 		while (keys.hasNext()) {
 			String key = (String) keys.next();
-			if (jsonObject.get(key) != null) {
-				Double value = (Double) jsonObject.get(key);
+			if (jsonObject.get(key) != null && jsonObject.get(key) instanceof String) {
+				Float value = Float.valueOf((String) jsonObject.get(key));
 				outcomesToRatings.put(key, value);
 			}
 		}

@@ -61,7 +61,7 @@ public class QuestionActivity extends Activity {
 		//selectedMemberSalesforceId = ((YouthZoneApp) getApplication()).getSelectedProjectMember().getSalesForceId();
 		//projectMemberId = ((YouthZoneApp) getApplication()).getSelectedProjectMember().getMemberId();
 
-		outcomeToRating = new LinkedHashMap<String, Object>();
+		outcomeToRating =  ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getOutcomesToRatings();
 		
 		for (String question : questionsToOutcomes.keySet()) {
 			if (outcomesForTheme.contains(questionsToOutcomes.get(question))) {
@@ -73,17 +73,20 @@ public class QuestionActivity extends Activity {
 		if (iterator.hasNext()) {
 			currentQuestion = (String) iterator.next();
 			questionTextview.setText(currentQuestion);
+			String currentOutcome = questionsToOutcomes.get(currentQuestion);
+			ratingBar.setRating((Float) outcomeToRating.get(currentOutcome));
 		}
-
 	}
 
 	public void onNextQuestionClick(View view) {
 		outcomeToRating.put(questionsToOutcomes.get(currentQuestion), ratingBar.getRating());
-		ratingBar.setRating(0.0F);
+		//ratingBar.setRating(0.0F);
 
 		if (iterator.hasNext()) {
 			currentQuestion = (String) iterator.next();
 			questionTextview.setText(currentQuestion);
+			String currentOutcome = questionsToOutcomes.get(currentQuestion);
+			ratingBar.setRating((Float) outcomeToRating.get(currentOutcome));
 		} else {
 			String toDisplay = "";
 
