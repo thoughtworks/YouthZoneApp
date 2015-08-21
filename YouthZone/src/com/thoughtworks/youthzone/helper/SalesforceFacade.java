@@ -94,11 +94,11 @@ public class SalesforceFacade implements DatastoreFacade {
 	}
 
 	@Override
-	public void uploadOutcome(String memberSalesforceId, String projectMemberId, Map<String, Object> outcomeToRating)
+	public void uploadNewOutcome(String memberSalesforceId, String projectMemberId, Map<String, Object> uploadData)
 			throws Exception {
-		outcomeToRating.put("Member_Name__c", memberSalesforceId);
-		outcomeToRating.put("Project_Member__c", projectMemberId);
-		RestRequest restRequest = RestRequest.getRequestForCreate(apiVersion, "Outcome__c", outcomeToRating);
+		uploadData.put("Member_Name__c", memberSalesforceId);
+		uploadData.put("Project_Member__c", projectMemberId);
+		RestRequest restRequest = RestRequest.getRequestForCreate(apiVersion, "Outcome__c", uploadData);
 		client.sendAsync(restRequest, new AsyncRequestCallback() {
 
 			@Override
@@ -114,22 +114,61 @@ public class SalesforceFacade implements DatastoreFacade {
 		});
 
 	}
+	
+	@Override
+	public void updateExistingOutcome(String outcomeSalesforceId, Map<String, Object> uploadData) throws Exception{
+		RestRequest restRequest = RestRequest.getRequestForUpdate(apiVersion, "Outcome__c", outcomeSalesforceId, uploadData);
+		client.sendAsync(restRequest, new AsyncRequestCallback() {
+
+			@Override
+			public void onError(Exception e) {
+				e.printStackTrace();
+				Log.d("*** uploadOutcome", "Error Occurred! ");
+			}
+
+			@Override
+			public void onSuccess(RestRequest request, RestResponse response) {
+				Log.d("*** uploadOutcome", "Success!");
+			}
+		});
+	}
+	
+	
 
 	@Override
-	public List<String> getInProgressEvaluations(String projectName, String memberName) throws Exception{
+	public List<Evaluation> getInProgressEvaluations(String projectName, String memberName) throws Exception {
 		JSONArray records = sendRequest(
-				"SELECT Date__c, Name FROM Outcome__c WHERE Status__c = 'In Progress' AND Project1__c = '"+ projectName +"' AND Member_Name__r.Name = '"+memberName+"'");
-		List<String> inProgressEvaluations = new ArrayList<String>();
+				"SELECT Date__c, Name, Id FROM Outcome__c WHERE Status__c = 'In Progress' AND Project1__c = '"+ projectName +"' AND Member_Name__r.Name = '"+memberName+"'");
+		List<Evaluation> inProgressEvaluations = new ArrayList<Evaluation>();
 
 		for (int i = 0; i < records.length(); i++) {
-             String text = 
-            		memberName + " " + 
-					records.getJSONObject(i).getString("Date__c") + " " +
-					records.getJSONObject(i).getString("Name");
-             inProgressEvaluations.add(text);
+            Evaluation evaluation = new Evaluation();
+            evaluation.setDate(records.getJSONObject(i).getString("Date__c"));
+			evaluation.setName(records.getJSONObject(i).getString("Name"));
+			evaluation.setSalesForceId(records.getJSONObject(i).getString("Id"));
+            inProgressEvaluations.add(evaluation);
 		}
 
 		return inProgressEvaluations;
+	}
+	
+	@Override
+	public Map<String, Object> getRatingsForInProgressEvaluation(String salesforceId) throws Exception {
+		JSONArray record = sendRequest("SELECT Aspirations_Outcome_1__c,Aspirations_Outcome_2__c,Aspirations_Outcome_3__c,Citizenship_Outcome_1__c,Citizenship_Outcome_2__c,Citizenship_Outcome_3__c,Cohesion_Outcome_1__c,Cohesion_Outcome_2__c,Cohesion_Outcome_3__c,Communication_Skills_Outcome_1__c,Communication_Skills_Outcome_2__c,Communication_Skills_Outcome_3__c,Confidence_Outcome_1__c,Confidence_Outcome_2__c,Confidence_Outcome_3__c,Determination_Outcome_1__c,Determination_Outcome_2__c,Determination_Outcome_3__c,Empathy_Outcome_1__c,Empathy_Outcome_2__c,Empathy_Outcome_3__c,Leadership_Skills_Outcome_1__c,Leadership_Skills_Outcome_2__c,Leadership_Skills_Outcome_3__c,Life_Skills_Outcome_1__c,Life_Skills_Outcome_2__c,Life_Skills_Outcome_3__c,Managing_Feelings_Outcome_1__c,Managing_Feelings_Outcome_2__c,Managing_Feelings_Outcome_3__c,Mental_Wellbeing_Outcome_1__c,Mental_Wellbeing_Outcome_2__c,Mental_Wellbeing_Outcome_3__c,Physical_Health_Outcome_1__c,Physical_Health_Outcome_2__c,Physical_Health_Outcome_3__c,Positive_Health_Choices_Outcome_1__c,Positive_Health_Choices_Outcome_2__c,Positive_Health_Choices_Outcome_3__c,Problem_Solving_Outcome_1__c,Problem_Solving_Outcome_2__c,Problem_Solving_Outcome_3__c,Ready_for_Work_LLL_Outcome_1__c,Ready_for_Work_LLL_Outcome_2__c,Ready_for_Work_LLL_Outcome_3__c,Resilience_Outcome_1__c,Resilience_Outcome_2__c,Resilience_Outcome_3__c,Self_Awareness_Outcome_1__c,Self_Awareness_Outcome_2__c,Self_Awareness_Outcome_3__c,Self_Efficiency_Outcome_1__c,Self_Efficiency_Outcome_2__c,Self_Efficiency_Outcome_3__c,Self_Esteem_Outcome_1__c,Self_Esteem_Outcome_2__c,Self_Esteem_Outcome_3__c,Social_Skills_Outcome_1__c,Social_Skills_Outcome_2__c,Social_Skills_Outcome_3__c FROM Outcome__c WHERE Id = '" + salesforceId + "'");
+		
+		Map<String, Object> outcomesToRatings = new LinkedHashMap<String, Object>();
+		
+		JSONObject jsonObject = record.getJSONObject(0);
+		Iterator<?> keys = jsonObject.keys();
+		while (keys.hasNext()) {
+			String key = (String) keys.next();
+			if (jsonObject.get(key) != null) {
+				Double value = (Double) jsonObject.get(key);
+				outcomesToRatings.put(key, value);
+			}
+		}
+		
+		return outcomesToRatings;
 	}
 
 }

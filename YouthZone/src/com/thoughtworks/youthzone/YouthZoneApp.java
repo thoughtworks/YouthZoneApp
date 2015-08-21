@@ -30,6 +30,7 @@ import java.util.Map;
 
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
+import com.thoughtworks.youthzone.helper.Evaluation;
 import com.thoughtworks.youthzone.helper.ProjectMember;
 
 import android.app.Application;
@@ -45,6 +46,7 @@ public class YouthZoneApp extends Application {
 	private String selectedProjectName;
 	
 	private ProjectMember selectedProjectMember;
+	private Evaluation selectedInProgressEvaluation;
 
 	@Override
 	public void onCreate() {
@@ -92,4 +94,13 @@ public class YouthZoneApp extends Application {
 	public void setSelectedProjectMember(ProjectMember selectedProjectMember) {
 		this.selectedProjectMember = selectedProjectMember;
 	}
+
+	public void setSelectedInProgressEvaluation(Evaluation selectedInProgressEvaluation) {
+		this.selectedInProgressEvaluation = selectedInProgressEvaluation;
+	}
+
+	public Evaluation getSelectedInProgressEvaluation() {
+		return selectedInProgressEvaluation;
+	}
+	
 }

@@ -1,22 +1,32 @@
 package com.thoughtworks.youthzone;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
+import com.thoughtworks.youthzone.helper.Evaluation;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class PickInProgressEvaluationActivity extends Activity {
 	
 	private ListView inProgressEvaluationsListView;
 	private ArrayAdapter<String> adapter;
-	private List<String> inProgressEvaluations;
+	
+	private List<Evaluation> inProgressEvaluations;
+	private List<String> titlesForInProgressEvaluations = new ArrayList<String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +35,27 @@ public class PickInProgressEvaluationActivity extends Activity {
 		
 		inProgressEvaluationsListView = (ListView) findViewById(R.id.in_progress_evaluations_listview);
 		
+		inProgressEvaluationsListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+				String memberName = inProgressEvaluationsListView.getItemAtPosition(position).toString();
+				handleListItemClick(memberName);
+			}
+		});
+		
 		new RetrieveInProgressEvaluations().execute("");
+		
+	}
+	
+	private void handleListItemClick(String listElementText) {
+		
+		for (Evaluation e : inProgressEvaluations) {
+			if (e.toString().equals(listElementText)) {
+				new RetrieveOutcomesToRatingsForEvaluation().execute(e);
+				break;
+			}
+		}
+		
 		
 	}
 
@@ -50,6 +80,7 @@ public class PickInProgressEvaluationActivity extends Activity {
 	
 	private class RetrieveInProgressEvaluations extends AsyncTask<String, Void, Void> {
 		private DatastoreFacade datastoreFacade;
+		private Double rating;
 
 		@Override
 		protected void onPreExecute() {
@@ -63,7 +94,12 @@ public class PickInProgressEvaluationActivity extends Activity {
 			try {
 				String projectName = ((YouthZoneApp) getApplication()).getSelectedProjectName();
 				String memberName = ((YouthZoneApp) getApplication()).getSelectedProjectMember().getName();
+				
 				inProgressEvaluations = datastoreFacade.getInProgressEvaluations(projectName, memberName);
+				for (Evaluation e : inProgressEvaluations){
+					titlesForInProgressEvaluations.add(e.toString());
+				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -73,10 +109,46 @@ public class PickInProgressEvaluationActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
+			Toast.makeText(PickInProgressEvaluationActivity.this, "Rating: " + rating, Toast.LENGTH_SHORT).show();
 
 			adapter = new ArrayAdapter<String>(PickInProgressEvaluationActivity.this, android.R.layout.simple_list_item_1,
-					inProgressEvaluations);
+					titlesForInProgressEvaluations);
 			inProgressEvaluationsListView.setAdapter(adapter);
+		}
+	}
+	
+	
+	private class RetrieveOutcomesToRatingsForEvaluation extends AsyncTask<Evaluation, Void, Void> {
+		private DatastoreFacade datastoreFacade;
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+
+			datastoreFacade = ((YouthZoneApp) getApplication()).getDatastoreFacade();
+		}
+
+		@Override
+		protected Void doInBackground(Evaluation... params) {
+			try {
+				
+				Evaluation selectedEvaluation = params[0];
+				Map<String, Object> outcomesToRatings = datastoreFacade.getRatingsForInProgressEvaluation(selectedEvaluation.getSalesForceId());
+				selectedEvaluation.setOutcomesToRatings(outcomesToRatings);
+				
+				((YouthZoneApp) getApplication()).setSelectedInProgressEvaluation(selectedEvaluation);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			Intent intent = new Intent(PickInProgressEvaluationActivity.this, PickOutcomeActivity.class);
+			startActivity(intent);
 		}
 	}
 }

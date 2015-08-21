@@ -1,8 +1,10 @@
 package com.thoughtworks.youthzone;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
+import com.thoughtworks.youthzone.helper.Evaluation;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,6 +32,7 @@ public class SelectEvaluationActivity extends Activity {
 		
 
 		inProgressEvaluations = (Button) findViewById(R.id.in_progress_evaluations);
+		inProgressEvaluations.setEnabled(false);
 
 		new RetrieveQuestionsToOutcomes().execute(((YouthZoneApp) getApplication()).getSelectedProjectName());
 	}
@@ -54,6 +57,16 @@ public class SelectEvaluationActivity extends Activity {
 	}
 
 	public void onNewEvaluationClick(View view) {
+		Map<String, Object> outcomesToRatings = new LinkedHashMap<String, Object>();
+		
+		for(String outcome : questionsToOutcomes.values()) {
+			outcomesToRatings.put(outcome, 0);
+		}
+		
+		Evaluation evaluation = new Evaluation();
+		evaluation.setOutcomesToRatings(outcomesToRatings);
+		((YouthZoneApp) getApplication()).setSelectedInProgressEvaluation(evaluation);
+		
 		Intent intent = new Intent(this, PickOutcomeActivity.class);
 		startActivity(intent);
 	}
@@ -90,6 +103,8 @@ public class SelectEvaluationActivity extends Activity {
 			((YouthZoneApp) getApplication()).setQuestionsToOutcomes(questionsToOutcomes);
 			
 			newEvaluation.setEnabled(true);
+			inProgressEvaluations.setEnabled(true);
+			
 		}
 	}
 }
