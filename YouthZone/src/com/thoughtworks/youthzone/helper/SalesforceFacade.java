@@ -99,6 +99,7 @@ public class SalesforceFacade implements DatastoreFacade {
 		Map<String, Object> uploadData = evaluation.getOutcomesToRatings();
 		uploadData.put("Member_Name__c", projectMember.getSalesForceId());
 		uploadData.put("Project_Member__c", projectMember.getProjectMemberId());
+		uploadData.put("Status__c", evaluation.getStatus());
 		RestRequest restRequest = RestRequest.getRequestForCreate(apiVersion, "Outcome__c", uploadData);
 		client.sendAsync(restRequest, new AsyncRequestCallback() {
 
@@ -117,7 +118,9 @@ public class SalesforceFacade implements DatastoreFacade {
 	
 	@Override
 	public void updateExistingOutcome(Evaluation evaluation) throws Exception{
-		RestRequest restRequest = RestRequest.getRequestForUpdate(apiVersion, "Outcome__c", evaluation.getSalesForceId(), evaluation.getOutcomesToRatings());
+		Map<String, Object> uploadData = evaluation.getOutcomesToRatings();
+		uploadData.put("Status__c", evaluation.getStatus());
+		RestRequest restRequest = RestRequest.getRequestForUpdate(apiVersion, "Outcome__c", evaluation.getSalesForceId(), uploadData);
 		client.sendAsync(restRequest, new AsyncRequestCallback() {
 
 			@Override

@@ -25,7 +25,17 @@
        android:layout_below="@+id/themes_listview"
        android:layout_centerHorizontal="true"
        android:layout_marginTop="82dp"
-       android:onClick="onSaveInProgressClick"
+       android:onClick="onSubmitEvaluationClick"
        android:text="@string/save_in_progress_button" />
+
+   <Button
+       android:id="@+id/complete_evaluation_button"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignStart="@+id/submit_in_progress_button"
+       android:layout_below="@+id/submit_in_progress_button"
+       android:layout_marginTop="97dp"
+       android:onClick="onSubmitEvaluationClick"
+       android:text="@string/complete_evaluation_button" />
 
 </RelativeLayout>

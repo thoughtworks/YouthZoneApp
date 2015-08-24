@@ -3,6 +3,8 @@ package com.thoughtworks.youthzone;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.cordova.LOG;
+
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
 import com.thoughtworks.youthzone.helper.Evaluation;
 import com.thoughtworks.youthzone.helper.Outcome;
@@ -11,12 +13,14 @@ import com.thoughtworks.youthzone.helper.ProjectMember;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class PickOutcomeActivity extends Activity {
@@ -56,10 +60,16 @@ public class PickOutcomeActivity extends Activity {
 		startActivity(intent);
 	}
 	
-	public void onSaveInProgressClick(View view) {
+	public void onSubmitEvaluationClick(View view) {
 		Evaluation evaluation = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation();
 		ProjectMember projectMember = ((YouthZoneApp) getApplication()).getSelectedProjectMember();
 		DatastoreFacade salesforceFacade = ((YouthZoneApp) getApplication()).getDatastoreFacade();
+		
+		String buttonText = ((Button) view).getText().toString();
+		
+		if (buttonText.equals(getResources().getString(R.string.complete_evaluation_button))) {
+			evaluation.setStatus("Complete");
+		}
 		try {
 			if (evaluation.getSalesForceId() == null) {
 				salesforceFacade.uploadNewOutcome(projectMember, evaluation);
