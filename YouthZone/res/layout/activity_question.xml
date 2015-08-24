@@ -38,11 +38,12 @@
         android:text="@string/next_button" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/previous_question_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/next_question_button"
         android:layout_alignStart="@+id/question_ratingbar"
+        android:onClick="onPreviousQuestionClick"
         android:text="@string/back_button" />
 
 </RelativeLayout>

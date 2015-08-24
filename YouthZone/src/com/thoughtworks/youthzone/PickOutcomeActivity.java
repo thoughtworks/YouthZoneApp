@@ -3,8 +3,6 @@ package com.thoughtworks.youthzone;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.cordova.LOG;
-
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
 import com.thoughtworks.youthzone.helper.Evaluation;
 import com.thoughtworks.youthzone.helper.Outcome;
@@ -13,7 +11,6 @@ import com.thoughtworks.youthzone.helper.ProjectMember;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;

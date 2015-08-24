@@ -1,7 +1,6 @@
 package com.thoughtworks.youthzone;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -9,14 +8,14 @@ import com.thoughtworks.youthzone.helper.DatastoreFacade;
 import com.thoughtworks.youthzone.helper.Outcome;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RatingBar;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class QuestionActivity extends Activity {
 
@@ -26,7 +25,9 @@ public class QuestionActivity extends Activity {
 	private Map<String, String> questionsToOutcomes;
 	private List<String> questions;
 	private TextView questionTextview;
-	private Iterator<String> iterator;
+	
+	private int questionIndex = -1;
+	
 	private String currentQuestion;
 
 	private Map<String, Object> outcomeToRating;
@@ -60,39 +61,54 @@ public class QuestionActivity extends Activity {
 				questions.add(question);
 			}
 		}
+		
+		setupNextQuestion();
+		
+		ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
-		iterator = questions.iterator();
-		if (iterator.hasNext()) {
-			currentQuestion = (String) iterator.next();
-			questionTextview.setText(currentQuestion);
-			String currentOutcome = questionsToOutcomes.get(currentQuestion);
-			ratingBar.setRating((Float) outcomeToRating.get(currentOutcome));
-		}
+				outcomeToRating.put(questionsToOutcomes.get(currentQuestion), ratingBar.getRating());
+
+			}
+		});
 	}
-
-	public void onNextQuestionClick(View view) {
-		outcomeToRating.put(questionsToOutcomes.get(currentQuestion), ratingBar.getRating());
-
-		if (iterator.hasNext()) {
-			currentQuestion = (String) iterator.next();
+	
+	private void setupNextQuestion() {
+		
+		questionIndex++;
+		
+		if (questionIndex < questions.size()) {
+			currentQuestion = questions.get(questionIndex);
 			questionTextview.setText(currentQuestion);
 			String currentOutcome = questionsToOutcomes.get(currentQuestion);
 			ratingBar.setRating((Float) outcomeToRating.get(currentOutcome));
 		} else {
-			String toDisplay = "";
-
-			for (String key : outcomeToRating.keySet()) {
-				toDisplay += key + " " + outcomeToRating.get(key) + "\n";
-			}
-			Log.i("***** THE WHEEL *****", toDisplay);
-			Toast.makeText(this, toDisplay, Toast.LENGTH_LONG).show();
-
-			try {
-				// datastoreFacade.uploadOutcome(selectedMemberSalesforceId, projectMemberId, outcomeToRating);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			Intent intent = new Intent(this, PickOutcomeActivity.class);
+			startActivity(intent);
 		}
+	}
+	
+	private void setupPreviousQuestion() {
+	
+		questionIndex--;
+		
+		if (questionIndex >= 0) {
+			currentQuestion = questions.get(questionIndex);
+			questionTextview.setText(currentQuestion);
+			String currentOutcome = questionsToOutcomes.get(currentQuestion);
+			ratingBar.setRating((Float) outcomeToRating.get(currentOutcome));
+		} else {
+			Intent intent = new Intent(this, PickOutcomeActivity.class);
+			startActivity(intent);
+		}
+	}
+
+	public void onNextQuestionClick(View view) {
+		setupNextQuestion();
+	}
+	
+	public void onPreviousQuestionClick(View view) {
+		setupPreviousQuestion();
 	}
 
 	@Override
