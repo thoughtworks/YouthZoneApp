@@ -19,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class PickInProgressEvaluationActivity extends Activity {
 	
@@ -80,7 +79,6 @@ public class PickInProgressEvaluationActivity extends Activity {
 	
 	private class RetrieveInProgressEvaluations extends AsyncTask<String, Void, Void> {
 		private DatastoreFacade datastoreFacade;
-		private Double rating;
 
 		@Override
 		protected void onPreExecute() {
@@ -110,7 +108,6 @@ public class PickInProgressEvaluationActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			Toast.makeText(PickInProgressEvaluationActivity.this, "Rating: " + rating, Toast.LENGTH_SHORT).show();
 
 			adapter = new ArrayAdapter<String>(PickInProgressEvaluationActivity.this, android.R.layout.simple_list_item_1,
 					titlesForInProgressEvaluations);
