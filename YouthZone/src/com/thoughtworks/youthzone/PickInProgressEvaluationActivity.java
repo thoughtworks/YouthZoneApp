@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,13 +39,12 @@ public class PickInProgressEvaluationActivity extends Activity {
 		inProgressEvaluationsListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-				String memberName = inProgressEvaluationsListView.getItemAtPosition(position).toString();
-				handleListItemClick(memberName);
+				String evaluation = inProgressEvaluationsListView.getItemAtPosition(position).toString();
+				handleListItemClick(evaluation);
 			}
 		});
 		
 		new RetrieveInProgressEvaluations().execute("");
-		
 	}
 	
 	private void handleListItemClick(String listElementText) {
@@ -96,7 +96,8 @@ public class PickInProgressEvaluationActivity extends Activity {
 				String memberName = ((YouthZoneApp) getApplication()).getSelectedProjectMember().getName();
 				
 				inProgressEvaluations = datastoreFacade.getInProgressEvaluations(projectName, memberName);
-				for (Evaluation e : inProgressEvaluations){
+				Log.d("*** InProg", "" + inProgressEvaluations.size());
+				for (Evaluation e : inProgressEvaluations) {
 					titlesForInProgressEvaluations.add(e.toString());
 				}
 				
