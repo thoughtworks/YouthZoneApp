@@ -2,7 +2,6 @@ package com.thoughtworks.youthzone;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +28,6 @@ public class QuestionActivity extends Activity {
 	private TextView questionTextview;
 	private Iterator<String> iterator;
 	private String currentQuestion;
-	private String selectedProject;
-	private String selectedMemberSalesforceId;
-	private String projectMemberId;
 
 	private Map<String, Object> outcomeToRating;
 	private List<String> outcomesForTheme;
@@ -57,10 +53,6 @@ public class QuestionActivity extends Activity {
 		questionsToOutcomes = ((YouthZoneApp) getApplication()).getQuestionsToOutcomes();
 		questions = new ArrayList<String>();
 
-		selectedProject = ((YouthZoneApp) getApplication()).getSelectedProjectName();
-		//selectedMemberSalesforceId = ((YouthZoneApp) getApplication()).getSelectedProjectMember().getSalesForceId();
-		//projectMemberId = ((YouthZoneApp) getApplication()).getSelectedProjectMember().getMemberId();
-
 		outcomeToRating =  ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getOutcomesToRatings();
 		
 		for (String question : questionsToOutcomes.keySet()) {
@@ -80,7 +72,6 @@ public class QuestionActivity extends Activity {
 
 	public void onNextQuestionClick(View view) {
 		outcomeToRating.put(questionsToOutcomes.get(currentQuestion), ratingBar.getRating());
-		//ratingBar.setRating(0.0F);
 
 		if (iterator.hasNext()) {
 			currentQuestion = (String) iterator.next();

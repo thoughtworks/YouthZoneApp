@@ -52,6 +52,10 @@ public class PickOutcomeActivity extends Activity {
 		intent.putExtra("title", title);
 		startActivity(intent);
 	}
+	
+	public void onSaveInProgressClick(View view) {
+		
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

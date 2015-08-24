@@ -134,7 +134,7 @@ public class PickInProgressEvaluationActivity extends Activity {
 			try {
 				
 				Evaluation selectedEvaluation = params[0];
-				Map<String, Object> outcomesToRatings = datastoreFacade.getRatingsForInProgressEvaluation(selectedEvaluation.getSalesForceId());
+				Map<String, Object> outcomesToRatings = datastoreFacade.getRatingsForInProgressEvaluation(selectedEvaluation);
 				selectedEvaluation.setOutcomesToRatings(outcomesToRatings);
 				
 				((YouthZoneApp) getApplication()).setSelectedInProgressEvaluation(selectedEvaluation);

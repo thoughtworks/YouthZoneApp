@@ -10,12 +10,12 @@ public interface DatastoreFacade {
 
 	Map<String, String> getQuestionsToOutcomes(String project) throws Exception;
 
-	void uploadNewOutcome(String memberId, String projectMemberNumber, Map<String, Object> uploadData)
+	void uploadNewOutcome(ProjectMember projectMember, Evaluation evaluation)
 			throws Exception;
 
-	void updateExistingOutcome(String outcomeSalesforceId, Map<String, Object> uploadData) throws Exception;
+	void updateExistingOutcome(Evaluation evaluation) throws Exception;
 	
 	List<Evaluation> getInProgressEvaluations(String projectName, String memberName) throws Exception;
 	
-	Map<String, Object> getRatingsForInProgressEvaluation(String salesforceId) throws Exception;
+	Map<String, Object> getRatingsForInProgressEvaluation(Evaluation evaluation) throws Exception;
 }

@@ -94,10 +94,12 @@ public class SalesforceFacade implements DatastoreFacade {
 	}
 
 	@Override
-	public void uploadNewOutcome(String memberSalesforceId, String projectMemberId, Map<String, Object> uploadData)
+	public void uploadNewOutcome(ProjectMember projectMember, Evaluation evaluation)
 			throws Exception {
-		uploadData.put("Member_Name__c", memberSalesforceId);
-		uploadData.put("Project_Member__c", projectMemberId);
+		
+		Map<String, Object> uploadData = evaluation.getOutcomesToRatings();
+		uploadData.put("Member_Name__c", projectMember.getSalesForceId());
+		uploadData.put("Project_Member__c", projectMember.getMemberId());
 		RestRequest restRequest = RestRequest.getRequestForCreate(apiVersion, "Outcome__c", uploadData);
 		client.sendAsync(restRequest, new AsyncRequestCallback() {
 
@@ -116,8 +118,8 @@ public class SalesforceFacade implements DatastoreFacade {
 	}
 	
 	@Override
-	public void updateExistingOutcome(String outcomeSalesforceId, Map<String, Object> uploadData) throws Exception{
-		RestRequest restRequest = RestRequest.getRequestForUpdate(apiVersion, "Outcome__c", outcomeSalesforceId, uploadData);
+	public void updateExistingOutcome(Evaluation evaluation) throws Exception{
+		RestRequest restRequest = RestRequest.getRequestForUpdate(apiVersion, "Outcome__c", evaluation.getSalesForceId(), evaluation.getOutcomesToRatings());
 		client.sendAsync(restRequest, new AsyncRequestCallback() {
 
 			@Override
@@ -153,8 +155,8 @@ public class SalesforceFacade implements DatastoreFacade {
 	}
 	
 	@Override
-	public Map<String, Object> getRatingsForInProgressEvaluation(String salesforceId) throws Exception {
-		JSONArray record = sendRequest("SELECT Aspirations_Outcome_1__c,Aspirations_Outcome_2__c,Aspirations_Outcome_3__c,Citizenship_Outcome_1__c,Citizenship_Outcome_2__c,Citizenship_Outcome_3__c,Cohesion_Outcome_1__c,Cohesion_Outcome_2__c,Cohesion_Outcome_3__c,Communication_Skills_Outcome_1__c,Communication_Skills_Outcome_2__c,Communication_Skills_Outcome_3__c,Confidence_Outcome_1__c,Confidence_Outcome_2__c,Confidence_Outcome_3__c,Determination_Outcome_1__c,Determination_Outcome_2__c,Determination_Outcome_3__c,Empathy_Outcome_1__c,Empathy_Outcome_2__c,Empathy_Outcome_3__c,Leadership_Skills_Outcome_1__c,Leadership_Skills_Outcome_2__c,Leadership_Skills_Outcome_3__c,Life_Skills_Outcome_1__c,Life_Skills_Outcome_2__c,Life_Skills_Outcome_3__c,Managing_Feelings_Outcome_1__c,Managing_Feelings_Outcome_2__c,Managing_Feelings_Outcome_3__c,Mental_Wellbeing_Outcome_1__c,Mental_Wellbeing_Outcome_2__c,Mental_Wellbeing_Outcome_3__c,Physical_Health_Outcome_1__c,Physical_Health_Outcome_2__c,Physical_Health_Outcome_3__c,Positive_Health_Choices_Outcome_1__c,Positive_Health_Choices_Outcome_2__c,Positive_Health_Choices_Outcome_3__c,Problem_Solving_Outcome_1__c,Problem_Solving_Outcome_2__c,Problem_Solving_Outcome_3__c,Ready_for_Work_LLL_Outcome_1__c,Ready_for_Work_LLL_Outcome_2__c,Ready_for_Work_LLL_Outcome_3__c,Resilience_Outcome_1__c,Resilience_Outcome_2__c,Resilience_Outcome_3__c,Self_Awareness_Outcome_1__c,Self_Awareness_Outcome_2__c,Self_Awareness_Outcome_3__c,Self_Efficiency_Outcome_1__c,Self_Efficiency_Outcome_2__c,Self_Efficiency_Outcome_3__c,Self_Esteem_Outcome_1__c,Self_Esteem_Outcome_2__c,Self_Esteem_Outcome_3__c,Social_Skills_Outcome_1__c,Social_Skills_Outcome_2__c,Social_Skills_Outcome_3__c FROM Outcome__c WHERE Id = '" + salesforceId + "'");
+	public Map<String, Object> getRatingsForInProgressEvaluation(Evaluation evaluation) throws Exception {
+		JSONArray record = sendRequest("SELECT Aspirations_Outcome_1__c,Aspirations_Outcome_2__c,Aspirations_Outcome_3__c,Citizenship_Outcome_1__c,Citizenship_Outcome_2__c,Citizenship_Outcome_3__c,Cohesion_Outcome_1__c,Cohesion_Outcome_2__c,Cohesion_Outcome_3__c,Communication_Skills_Outcome_1__c,Communication_Skills_Outcome_2__c,Communication_Skills_Outcome_3__c,Confidence_Outcome_1__c,Confidence_Outcome_2__c,Confidence_Outcome_3__c,Determination_Outcome_1__c,Determination_Outcome_2__c,Determination_Outcome_3__c,Empathy_Outcome_1__c,Empathy_Outcome_2__c,Empathy_Outcome_3__c,Leadership_Skills_Outcome_1__c,Leadership_Skills_Outcome_2__c,Leadership_Skills_Outcome_3__c,Life_Skills_Outcome_1__c,Life_Skills_Outcome_2__c,Life_Skills_Outcome_3__c,Managing_Feelings_Outcome_1__c,Managing_Feelings_Outcome_2__c,Managing_Feelings_Outcome_3__c,Mental_Wellbeing_Outcome_1__c,Mental_Wellbeing_Outcome_2__c,Mental_Wellbeing_Outcome_3__c,Physical_Health_Outcome_1__c,Physical_Health_Outcome_2__c,Physical_Health_Outcome_3__c,Positive_Health_Choices_Outcome_1__c,Positive_Health_Choices_Outcome_2__c,Positive_Health_Choices_Outcome_3__c,Problem_Solving_Outcome_1__c,Problem_Solving_Outcome_2__c,Problem_Solving_Outcome_3__c,Ready_for_Work_LLL_Outcome_1__c,Ready_for_Work_LLL_Outcome_2__c,Ready_for_Work_LLL_Outcome_3__c,Resilience_Outcome_1__c,Resilience_Outcome_2__c,Resilience_Outcome_3__c,Self_Awareness_Outcome_1__c,Self_Awareness_Outcome_2__c,Self_Awareness_Outcome_3__c,Self_Efficiency_Outcome_1__c,Self_Efficiency_Outcome_2__c,Self_Efficiency_Outcome_3__c,Self_Esteem_Outcome_1__c,Self_Esteem_Outcome_2__c,Self_Esteem_Outcome_3__c,Social_Skills_Outcome_1__c,Social_Skills_Outcome_2__c,Social_Skills_Outcome_3__c FROM Outcome__c WHERE Id = '" + evaluation.getSalesForceId() + "'");
 		
 		Map<String, Object> outcomesToRatings = new LinkedHashMap<String, Object>();
 		

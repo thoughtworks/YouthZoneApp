@@ -60,7 +60,7 @@ public class SelectEvaluationActivity extends Activity {
 		Map<String, Object> outcomesToRatings = new LinkedHashMap<String, Object>();
 		
 		for(String outcome : questionsToOutcomes.values()) {
-			outcomesToRatings.put(outcome, 0);
+			outcomesToRatings.put(outcome, 0.0f);
 		}
 		
 		Evaluation evaluation = new Evaluation();

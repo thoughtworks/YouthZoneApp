@@ -18,7 +18,7 @@
     <string name="title_activity_select_evaluation">Evaluation Options</string>
     <string name="new_evaluation">New evaluation</string>
     <string name="title_activity_pick_outcome">Choose an Outcome</string>
-    <string name="start_questions_button">Start questions</string>
+    <string name="save_in_progress_button">Save for later</string>
     <string name="title_activity_question">Choose Rating</string>
     <string name="next_button">Next</string>
     <string name="back_button">Back</string>
