@@ -94,12 +94,11 @@ public class SalesforceFacade implements DatastoreFacade {
 	}
 
 	@Override
-	public void uploadNewOutcome(ProjectMember projectMember, Evaluation evaluation)
-			throws Exception {
+	public void uploadNewOutcome(ProjectMember projectMember, Evaluation evaluation) throws Exception {
 		
 		Map<String, Object> uploadData = evaluation.getOutcomesToRatings();
 		uploadData.put("Member_Name__c", projectMember.getSalesForceId());
-		uploadData.put("Project_Member__c", projectMember.getMemberId());
+		uploadData.put("Project_Member__c", projectMember.getProjectMemberId());
 		RestRequest restRequest = RestRequest.getRequestForCreate(apiVersion, "Outcome__c", uploadData);
 		client.sendAsync(restRequest, new AsyncRequestCallback() {
 
@@ -114,7 +113,6 @@ public class SalesforceFacade implements DatastoreFacade {
 				Log.d("*** uploadOutcome", "Success!");
 			}
 		});
-
 	}
 	
 	@Override

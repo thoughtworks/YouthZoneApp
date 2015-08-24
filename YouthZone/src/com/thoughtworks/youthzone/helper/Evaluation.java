@@ -8,7 +8,7 @@ public class Evaluation {
 	private String name;
 	private String salesForceId;
 	private Map<String, Object> outcomesToRatings;
-	private String status;
+	private String status = "In Progress";
 	
 	public String getStatus() {
 		return status;

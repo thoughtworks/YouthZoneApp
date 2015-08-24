@@ -3,7 +3,10 @@ package com.thoughtworks.youthzone;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.thoughtworks.youthzone.helper.DatastoreFacade;
+import com.thoughtworks.youthzone.helper.Evaluation;
 import com.thoughtworks.youthzone.helper.Outcome;
+import com.thoughtworks.youthzone.helper.ProjectMember;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -54,7 +57,18 @@ public class PickOutcomeActivity extends Activity {
 	}
 	
 	public void onSaveInProgressClick(View view) {
-		
+		Evaluation evaluation = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation();
+		ProjectMember projectMember = ((YouthZoneApp) getApplication()).getSelectedProjectMember();
+		DatastoreFacade salesforceFacade = ((YouthZoneApp) getApplication()).getDatastoreFacade();
+		try {
+			if (evaluation.getSalesForceId() == null) {
+				salesforceFacade.uploadNewOutcome(projectMember, evaluation);
+			} else {
+				salesforceFacade.updateExistingOutcome(evaluation);
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	@Override
