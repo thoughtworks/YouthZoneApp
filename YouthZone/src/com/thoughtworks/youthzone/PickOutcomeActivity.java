@@ -61,10 +61,13 @@ public class PickOutcomeActivity extends Activity {
 	}
 
 	public void onSubmitEvaluationClick(View view) {
-
 		String buttonText = ((Button) view).getText().toString();
 		new UploadOutcome().execute(buttonText);
-
+	}
+	
+	public void onAddCommentClick(View view) {
+		Intent intent = new Intent(this, PrivateCommentActivity.class);
+		startActivity(intent);
 	}
 
 	@Override

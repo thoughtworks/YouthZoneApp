@@ -87,6 +87,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thoughtworks.youthzone.SelectEvaluationActivity" />
         </activity>
+        <activity
+            android:name=".PrivateCommentActivity"
+            android:label="@string/title_activity_private_comment"
+            android:parentActivityName=".PickOutcomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thoughtworks.youthzone.PickOutcomeActivity" />
+        </activity>
     </application>
 
 </manifest>

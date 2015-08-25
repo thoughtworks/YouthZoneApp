@@ -26,5 +26,8 @@
     <string name="continue_previous_evaluation">Continue previous evaluation</string>
     <string name="view_previous_evaluations">View previous evaluations</string>
     <string name="title_activity_pick_in_progress_evaluation">Choose Evaluation</string>
+    <string name="title_activity_private_comment">Add Comment</string>
+    <string name="save_comment">Done</string>
+    <string name="add_comment_button">Add comment</string>
 
 </resources>
