@@ -1,16 +1,41 @@
 package com.thoughtworks.youthzone;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 public class PrivateCommentActivity extends Activity {
+	
+	private TextView commentTextView;
+	private String comment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_private_comment);
+		
+		comment = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getComment();
+		if (comment.equals("null")) {
+			comment = "";
+		}
+		
+		commentTextView = (TextView) findViewById(R.id.private_comment);
+		
+		commentTextView.setText(comment);
+	}
+	
+	public void onSaveCommentClick(View view) {
+		
+		comment = commentTextView.getText().toString();
+		
+		((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().setComment(comment);
+		
+		Intent intent = new Intent(this, PickOutcomeActivity.class);
+		startActivity(intent);
 	}
 
 	@Override

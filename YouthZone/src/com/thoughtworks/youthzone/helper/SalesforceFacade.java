@@ -97,6 +97,7 @@ public class SalesforceFacade implements DatastoreFacade {
 		uploadData.put("Member_Name__c", projectMember.getSalesForceId());
 		uploadData.put("Project_Member__c", projectMember.getProjectMemberId());
 		uploadData.put("Status__c", evaluation.getStatus());
+		uploadData.put("Youth_Zone_Comments__c", evaluation.getComment());
 		RestRequest restRequest = RestRequest.getRequestForCreate(apiVersion, "Outcome__c", uploadData);
 
 		RestResponse result = client.sendSync(restRequest);
@@ -107,6 +108,7 @@ public class SalesforceFacade implements DatastoreFacade {
 	public boolean updateExistingOutcome(Evaluation evaluation) throws Exception {
 		Map<String, Object> uploadData = evaluation.getOutcomesToRatings();
 		uploadData.put("Status__c", evaluation.getStatus());
+		uploadData.put("Youth_Zone_Comments__c", evaluation.getComment());
 		RestRequest restRequest = RestRequest.getRequestForUpdate(apiVersion, "Outcome__c",
 				evaluation.getSalesForceId(), uploadData);
 
@@ -117,7 +119,7 @@ public class SalesforceFacade implements DatastoreFacade {
 	@Override
 	public List<Evaluation> getInProgressEvaluations(String projectName, String memberName) throws Exception {
 		JSONArray records = sendRequest(
-				"SELECT Date__c, Name, Id FROM Outcome__c WHERE Status__c = 'In Progress' AND Project1__c = '"
+				"SELECT Date__c, Name, Youth_Zone_Comments__c, Id FROM Outcome__c WHERE Status__c = 'In Progress' AND Project1__c = '"
 						+ projectName + "' AND Member_Name__r.Name = '" + memberName + "'");
 		List<Evaluation> inProgressEvaluations = new ArrayList<Evaluation>();
 
@@ -125,6 +127,7 @@ public class SalesforceFacade implements DatastoreFacade {
 			Evaluation evaluation = new Evaluation();
 			evaluation.setDate(records.getJSONObject(i).getString("Date__c"));
 			evaluation.setName(records.getJSONObject(i).getString("Name"));
+			evaluation.setComment(records.getJSONObject(i).getString("Youth_Zone_Comments__c"));
 			evaluation.setSalesForceId(records.getJSONObject(i).getString("Id"));
 			inProgressEvaluations.add(evaluation);
 		}

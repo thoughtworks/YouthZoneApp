@@ -9,6 +9,7 @@ public class Evaluation {
 	private String salesForceId;
 	private Map<String, Object> outcomesToRatings;
 	private String status = "In Progress";
+	private String comment = "";
 	
 	public String getStatus() {
 		return status;
@@ -42,14 +43,20 @@ public class Evaluation {
 		this.salesForceId = salesForceId;
 	}
 	
-	
-	
 	public Map<String, Object> getOutcomesToRatings() {
 		return outcomesToRatings;
 	}
 
 	public void setOutcomesToRatings(Map<String, Object> outcomesToRatings) {
 		this.outcomesToRatings = outcomesToRatings;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	@Override

@@ -32,6 +32,7 @@
         android:layout_below="@+id/private_comment"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="93dp"
+        android:onClick="onSaveCommentClick"
         android:text="@string/save_comment" />
 
 </RelativeLayout>
