@@ -9,7 +9,10 @@ import com.thoughtworks.youthzone.helper.Outcome;
 import com.thoughtworks.youthzone.helper.ProjectMember;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,26 +59,12 @@ public class PickOutcomeActivity extends Activity {
 		intent.putExtra("title", title);
 		startActivity(intent);
 	}
-	
+
 	public void onSubmitEvaluationClick(View view) {
-		Evaluation evaluation = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation();
-		ProjectMember projectMember = ((YouthZoneApp) getApplication()).getSelectedProjectMember();
-		DatastoreFacade salesforceFacade = ((YouthZoneApp) getApplication()).getDatastoreFacade();
-		
+
 		String buttonText = ((Button) view).getText().toString();
-		
-		if (buttonText.equals(getResources().getString(R.string.complete_evaluation_button))) {
-			evaluation.setStatus("Complete");
-		}
-		try {
-			if (evaluation.getSalesForceId() == null) {
-				salesforceFacade.uploadNewOutcome(projectMember, evaluation);
-			} else {
-				salesforceFacade.updateExistingOutcome(evaluation);
-			}
-		} catch(Exception e){
-			e.printStackTrace();
-		}
+		new UploadOutcome().execute(buttonText);
+
 	}
 
 	@Override
@@ -96,4 +85,59 @@ public class PickOutcomeActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	private class UploadOutcome extends AsyncTask<String, Void, Void> {
+		Evaluation evaluation;
+		ProjectMember projectMember;
+		DatastoreFacade salesforceFacade;
+		boolean uploadSuccess;
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			evaluation = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation();
+			projectMember = ((YouthZoneApp) getApplication()).getSelectedProjectMember();
+			salesforceFacade = ((YouthZoneApp) getApplication()).getDatastoreFacade();
+		}
+
+		@Override
+		protected Void doInBackground(String... params) {
+
+			if (params[0].equals(getResources().getString(R.string.complete_evaluation_button))) {
+				evaluation.setStatus("Complete");
+			}
+
+			try {
+				if (evaluation.getSalesForceId() == null) {
+					uploadSuccess = salesforceFacade.uploadNewOutcome(projectMember, evaluation);
+				} else {
+					uploadSuccess = salesforceFacade.updateExistingOutcome(evaluation);
+				}
+			} catch (Exception e) {
+				uploadSuccess = false;
+				e.printStackTrace();
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			if (uploadSuccess) {
+				Intent intent = new Intent(PickOutcomeActivity.this, SelectEvaluationActivity.class);
+				startActivity(intent);
+			} else {
+				new AlertDialog.Builder(PickOutcomeActivity.this).setTitle("Upload Failed")
+				.setMessage("Please try again")
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+
+					}
+				}).setIcon(android.R.drawable.ic_dialog_alert).show();
+			}
+
+		}
+	}
+
 }

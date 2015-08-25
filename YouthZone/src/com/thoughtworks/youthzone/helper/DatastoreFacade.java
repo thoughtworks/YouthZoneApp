@@ -10,10 +10,10 @@ public interface DatastoreFacade {
 
 	Map<String, String> getQuestionsToOutcomes(String project) throws Exception;
 
-	void uploadNewOutcome(ProjectMember projectMember, Evaluation evaluation)
+	boolean uploadNewOutcome(ProjectMember projectMember, Evaluation evaluation)
 			throws Exception;
 
-	void updateExistingOutcome(Evaluation evaluation) throws Exception;
+	boolean updateExistingOutcome(Evaluation evaluation) throws Exception;
 	
 	List<Evaluation> getInProgressEvaluations(String projectName, String memberName) throws Exception;
 	
