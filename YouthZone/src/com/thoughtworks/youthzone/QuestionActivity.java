@@ -122,7 +122,8 @@ public class QuestionActivity extends Activity {
 	}
 
 	private void showWarning() {
-		new AlertDialog.Builder(this).setTitle("Oops ...")
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+		dialogBuilder.setTitle("Oops ...")
 				.setMessage("There are no questions for this theme.")
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
@@ -131,7 +132,11 @@ public class QuestionActivity extends Activity {
 						 startActivity(intent);
 						 finish();
 					}
-				}).setIcon(android.R.drawable.ic_dialog_alert).show();
+				}).setIcon(android.R.drawable.ic_dialog_alert); 
+		AlertDialog dialog = dialogBuilder.create();
+		dialog.setCanceledOnTouchOutside(false);
+		dialog.setCancelable(false);
+		dialog.show();
 	}
 
 	@Override
