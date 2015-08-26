@@ -91,7 +91,7 @@ public class SalesforceFacade implements DatastoreFacade {
 	}
 
 	@Override
-	public boolean uploadNewOutcome(ProjectMember projectMember, Evaluation evaluation) throws Exception {
+	public boolean uploadNewOutcome(ProjectMember projectMember, Evaluation evaluation, String interviewerName) throws Exception {
 
 		Map<String, Object> uploadData = evaluation.getOutcomesToRatings();
 		uploadData.put("Member_Name__c", projectMember.getSalesForceId());
@@ -105,7 +105,7 @@ public class SalesforceFacade implements DatastoreFacade {
 	}
 
 	@Override
-	public boolean updateExistingOutcome(Evaluation evaluation) throws Exception {
+	public boolean updateExistingOutcome(Evaluation evaluation, String interviewerName) throws Exception {
 		Map<String, Object> uploadData = evaluation.getOutcomesToRatings();
 		uploadData.put("Status__c", evaluation.getStatus());
 		uploadData.put("Youth_Zone_Comments__c", evaluation.getComment());

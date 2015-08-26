@@ -47,6 +47,8 @@ public class YouthZoneApp extends Application {
 	
 	private ProjectMember selectedProjectMember;
 	private Evaluation selectedInProgressEvaluation;
+	
+	private String interviewerName;
 
 	@Override
 	public void onCreate() {
@@ -103,6 +105,14 @@ public class YouthZoneApp extends Application {
 
 	public Evaluation getSelectedInProgressEvaluation() {
 		return selectedInProgressEvaluation;
+	}
+
+	public String getInterviewerName() {
+		return interviewerName;
+	}
+
+	public void setInterviewerName(String interviewerName) {
+		this.interviewerName = interviewerName;
 	}
 	
 }

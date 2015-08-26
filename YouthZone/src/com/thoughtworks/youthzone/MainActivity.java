@@ -44,6 +44,8 @@ import android.widget.EditText;
  */
 public class MainActivity extends SalesforceActivity {
 
+	private EditText staffName;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,7 +55,7 @@ public class MainActivity extends SalesforceActivity {
 	}
 
 	private void handleNameInput() {
-		EditText staffName = (EditText) findViewById(R.id.staff_name_edit);
+		staffName = (EditText) findViewById(R.id.staff_name_edit);
 		final Button getStarted = (Button) findViewById(R.id.get_started);
 		getStarted.setEnabled(false);
 		
@@ -96,6 +98,7 @@ public class MainActivity extends SalesforceActivity {
 	}
 
 	public void pickProject(View view) {
+		((YouthZoneApp) getApplication()).setInterviewerName(staffName.getText().toString());
 		Intent intent = new Intent(this, PickProjectActivity.class);
 		startActivity(intent);
 	}

@@ -107,15 +107,17 @@ public class PickOutcomeActivity extends Activity {
 		@Override
 		protected Void doInBackground(String... params) {
 
+			String interviewerName = ((YouthZoneApp) getApplication()).getInterviewerName();
+			
 			if (params[0].equals(getResources().getString(R.string.complete_evaluation_button))) {
 				evaluation.setStatus("Complete");
 			}
 
 			try {
 				if (evaluation.getSalesForceId() == null) {
-					uploadSuccess = salesforceFacade.uploadNewOutcome(projectMember, evaluation);
+					uploadSuccess = salesforceFacade.uploadNewOutcome(projectMember, evaluation, interviewerName);
 				} else {
-					uploadSuccess = salesforceFacade.updateExistingOutcome(evaluation);
+					uploadSuccess = salesforceFacade.updateExistingOutcome(evaluation, interviewerName);
 				}
 			} catch (Exception e) {
 				uploadSuccess = false;
