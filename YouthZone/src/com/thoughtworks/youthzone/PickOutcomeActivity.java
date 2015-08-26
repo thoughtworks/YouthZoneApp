@@ -22,6 +22,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class PickOutcomeActivity extends Activity {
 
@@ -128,6 +129,7 @@ public class PickOutcomeActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			if (uploadSuccess) {
+				Toast.makeText(PickOutcomeActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(PickOutcomeActivity.this, SelectEvaluationActivity.class);
 				startActivity(intent);
 			} else {

@@ -6,7 +6,8 @@
     <string name="app_package">com.thoughtworks.youthzone</string>
     <string name="welcome">Welcome %s</string>
     <string name="logout_button">Logout</string>
-    <string name="pick_project_button">Pick Project</string>
+    <string name="staff_name">Staff name:</string>
+    <string name="get_started">Get Started</string>
     <string name="fetch_contacts_button">Fetch Contacts</string>
     <string name="fetch_accounts_button">Fetch Accounts</string>
     <string name="clear_button">Clear</string>

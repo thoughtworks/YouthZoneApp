@@ -53,6 +53,8 @@ public class YouthZoneApp extends Application {
 		super.onCreate();
 		SalesforceSDKManager.initNative(getApplicationContext(), new KeyImpl(), MainActivity.class);
 
+		selectedInProgressEvaluation = new Evaluation();
+		
 		/*
 		 * Un-comment the line below to enable push notifications in this app.
 		 * Replace 'pnInterface' with your implementation of

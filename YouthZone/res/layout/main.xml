@@ -9,14 +9,38 @@
     <include
         android:id="@+id/include1"
         layout="@layout/header" />
+    
+    <EditText
+        android:id="@+id/staff_name_edit"
+        android:labelFor="@+id/staff_name_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/get_started"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="61dp"
+        android:ems="10"
+        android:inputType="textPersonName" >
+
+        <requestFocus />
+    </EditText>
 
     <Button
-        android:id="@+id/pick_project"
+        android:id="@+id/get_started"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:onClick="pickProject"
-        android:text="@string/pick_project_button" />
+        android:text="@string/get_started" />
+
+    <TextView
+        android:id="@+id/staff_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/staff_name_edit"
+        android:layout_alignStart="@+id/staff_name_edit"
+        android:layout_marginBottom="18dp"
+        android:text="@string/staff_name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

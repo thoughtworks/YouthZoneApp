@@ -10,6 +10,7 @@ public class Evaluation {
 	private Map<String, Object> outcomesToRatings;
 	private String status = "In Progress";
 	private String comment = "";
+	private String interviewerName = "";
 	
 	public String getStatus() {
 		return status;
@@ -57,6 +58,15 @@ public class Evaluation {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	
+	public String getInterviewerName() {
+		return interviewerName;
+	}
+
+	public void setInterviewerName(String interviewerName) {
+		this.interviewerName = interviewerName;
 	}
 
 	@Override
