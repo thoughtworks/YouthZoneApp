@@ -5,17 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
-import com.thoughtworks.youthzone.helper.Evaluation;
 import com.thoughtworks.youthzone.helper.Outcome;
-import com.thoughtworks.youthzone.helper.ProjectMember;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
