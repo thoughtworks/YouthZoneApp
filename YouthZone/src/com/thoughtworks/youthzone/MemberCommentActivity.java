@@ -1,11 +1,14 @@
 package com.thoughtworks.youthzone;
 
+import java.util.Map;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 public class MemberCommentActivity extends Activity {
 
@@ -16,6 +19,14 @@ public class MemberCommentActivity extends Activity {
 	}
 	
 	public void onSaveCommentClick(View view) {
+		EditText editText = (EditText) findViewById(R.id.member_comment);
+		String memberComment = editText.getText().toString();
+		
+		Map<String, String> memberComments = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getMemberComments();
+		String currentOutcome = getIntent().getStringExtra("currentOutcome");
+		
+		memberComments.put(currentOutcome.replace("Outcome", "Comments"), memberComment);
+		
 		Intent intent = new Intent(this, QuestionActivity.class);
 		intent.putExtra("questionIndex", getIntent().getIntExtra("questionIndex", 0));
 		startActivity(intent);

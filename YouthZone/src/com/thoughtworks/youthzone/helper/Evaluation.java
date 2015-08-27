@@ -1,5 +1,6 @@
 package com.thoughtworks.youthzone.helper;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Evaluation {
@@ -7,9 +8,10 @@ public class Evaluation {
 	private String date;
 	private String name;
 	private String salesForceId;
-	private Map<String, Object> outcomesToRatings;
+	private Map<String, Object> outcomesToRatings = new LinkedHashMap<String, Object>();
 	private String status = "In Progress";
 	private String comment = "";
+	private Map<String, String> memberComments = new LinkedHashMap<String, String>();
 	
 	public String getStatus() {
 		return status;
@@ -57,6 +59,15 @@ public class Evaluation {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+    
+	public Map<String, String> getMemberComments() {
+		return memberComments;
+	}
+
+	public void setMemberComments(Map<String, String> memberComments) {
+		this.memberComments = memberComments;
 	}
 
 	@Override

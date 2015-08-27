@@ -93,7 +93,9 @@ public class SalesforceFacade implements DatastoreFacade {
 	@Override
 	public boolean uploadNewOutcome(ProjectMember projectMember, Evaluation evaluation, String interviewerName) throws Exception {
 
-		Map<String, Object> uploadData = evaluation.getOutcomesToRatings();
+		Map<String, Object> uploadData = new LinkedHashMap<String, Object>();
+		uploadData.putAll(evaluation.getOutcomesToRatings());
+		uploadData.putAll(evaluation.getMemberComments());
 		uploadData.put("Member_Name__c", projectMember.getSalesForceId());
 		uploadData.put("Project_Member__c", projectMember.getProjectMemberId());
 		uploadData.put("Status__c", evaluation.getStatus());
@@ -107,7 +109,9 @@ public class SalesforceFacade implements DatastoreFacade {
 
 	@Override
 	public boolean updateExistingOutcome(Evaluation evaluation, String interviewerName) throws Exception {
-		Map<String, Object> uploadData = evaluation.getOutcomesToRatings();
+		Map<String, Object> uploadData = new LinkedHashMap<String, Object>();
+		uploadData.putAll(evaluation.getOutcomesToRatings());
+		uploadData.putAll(evaluation.getMemberComments());
 		uploadData.put("Status__c", evaluation.getStatus());
 		uploadData.put("Youth_Zone_Comments__c", evaluation.getComment());
 		uploadData.put("Staff_Name__c", interviewerName);

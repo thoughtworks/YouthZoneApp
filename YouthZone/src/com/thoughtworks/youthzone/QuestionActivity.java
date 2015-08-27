@@ -121,6 +121,7 @@ public class QuestionActivity extends Activity {
 	public void onAddMemberCommentClick(View view) {
 		Intent intent = new Intent(this, MemberCommentActivity.class);
 		intent.putExtra("questionIndex", questionIndex);
+		intent.putExtra("currentOutcome", questionsToOutcomes.get(currentQuestion));
 		startActivity(intent);
 	}
 
