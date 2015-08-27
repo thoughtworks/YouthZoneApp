@@ -165,5 +165,30 @@ public class SalesforceFacade implements DatastoreFacade {
 
 		return outcomesToRatings;
 	}
+	
+	/*PUT BACK READY FOR WORK
+	 * Aspirations_Comments_1__c,Aspirations_Comments_2__c,Aspirations_Comments_3__c,Citizenship_Comments_1__c,Citizenship_Comments_2__c,Citizenship_Comments_3__c,Cohesion_Comments_1__c,Cohesion_Comments_2__c,Cohesion_Comments_3__c,Communication_Skills_Comments_1__c,Communication_Skills_Comments_2__c,Communication_Skills_Comments_3__c,Confidence_Comments_1__c,Confidence_Comments_2__c,Confidence_Comments_3__c,Determination_Comments_1__c,Determination_Comments_2__c,Determination_Comments_3__c,Empathy_Comments_1__c,Empathy_Comments_2__c,Empathy_Comments_3__c,Leadership_Skills_Comments_1__c,Leadership_Skills_Comments_2__c,Leadership_Skills_Comments_3__c,Life_Skills_Comments_1__c,Life_Skills_Comments_2__c,Life_Skills_Comments_3__c,Managing_Feelings_Comments_1__c,Managing_Feelings_Comments_2__c,Managing_Feelings_Comments_3__c,Mental_Wellbeing_Comments_1__c,Mental_Wellbeing_Comments_2__c,Mental_Wellbeing_Comments_3__c,Physical_Health_Comments_1__c,Physical_Health_Comments_2__c,Physical_Health_Comments_3__c,Positive_Health_Choices_Comments_1__c,Positive_Health_Choices_Comments_2__c,Positive_Health_Choices_Comments_3__c,Problem_Solving_Comments_1__c,Problem_Solving_Comments_2__c,Problem_Solving_Comments_3__c,Resilience_Comments_1__c,Resilience_Comments_2__c,Resilience_Comments_3__c,Self_Awareness_Comments_1__c,Self_Awareness_Comments_2__c,Self_Awareness_Comments_3__c,Self_Efficiency_Comments_1__c,Self_Efficiency_Comments_2__c,Self_Efficiency_Comments_3__c,Self_Esteem_Comments_1__c,Self_Esteem_Comments_2__c,Self_Esteem_Comments_3__c,Social_Skills_Comments_1__c,Social_Skills_Comments_2__c,Social_Skills_Comments_3__c
+	*/
+	@Override
+	public Map<String, String> getMemberCommentsForInProgressEvaluation(Evaluation evaluation) throws Exception {
+		JSONArray record = sendRequest(
+				"SELECT Confidence_Comments_1__c,Confidence_Comments_2__c,Confidence_Comments_3__c, Social_Skills_Comments_1__c,Social_Skills_Comments_2__c,Social_Skills_Comments_3__c FROM Outcome__c WHERE Id = '"
+						+ evaluation.getSalesForceId() + "'");
+
+		Map<String, String> memberComments = new LinkedHashMap<String, String>();
+
+		JSONObject jsonObject = record.getJSONObject(0);
+		Iterator<?> keys = jsonObject.keys();
+		while (keys.hasNext()) {
+			String key = (String) keys.next();
+			if (jsonObject.get(key) != null && jsonObject.get(key) instanceof String) {
+				String value = (String) jsonObject.get(key);
+				memberComments.put(key, value);
+			}
+		}
+
+		return memberComments;
+	}
+
 
 }

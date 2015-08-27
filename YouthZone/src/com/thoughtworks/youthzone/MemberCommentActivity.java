@@ -12,18 +12,31 @@ import android.widget.EditText;
 
 public class MemberCommentActivity extends Activity {
 
+	private EditText editText;
+	private Map<String, String> memberComments;
+	private String currentOutcome;
+	private String memberComment;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_member_comment);
+		
+		currentOutcome = getIntent().getStringExtra("currentOutcome");
+		memberComments = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getMemberComments();
+		
+		memberComment = memberComments.get(currentOutcome.replace("Outcome", "Comments"));
+		
+		editText = (EditText) findViewById(R.id.member_comment);
+		editText.setText(memberComment);
 	}
 	
 	public void onSaveCommentClick(View view) {
-		EditText editText = (EditText) findViewById(R.id.member_comment);
-		String memberComment = editText.getText().toString();
+		editText = (EditText) findViewById(R.id.member_comment);
+		memberComment = editText.getText().toString();
 		
-		Map<String, String> memberComments = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getMemberComments();
-		String currentOutcome = getIntent().getStringExtra("currentOutcome");
+		memberComments = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getMemberComments();
+		currentOutcome = getIntent().getStringExtra("currentOutcome");
 		
 		memberComments.put(currentOutcome.replace("Outcome", "Comments"), memberComment);
 		

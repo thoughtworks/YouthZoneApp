@@ -18,4 +18,6 @@ public interface DatastoreFacade {
 	List<Evaluation> getInProgressEvaluations(String projectName, String memberName) throws Exception;
 	
 	Map<String, Object> getRatingsForInProgressEvaluation(Evaluation evaluation) throws Exception;
+	
+	Map<String, String> getMemberCommentsForInProgressEvaluation(Evaluation evaluation) throws Exception;
 }

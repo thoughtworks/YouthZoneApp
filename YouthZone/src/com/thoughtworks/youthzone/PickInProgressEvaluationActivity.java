@@ -50,7 +50,7 @@ public class PickInProgressEvaluationActivity extends Activity {
 		
 		for (Evaluation e : inProgressEvaluations) {
 			if (e.toString().equals(listElementText)) {
-				new RetrieveOutcomesToRatingsForEvaluation().execute(e);
+				new RetrieveRatingsAndCommentsForEvaluation().execute(e);
 				break;
 			}
 		}
@@ -116,7 +116,7 @@ public class PickInProgressEvaluationActivity extends Activity {
 	}
 	
 	
-	private class RetrieveOutcomesToRatingsForEvaluation extends AsyncTask<Evaluation, Void, Void> {
+	private class RetrieveRatingsAndCommentsForEvaluation extends AsyncTask<Evaluation, Void, Void> {
 		private DatastoreFacade datastoreFacade;
 
 		@Override
@@ -133,6 +133,9 @@ public class PickInProgressEvaluationActivity extends Activity {
 				Evaluation selectedEvaluation = params[0];
 				Map<String, Object> outcomesToRatings = datastoreFacade.getRatingsForInProgressEvaluation(selectedEvaluation);
 				selectedEvaluation.setOutcomesToRatings(outcomesToRatings);
+				
+				Map<String, String> memberComments = datastoreFacade.getMemberCommentsForInProgressEvaluation(selectedEvaluation);
+				selectedEvaluation.setMemberComments(memberComments);
 				
 				((YouthZoneApp) getApplication()).setSelectedInProgressEvaluation(selectedEvaluation);
 				
