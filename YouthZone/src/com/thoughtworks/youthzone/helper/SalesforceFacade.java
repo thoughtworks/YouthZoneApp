@@ -98,6 +98,7 @@ public class SalesforceFacade implements DatastoreFacade {
 		uploadData.put("Project_Member__c", projectMember.getProjectMemberId());
 		uploadData.put("Status__c", evaluation.getStatus());
 		uploadData.put("Youth_Zone_Comments__c", evaluation.getComment());
+		uploadData.put("Staff_Name__c", interviewerName);
 		RestRequest restRequest = RestRequest.getRequestForCreate(apiVersion, "Outcome__c", uploadData);
 
 		RestResponse result = client.sendSync(restRequest);
@@ -109,6 +110,7 @@ public class SalesforceFacade implements DatastoreFacade {
 		Map<String, Object> uploadData = evaluation.getOutcomesToRatings();
 		uploadData.put("Status__c", evaluation.getStatus());
 		uploadData.put("Youth_Zone_Comments__c", evaluation.getComment());
+		uploadData.put("Staff_Name__c", interviewerName);
 		RestRequest restRequest = RestRequest.getRequestForUpdate(apiVersion, "Outcome__c",
 				evaluation.getSalesForceId(), uploadData);
 
@@ -127,7 +129,11 @@ public class SalesforceFacade implements DatastoreFacade {
 			Evaluation evaluation = new Evaluation();
 			evaluation.setDate(records.getJSONObject(i).getString("Date__c"));
 			evaluation.setName(records.getJSONObject(i).getString("Name"));
-			evaluation.setComment(records.getJSONObject(i).getString("Youth_Zone_Comments__c"));
+			String comment = records.getJSONObject(i).getString("Youth_Zone_Comments__c");
+			if (comment.equals("null")) {
+				comment = "";
+			}
+			evaluation.setComment(comment);
 			evaluation.setSalesForceId(records.getJSONObject(i).getString("Id"));
 			inProgressEvaluations.add(evaluation);
 		}

@@ -19,9 +19,6 @@ public class PrivateCommentActivity extends Activity {
 		setContentView(R.layout.activity_private_comment);
 		
 		comment = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getComment();
-		if (comment.equals("null")) {
-			comment = "";
-		}
 		
 		commentTextView = (TextView) findViewById(R.id.private_comment);
 		
