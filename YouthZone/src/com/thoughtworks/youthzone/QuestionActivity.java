@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +44,7 @@ public class QuestionActivity extends Activity {
 		questionTextview = (TextView) findViewById(R.id.question_textview);
 		ratingBar = (RatingBar) findViewById(R.id.question_ratingbar);
 
-		String themeTitle = getIntent().getStringExtra("title");
+		String themeTitle = ((YouthZoneApp) getApplication()).getSelectedThemeTitle();
 		outcomesForTheme = new ArrayList<String>();
 
 		for (Outcome outcome : Outcome.values()) {
@@ -63,7 +64,8 @@ public class QuestionActivity extends Activity {
 				questions.add(question);
 			}
 		}
-
+		
+		questionIndex = getIntent().getIntExtra("questionIndex", 0);
 		setupNextQuestion();
 
 		ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
@@ -77,8 +79,7 @@ public class QuestionActivity extends Activity {
 
 	private void setupNextQuestion() {
 
-		questionIndex++;
-
+		Log.d("*** ", "QUESTIONS SIZE: " + questions.size());
 		if (questionIndex < questions.size()) {
 			currentQuestion = questions.get(questionIndex);
 			questionTextview.setText(currentQuestion);
@@ -96,8 +97,6 @@ public class QuestionActivity extends Activity {
 
 	private void setupPreviousQuestion() {
 
-		questionIndex--;
-
 		if (questionIndex >= 0) {
 			currentQuestion = questions.get(questionIndex);
 			questionTextview.setText(currentQuestion);
@@ -110,11 +109,19 @@ public class QuestionActivity extends Activity {
 	}
 
 	public void onNextQuestionClick(View view) {
+		questionIndex++;
 		setupNextQuestion();
 	}
 
 	public void onPreviousQuestionClick(View view) {
+		questionIndex--;
 		setupPreviousQuestion();
+	}
+	
+	public void onAddMemberCommentClick(View view) {
+		Intent intent = new Intent(this, MemberCommentActivity.class);
+		intent.putExtra("questionIndex", questionIndex);
+		startActivity(intent);
 	}
 
 	private void showWarning() {

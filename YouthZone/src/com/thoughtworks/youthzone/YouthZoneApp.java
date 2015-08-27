@@ -47,6 +47,7 @@ public class YouthZoneApp extends Application {
 	
 	private ProjectMember selectedProjectMember;
 	private Evaluation selectedInProgressEvaluation;
+	private String selectedThemeTitle;
 	
 	private String interviewerName;
 
@@ -101,6 +102,14 @@ public class YouthZoneApp extends Application {
 
 	public void setSelectedInProgressEvaluation(Evaluation selectedInProgressEvaluation) {
 		this.selectedInProgressEvaluation = selectedInProgressEvaluation;
+	}
+
+	public String getSelectedThemeTitle() {
+		return selectedThemeTitle;
+	}
+
+	public void setSelectedThemeTitle(String selectedThemeTitle) {
+		this.selectedThemeTitle = selectedThemeTitle;
 	}
 
 	public Evaluation getSelectedInProgressEvaluation() {

@@ -89,11 +89,11 @@
         </activity>
         <activity
             android:name=".PrivateCommentActivity"
-            android:label="@string/title_activity_private_comment"
-            android:parentActivityName=".PickOutcomeActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.thoughtworks.youthzone.PickOutcomeActivity" />
+            android:label="@string/title_activity_private_comment" >
+        </activity>
+        <activity
+            android:name=".MemberCommentActivity"
+            android:label="@string/title_activity_member_comment" >
         </activity>
     </application>
 

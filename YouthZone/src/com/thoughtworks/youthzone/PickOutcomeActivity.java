@@ -56,8 +56,8 @@ public class PickOutcomeActivity extends Activity {
 	}
 
 	private void handleListItemClick(String title) {
+		((YouthZoneApp) getApplication()).setSelectedThemeTitle(title);
 		Intent intent = new Intent(this, QuestionActivity.class);
-		intent.putExtra("title", title);
 		startActivity(intent);
 	}
 

@@ -8,14 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.thoughtworks.youthzone.QuestionActivity" >
 
-    <RatingBar
-        android:id="@+id/question_ratingbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:stepSize="1.0"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
-
     <TextView
         android:id="@+id/question_textview"
         android:layout_width="wrap_content"
@@ -45,5 +37,24 @@
         android:layout_alignStart="@+id/question_ratingbar"
         android:onClick="onPreviousQuestionClick"
         android:text="@string/back_button" />
+
+    <RatingBar
+        android:id="@+id/question_ratingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/question_textview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="102dp"
+        android:stepSize="1.0" />
+
+    <Button
+        android:id="@+id/add_member_comments_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/question_ratingbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="128dp"
+        android:onClick="onAddMemberCommentClick"
+        android:text="@string/add_member_comments" />
 
 </RelativeLayout>

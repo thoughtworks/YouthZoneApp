@@ -30,5 +30,7 @@
     <string name="title_activity_private_comment">Add Comment</string>
     <string name="save_comment">Done</string>
     <string name="add_comment_button">Add comment</string>
+    <string name="add_member_comments">Add member comment</string>
+    <string name="title_activity_member_comment">Add Member Comment</string>
 
 </resources>
