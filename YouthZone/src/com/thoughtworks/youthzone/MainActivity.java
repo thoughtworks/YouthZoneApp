@@ -110,7 +110,7 @@ public class MainActivity extends SalesforceActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.youth_zone, menu);
 		return true;
 	}
 
@@ -129,5 +129,4 @@ public class MainActivity extends SalesforceActivity {
 	private void doLogout() {
 		SalesforceSDKManager.getInstance().logout(this);
 	}
-
 }

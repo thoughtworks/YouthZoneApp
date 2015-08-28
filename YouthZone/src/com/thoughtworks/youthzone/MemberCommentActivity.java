@@ -2,6 +2,8 @@ package com.thoughtworks.youthzone;
 
 import java.util.Map;
 
+import com.salesforce.androidsdk.app.SalesforceSDKManager;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,7 +50,7 @@ public class MemberCommentActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.member_comment, menu);
+		getMenuInflater().inflate(R.menu.youth_zone, menu);
 		return true;
 	}
 
@@ -58,9 +60,13 @@ public class MemberCommentActivity extends Activity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+		if (id == R.id.action_logout) {
+			doLogout();
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private void doLogout() {
+		SalesforceSDKManager.getInstance().logout(this);
 	}
 }

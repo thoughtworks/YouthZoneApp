@@ -3,6 +3,7 @@ package com.thoughtworks.youthzone;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
 import com.thoughtworks.youthzone.helper.Evaluation;
 
@@ -36,25 +37,6 @@ public class SelectEvaluationActivity extends Activity {
 		new RetrieveQuestionsToOutcomes().execute(((YouthZoneApp) getApplication()).getSelectedProjectName());
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.select_evaluation, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
 	public void onNewEvaluationClick(View view) {
 		Map<String, Object> outcomesToRatings = new LinkedHashMap<String, Object>();
 
@@ -73,6 +55,29 @@ public class SelectEvaluationActivity extends Activity {
 	public void onContinueEvaluationClick(View view) {
 		Intent intent = new Intent(this, PickInProgressEvaluationActivity.class);
 		startActivity(intent);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.youth_zone, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_logout) {
+			doLogout();
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	private void doLogout() {
+		SalesforceSDKManager.getInstance().logout(this);
 	}
 
 	private class RetrieveQuestionsToOutcomes extends AsyncTask<String, Void, Void> {

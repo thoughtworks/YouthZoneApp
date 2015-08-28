@@ -54,7 +54,7 @@ public class PickProjectActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.pick_project, menu);
+		getMenuInflater().inflate(R.menu.youth_zone, menu);
 		return true;
 	}
 
@@ -64,9 +64,7 @@ public class PickProjectActivity extends Activity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		} else if (id == R.id.action_logout) {
+		if (id == R.id.action_logout) {
 			doLogout();
 		}
 		return super.onOptionsItemSelected(item);
