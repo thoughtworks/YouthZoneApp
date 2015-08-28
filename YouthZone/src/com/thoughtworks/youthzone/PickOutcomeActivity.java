@@ -53,7 +53,6 @@ public class PickOutcomeActivity extends Activity {
 				handleListItemClick(title);
 			}
 		});
-
 	}
 
 	private void handleListItemClick(String title) {
