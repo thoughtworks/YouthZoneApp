@@ -2,7 +2,7 @@
 <resources>
 
     <string name="account_type">com.thoughtworks.youthzone.login</string>
-    <string name="app_name"><b>YouthZone</b></string>
+    <string name="app_name"><b>Youth Zone</b></string>
     <string name="app_package">com.thoughtworks.youthzone</string>
     <string name="welcome">Welcome %s</string>
     <string name="logout_button">Logout</string>

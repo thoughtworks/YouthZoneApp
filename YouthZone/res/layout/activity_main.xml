@@ -3,12 +3,7 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#454545"
     android:orientation="vertical" >
-
-    <include
-        android:id="@+id/include1"
-        layout="@layout/header" />
     
     <EditText
         android:id="@+id/staff_name_edit"

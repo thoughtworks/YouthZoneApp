@@ -3,6 +3,7 @@ package com.thoughtworks.youthzone;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
 
 import android.app.Activity;
@@ -40,7 +41,7 @@ public class PickProjectActivity extends Activity {
 
 		projectList = new ArrayList<String>();
 
-		new RetrieveProject().execute("");
+		new RetrieveProject().execute();
 	}
 
 	private void handleListItemClick(String projectName) {
@@ -65,11 +66,17 @@ public class PickProjectActivity extends Activity {
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;
+		} else if (id == R.id.action_logout) {
+			doLogout();
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	private void doLogout() {
+		SalesforceSDKManager.getInstance().logout(this);
+	}
 
-	private class RetrieveProject extends AsyncTask<String, Void, Void> {
+	private class RetrieveProject extends AsyncTask<Void, Void, Void> {
 		DatastoreFacade datastoreFacade;
 
 		@Override
@@ -80,7 +87,7 @@ public class PickProjectActivity extends Activity {
 		}
 
 		@Override
-		protected Void doInBackground(String... params) {
+		protected Void doInBackground(Void... params) {
 			try {
 				projectList = datastoreFacade.getProjects();
 			} catch (Exception e) {
