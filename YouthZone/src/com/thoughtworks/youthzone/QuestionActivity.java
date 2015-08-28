@@ -64,7 +64,7 @@ public class QuestionActivity extends Activity {
 				questions.add(question);
 			}
 		}
-		
+
 		questionIndex = getIntent().getIntExtra("questionIndex", 0);
 		setupNextQuestion();
 
@@ -117,7 +117,7 @@ public class QuestionActivity extends Activity {
 		questionIndex--;
 		setupPreviousQuestion();
 	}
-	
+
 	public void onAddMemberCommentClick(View view) {
 		Intent intent = new Intent(this, MemberCommentActivity.class);
 		intent.putExtra("questionIndex", questionIndex);
@@ -127,16 +127,15 @@ public class QuestionActivity extends Activity {
 
 	private void showWarning() {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-		dialogBuilder.setTitle("Oops ...")
-				.setMessage("There are no questions for this theme.")
+		dialogBuilder.setTitle("Oops ...").setMessage("There are no questions for this theme.")
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						 dialog.cancel();
-						 Intent intent = new Intent(QuestionActivity.this, PickOutcomeActivity.class);
-						 startActivity(intent);
-						 finish();
+						dialog.cancel();
+						Intent intent = new Intent(QuestionActivity.this, PickOutcomeActivity.class);
+						startActivity(intent);
+						finish();
 					}
-				}).setIcon(android.R.drawable.ic_dialog_alert); 
+				}).setIcon(android.R.drawable.ic_dialog_alert);
 		AlertDialog dialog = dialogBuilder.create();
 		dialog.setCanceledOnTouchOutside(false);
 		dialog.setCancelable(false);

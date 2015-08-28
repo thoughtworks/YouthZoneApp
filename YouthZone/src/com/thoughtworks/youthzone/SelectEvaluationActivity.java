@@ -18,7 +18,7 @@ import android.widget.Button;
 public class SelectEvaluationActivity extends Activity {
 
 	private Map<String, String> questionsToOutcomes;
-	
+
 	private Button newEvaluation;
 	private Button inProgressEvaluations;
 
@@ -26,10 +26,9 @@ public class SelectEvaluationActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_select_evaluation);
-		
+
 		newEvaluation = (Button) findViewById(R.id.new_evaluation_button);
 		newEvaluation.setEnabled(false);
-		
 
 		inProgressEvaluations = (Button) findViewById(R.id.in_progress_evaluations);
 		inProgressEvaluations.setEnabled(false);
@@ -58,24 +57,24 @@ public class SelectEvaluationActivity extends Activity {
 
 	public void onNewEvaluationClick(View view) {
 		Map<String, Object> outcomesToRatings = new LinkedHashMap<String, Object>();
-		
-		for(String outcome : questionsToOutcomes.values()) {
+
+		for (String outcome : questionsToOutcomes.values()) {
 			outcomesToRatings.put(outcome, 0.0f);
 		}
-		
+
 		Evaluation evaluation = new Evaluation();
 		evaluation.setOutcomesToRatings(outcomesToRatings);
 		((YouthZoneApp) getApplication()).setSelectedInProgressEvaluation(evaluation);
-		
+
 		Intent intent = new Intent(this, PickOutcomeActivity.class);
 		startActivity(intent);
 	}
-	
+
 	public void onContinueEvaluationClick(View view) {
 		Intent intent = new Intent(this, PickInProgressEvaluationActivity.class);
 		startActivity(intent);
 	}
-	
+
 	private class RetrieveQuestionsToOutcomes extends AsyncTask<String, Void, Void> {
 		private DatastoreFacade datastoreFacade;
 
@@ -99,12 +98,12 @@ public class SelectEvaluationActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			
+
 			((YouthZoneApp) getApplication()).setQuestionsToOutcomes(questionsToOutcomes);
-			
+
 			newEvaluation.setEnabled(true);
 			inProgressEvaluations.setEnabled(true);
-			
+
 		}
 	}
 }

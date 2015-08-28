@@ -16,30 +16,30 @@ public class MemberCommentActivity extends Activity {
 	private Map<String, String> memberComments;
 	private String currentOutcome;
 	private String memberComment;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_member_comment);
-		
+
 		currentOutcome = getIntent().getStringExtra("currentOutcome");
 		memberComments = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getMemberComments();
-		
+
 		memberComment = memberComments.get(currentOutcome.replace("Outcome", "Comments"));
-		
+
 		editText = (EditText) findViewById(R.id.member_comment);
 		editText.setText(memberComment);
 	}
-	
+
 	public void onSaveCommentClick(View view) {
 		editText = (EditText) findViewById(R.id.member_comment);
 		memberComment = editText.getText().toString();
-		
+
 		memberComments = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getMemberComments();
 		currentOutcome = getIntent().getStringExtra("currentOutcome");
-		
+
 		memberComments.put(currentOutcome.replace("Outcome", "Comments"), memberComment);
-		
+
 		Intent intent = new Intent(this, QuestionActivity.class);
 		intent.putExtra("questionIndex", getIntent().getIntExtra("questionIndex", 0));
 		startActivity(intent);

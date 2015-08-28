@@ -44,11 +44,11 @@ public class YouthZoneApp extends Application {
 
 	private Map<String, String> questionsToOutcomes;
 	private String selectedProjectName;
-	
+
 	private ProjectMember selectedProjectMember;
 	private Evaluation selectedInProgressEvaluation;
 	private String selectedThemeTitle;
-	
+
 	private String interviewerName;
 
 	@Override
@@ -57,7 +57,7 @@ public class YouthZoneApp extends Application {
 		SalesforceSDKManager.initNative(getApplicationContext(), new KeyImpl(), MainActivity.class);
 
 		selectedInProgressEvaluation = new Evaluation();
-		
+
 		/*
 		 * Un-comment the line below to enable push notifications in this app.
 		 * Replace 'pnInterface' with your implementation of
@@ -123,5 +123,5 @@ public class YouthZoneApp extends Application {
 	public void setInterviewerName(String interviewerName) {
 		this.interviewerName = interviewerName;
 	}
-	
+
 }

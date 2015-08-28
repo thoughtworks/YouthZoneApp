@@ -65,7 +65,7 @@ public class PickOutcomeActivity extends Activity {
 		String buttonText = ((Button) view).getText().toString();
 		new UploadOutcome().execute(buttonText);
 	}
-	
+
 	public void onAddCommentClick(View view) {
 		Intent intent = new Intent(this, PrivateCommentActivity.class);
 		startActivity(intent);
@@ -108,7 +108,7 @@ public class PickOutcomeActivity extends Activity {
 		protected Void doInBackground(String... params) {
 
 			String interviewerName = ((YouthZoneApp) getApplication()).getInterviewerName();
-			
+
 			if (params[0].equals(getResources().getString(R.string.complete_evaluation_button))) {
 				evaluation.setStatus("Complete");
 			}
@@ -136,12 +136,12 @@ public class PickOutcomeActivity extends Activity {
 				startActivity(intent);
 			} else {
 				new AlertDialog.Builder(PickOutcomeActivity.this).setTitle("Upload Failed")
-				.setMessage("Please try again")
-				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
+						.setMessage("Please try again")
+						.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
 
-					}
-				}).setIcon(android.R.drawable.ic_dialog_alert).show();
+							}
+						}).setIcon(android.R.drawable.ic_dialog_alert).show();
 			}
 
 		}

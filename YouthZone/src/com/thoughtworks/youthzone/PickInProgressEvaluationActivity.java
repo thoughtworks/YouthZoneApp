@@ -21,10 +21,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class PickInProgressEvaluationActivity extends Activity {
-	
+
 	private ListView inProgressEvaluationsListView;
 	private ArrayAdapter<String> adapter;
-	
+
 	private List<Evaluation> inProgressEvaluations;
 	private List<String> titlesForInProgressEvaluations = new ArrayList<String>();
 
@@ -32,9 +32,9 @@ public class PickInProgressEvaluationActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pick_in_progress_evaluation);
-		
+
 		inProgressEvaluationsListView = (ListView) findViewById(R.id.in_progress_evaluations_listview);
-		
+
 		inProgressEvaluationsListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
@@ -42,20 +42,19 @@ public class PickInProgressEvaluationActivity extends Activity {
 				handleListItemClick(evaluation);
 			}
 		});
-		
+
 		new RetrieveInProgressEvaluations().execute("");
 	}
-	
+
 	private void handleListItemClick(String listElementText) {
-		
+
 		for (Evaluation e : inProgressEvaluations) {
 			if (e.toString().equals(listElementText)) {
 				new RetrieveRatingsAndCommentsForEvaluation().execute(e);
 				break;
 			}
 		}
-		
-		
+
 	}
 
 	@Override
@@ -76,7 +75,7 @@ public class PickInProgressEvaluationActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private class RetrieveInProgressEvaluations extends AsyncTask<String, Void, Void> {
 		private DatastoreFacade datastoreFacade;
 
@@ -92,13 +91,13 @@ public class PickInProgressEvaluationActivity extends Activity {
 			try {
 				String projectName = ((YouthZoneApp) getApplication()).getSelectedProjectName();
 				String memberName = ((YouthZoneApp) getApplication()).getSelectedProjectMember().getName();
-				
+
 				inProgressEvaluations = datastoreFacade.getInProgressEvaluations(projectName, memberName);
 				Log.d("*** InProg", "" + inProgressEvaluations.size());
 				for (Evaluation e : inProgressEvaluations) {
 					titlesForInProgressEvaluations.add(e.toString());
 				}
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -109,13 +108,12 @@ public class PickInProgressEvaluationActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 
-			adapter = new ArrayAdapter<String>(PickInProgressEvaluationActivity.this, android.R.layout.simple_list_item_1,
-					titlesForInProgressEvaluations);
+			adapter = new ArrayAdapter<String>(PickInProgressEvaluationActivity.this,
+					android.R.layout.simple_list_item_1, titlesForInProgressEvaluations);
 			inProgressEvaluationsListView.setAdapter(adapter);
 		}
 	}
-	
-	
+
 	private class RetrieveRatingsAndCommentsForEvaluation extends AsyncTask<Evaluation, Void, Void> {
 		private DatastoreFacade datastoreFacade;
 
@@ -129,16 +127,18 @@ public class PickInProgressEvaluationActivity extends Activity {
 		@Override
 		protected Void doInBackground(Evaluation... params) {
 			try {
-				
+
 				Evaluation selectedEvaluation = params[0];
-				Map<String, Object> outcomesToRatings = datastoreFacade.getRatingsForInProgressEvaluation(selectedEvaluation);
+				Map<String, Object> outcomesToRatings = datastoreFacade
+						.getRatingsForInProgressEvaluation(selectedEvaluation);
 				selectedEvaluation.setOutcomesToRatings(outcomesToRatings);
-				
-				Map<String, String> memberComments = datastoreFacade.getMemberCommentsForInProgressEvaluation(selectedEvaluation);
+
+				Map<String, String> memberComments = datastoreFacade
+						.getMemberCommentsForInProgressEvaluation(selectedEvaluation);
 				selectedEvaluation.setMemberComments(memberComments);
-				
+
 				((YouthZoneApp) getApplication()).setSelectedInProgressEvaluation(selectedEvaluation);
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

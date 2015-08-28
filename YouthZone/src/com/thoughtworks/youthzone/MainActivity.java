@@ -45,12 +45,12 @@ import android.widget.EditText;
 public class MainActivity extends SalesforceActivity {
 
 	private EditText staffName;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
+
 		handleNameInput();
 	}
 
@@ -58,24 +58,26 @@ public class MainActivity extends SalesforceActivity {
 		staffName = (EditText) findViewById(R.id.staff_name_edit);
 		final Button getStarted = (Button) findViewById(R.id.get_started);
 		getStarted.setEnabled(false);
-		
-		staffName.addTextChangedListener(new TextWatcher(){
+
+		staffName.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() > 0) {
-                	getStarted.setEnabled(true);
-                } else {
-                	getStarted.setEnabled(false);
-                }
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 			}
 
 			@Override
-			public void afterTextChanged(Editable s) {}
-			
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if (s.length() > 0) {
+					getStarted.setEnabled(true);
+				} else {
+					getStarted.setEnabled(false);
+				}
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+
 		});
 	}
 

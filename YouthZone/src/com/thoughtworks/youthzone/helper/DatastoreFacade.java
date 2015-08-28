@@ -14,10 +14,10 @@ public interface DatastoreFacade {
 			throws Exception;
 
 	boolean updateExistingOutcome(Evaluation evaluation, String interviewerName) throws Exception;
-	
+
 	List<Evaluation> getInProgressEvaluations(String projectName, String memberName) throws Exception;
-	
+
 	Map<String, Object> getRatingsForInProgressEvaluation(Evaluation evaluation) throws Exception;
-	
+
 	Map<String, String> getMemberCommentsForInProgressEvaluation(Evaluation evaluation) throws Exception;
 }

@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Evaluation {
-	
+
 	private String date;
 	private String name;
 	private String salesForceId;
@@ -12,7 +12,7 @@ public class Evaluation {
 	private String status = "In Progress";
 	private String comment = "";
 	private Map<String, String> memberComments = new LinkedHashMap<String, String>();
-	
+
 	public String getStatus() {
 		return status;
 	}
@@ -44,7 +44,7 @@ public class Evaluation {
 	public void setSalesForceId(String salesForceId) {
 		this.salesForceId = salesForceId;
 	}
-	
+
 	public Map<String, Object> getOutcomesToRatings() {
 		return outcomesToRatings;
 	}
@@ -61,7 +61,6 @@ public class Evaluation {
 		this.comment = comment;
 	}
 
-    
 	public Map<String, String> getMemberComments() {
 		return memberComments;
 	}
@@ -71,7 +70,7 @@ public class Evaluation {
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return date + " " + name;
 	}
 }
