@@ -44,18 +44,16 @@ public class PickInProgressEvaluationActivity extends Activity {
 			}
 		});
 
-		new RetrieveInProgressEvaluations().execute("");
+		new RetrieveInProgressEvaluations().execute();
 	}
 
 	private void handleListItemClick(String listElementText) {
-
-		for (Evaluation e : inProgressEvaluations) {
-			if (e.toString().equals(listElementText)) {
-				new RetrieveRatingsAndCommentsForEvaluation().execute(e);
+		for (Evaluation selectedEvaluation : inProgressEvaluations) {
+			if (selectedEvaluation.toString().equals(listElementText)) {
+				new RetrieveRatingsAndCommentsForEvaluation().execute(selectedEvaluation);
 				break;
 			}
 		}
-
 	}
 
 	@Override
@@ -81,7 +79,7 @@ public class PickInProgressEvaluationActivity extends Activity {
 		SalesforceSDKManager.getInstance().logout(this);
 	}
 
-	private class RetrieveInProgressEvaluations extends AsyncTask<String, Void, Void> {
+	private class RetrieveInProgressEvaluations extends AsyncTask<Void, Void, Void> {
 		private DatastoreFacade datastoreFacade;
 
 		@Override
@@ -92,7 +90,7 @@ public class PickInProgressEvaluationActivity extends Activity {
 		}
 
 		@Override
-		protected Void doInBackground(String... params) {
+		protected Void doInBackground(Void... params) {
 			try {
 				String projectName = ((YouthZoneApp) getApplication()).getSelectedProjectName();
 				String memberName = ((YouthZoneApp) getApplication()).getSelectedProjectMember().getName();
