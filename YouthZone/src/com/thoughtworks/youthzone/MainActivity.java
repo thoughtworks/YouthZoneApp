@@ -101,7 +101,7 @@ public class MainActivity extends SalesforceActivity {
 		findViewById(R.id.root).setVisibility(View.VISIBLE);
 	}
 
-	public void pickProject(View view) {
+	public void onPickProjectClick(View view) {
 		((YouthZoneApp) getApplication()).setInterviewerName(staffName.getText().toString());
 		Intent intent = new Intent(this, PickProjectActivity.class);
 		startActivity(intent);
