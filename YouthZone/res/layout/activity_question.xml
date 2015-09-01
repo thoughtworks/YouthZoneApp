@@ -56,12 +56,13 @@
         android:id="@+id/add_member_comments_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/question_ratingbar"
+        android:layout_alignEnd="@+id/question_ratingbar"
         android:layout_below="@+id/question_ratingbar"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="128dp"
+        android:background="@drawable/onside_button_selector"
         android:onClick="onAddMemberCommentClick"
         android:text="@string/add_member_comments"
-        android:background="@drawable/onside_button_selector"
         android:textAppearance="@style/OnsideButton" />
 
 </RelativeLayout>

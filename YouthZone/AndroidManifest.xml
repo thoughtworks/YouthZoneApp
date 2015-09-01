@@ -26,14 +26,13 @@
         android:icon="@drawable/onside_app_logo"
         android:label="@string/app_name"
         android:manageSpaceActivity="com.salesforce.androidsdk.ui.ManageSpaceActivity"
-        android:theme="@android:style/Theme.DeviceDefault.Light" >
+        android:theme="@style/OnsideTheme" >
 
         <!-- Launcher screen -->
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <!-- android:theme="@android:style/Theme.NoTitleBar.Fullscreen" -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

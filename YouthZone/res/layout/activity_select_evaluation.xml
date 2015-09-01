@@ -1,45 +1,46 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="350dp"
+    android:layout_height="300dp"
+    android:layout_centerHorizontal="true"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:layout_gravity="center"
     tools:context="com.thoughtworks.youthzone.SelectEvaluationActivity" >
 
     <Button
         android:id="@+id/new_evaluation_button"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="159dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/onside_button_selector"
         android:onClick="onNewEvaluationClick"
         android:text="@string/new_evaluation"
-        android:background="@drawable/onside_button_selector"
         android:textAppearance="@style/OnsideButton" />
-
+    
     <Button
         android:id="@+id/in_progress_evaluations"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/new_evaluation_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="59dp"
-        android:onClick="onContinueEvaluationClick"
-        android:text="@string/continue_previous_evaluation"
-        android:background="@drawable/onside_button_selector"
-        android:textAppearance="@style/OnsideButton" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="@string/view_previous_evaluations"
         android:background="@drawable/onside_button_selector"
+        android:onClick="onContinueEvaluationClick"
+        android:text="@string/continue_previous_evaluation"
+        android:textAppearance="@style/OnsideButton" />
+    
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/onside_button_selector"
+        android:text="@string/view_previous_evaluations"
         android:textAppearance="@style/OnsideButton" />
 
 </RelativeLayout>

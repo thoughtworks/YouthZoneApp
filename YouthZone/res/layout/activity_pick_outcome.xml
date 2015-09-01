@@ -17,41 +17,45 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" >
     </ListView>
-    
-    <Button
-       android:id="@+id/add_comment_button"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_below="@+id/themes_listview"
-       android:layout_centerHorizontal="true"
-       android:layout_marginTop="24dp"
-       android:onClick="onAddCommentClick"
-       android:text="@string/add_comment_button"
-       android:background="@drawable/onside_button_selector"
-       android:textAppearance="@style/OnsideButton" />
 
-   <Button
-       android:id="@+id/complete_evaluation_button"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_alignParentBottom="true"
-       android:layout_centerHorizontal="true"
-       android:layout_marginBottom="150dp"
-       android:onClick="onSubmitEvaluationClick"
-       android:text="@string/complete_evaluation_button"
-       android:background="@drawable/onside_button_selector"
-       android:textAppearance="@style/OnsideButton" />
+    <RelativeLayout
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:layout_below="@+id/themes_listview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp" >
 
-   <Button
-       android:id="@+id/submit_in_progress_button"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_above="@+id/complete_evaluation_button"
-       android:layout_centerHorizontal="true"
-       android:layout_marginBottom="38dp"
-       android:onClick="onSubmitEvaluationClick"
-       android:text="@string/save_in_progress_button"
-       android:background="@drawable/onside_button_selector"
-       android:textAppearance="@style/OnsideButton" />
+        <Button
+            android:id="@+id/add_comment_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/onside_button_selector"
+            android:onClick="onAddCommentClick"
+            android:text="@string/add_comment_button"
+            android:textAppearance="@style/OnsideButton" />
+
+        <Button
+            android:id="@+id/complete_evaluation_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/onside_button_selector"
+            android:onClick="onSubmitEvaluationClick"
+            android:text="@string/complete_evaluation_button"
+            android:textAppearance="@style/OnsideButton" />
+
+        <Button
+            android:id="@+id/submit_in_progress_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/complete_evaluation_button"
+            android:layout_marginBottom="26dp"
+            android:background="@drawable/onside_button_selector"
+            android:onClick="onSubmitEvaluationClick"
+            android:text="@string/save_in_progress_button"
+            android:textAppearance="@style/OnsideButton" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
