@@ -27,7 +27,9 @@
         android:layout_alignEnd="@+id/question_ratingbar"
         android:layout_marginBottom="72dp"
         android:onClick="onNextQuestionClick"
-        android:text="@string/next_button" />
+        android:text="@string/next_button"
+        android:background="@drawable/onside_button_selector"
+        android:textAppearance="@style/OnsideButton" />
 
     <Button
         android:id="@+id/previous_question_button"
@@ -36,7 +38,9 @@
         android:layout_alignBottom="@+id/next_question_button"
         android:layout_alignStart="@+id/question_ratingbar"
         android:onClick="onPreviousQuestionClick"
-        android:text="@string/back_button" />
+        android:text="@string/back_button"
+        android:background="@drawable/onside_button_selector"
+        android:textAppearance="@style/OnsideButton" />
 
     <RatingBar
         android:id="@+id/question_ratingbar"
@@ -45,7 +49,8 @@
         android:layout_below="@+id/question_textview"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="102dp"
-        android:stepSize="1.0" />
+        android:stepSize="1.0"
+         />
 
     <Button
         android:id="@+id/add_member_comments_button"
@@ -55,6 +60,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="128dp"
         android:onClick="onAddMemberCommentClick"
-        android:text="@string/add_member_comments" />
+        android:text="@string/add_member_comments"
+        android:background="@drawable/onside_button_selector"
+        android:textAppearance="@style/OnsideButton" />
 
 </RelativeLayout>

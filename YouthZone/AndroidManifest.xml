@@ -23,7 +23,7 @@
     <application
         android:name=".YouthZoneApp"
         android:allowBackup="true"
-        android:icon="@android:drawable/btn_star"
+        android:icon="@drawable/onside_app_logo"
         android:label="@string/app_name"
         android:manageSpaceActivity="com.salesforce.androidsdk.ui.ManageSpaceActivity"
         android:theme="@android:style/Theme.DeviceDefault.Light" >
@@ -31,7 +31,8 @@
         <!-- Launcher screen -->
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <!-- android:theme="@android:style/Theme.NoTitleBar.Fullscreen" -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,6 +43,7 @@
         <activity
             android:name=".PickProjectActivity"
             android:label="@string/title_activity_pick_project"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -50,6 +52,7 @@
         <activity
             android:name=".PickMemberActivity"
             android:label="@string/title_activity_pick_member"
+            android:screenOrientation="portrait"
             android:parentActivityName=".PickProjectActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -58,6 +61,7 @@
         <activity
             android:name=".SelectEvaluationActivity"
             android:label="@string/title_activity_select_evaluation"
+            android:screenOrientation="portrait"
             android:parentActivityName=".PickMemberActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -66,6 +70,7 @@
         <activity
             android:name=".PickOutcomeActivity"
             android:label="@string/title_activity_pick_outcome"
+            android:screenOrientation="portrait"
             android:parentActivityName=".SelectEvaluationActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -74,6 +79,7 @@
         <activity
             android:name=".QuestionActivity"
             android:label="@string/title_activity_question"
+            android:screenOrientation="portrait"
             android:parentActivityName=".PickOutcomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -82,6 +88,7 @@
         <activity
             android:name=".PickInProgressEvaluationActivity"
             android:label="@string/title_activity_pick_in_progress_evaluation"
+            android:screenOrientation="portrait"
             android:parentActivityName=".SelectEvaluationActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -89,11 +96,13 @@
         </activity>
         <activity
             android:name=".PrivateCommentActivity"
-            android:label="@string/title_activity_private_comment" >
+            android:label="@string/title_activity_private_comment"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".MemberCommentActivity"
-            android:label="@string/title_activity_member_comment" >
+            android:label="@string/title_activity_member_comment"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

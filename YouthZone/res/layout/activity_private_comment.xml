@@ -33,6 +33,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="93dp"
         android:onClick="onSaveCommentClick"
-        android:text="@string/save_comment" />
+        android:text="@string/save_comment"
+        android:background="@drawable/onside_button_selector"
+        android:textAppearance="@style/OnsideButton" />
 
 </RelativeLayout>

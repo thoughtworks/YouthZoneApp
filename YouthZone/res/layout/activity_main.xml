@@ -3,18 +3,21 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:orientation="vertical" >
     
     <EditText
         android:id="@+id/staff_name_edit"
-        android:labelFor="@+id/staff_name_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/get_started"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="61dp"
         android:ems="10"
-        android:inputType="textPersonName" >
+        android:inputType="textPersonName"
+        android:labelFor="@+id/staff_name_edit"
+        android:textAppearance="@style/OnsideTextEntry"
+        android:textColor="#455560" >
 
         <requestFocus />
     </EditText>
@@ -26,7 +29,9 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:onClick="onPickProjectClick"
-        android:text="@string/get_started" />
+        android:text="@string/get_started"
+        android:background="@drawable/onside_button_selector"
+        android:textAppearance="@style/OnsideButton" />
 
     <TextView
         android:id="@+id/staff_name_textview"
@@ -34,8 +39,26 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/staff_name_edit"
         android:layout_alignStart="@+id/staff_name_edit"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="18dp"
         android:text="@string/staff_name"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="@style/OnsideFont" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/staff_name_textview"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/part_of_onside_logo" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="136dp"
+        android:src="@drawable/onside_pink_slpat" />
 
 </RelativeLayout>
