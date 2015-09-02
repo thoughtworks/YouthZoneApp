@@ -9,6 +9,8 @@ import com.thoughtworks.youthzone.helper.DatastoreFacade;
 import com.thoughtworks.youthzone.helper.Evaluation;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -110,13 +112,34 @@ public class PickInProgressEvaluationActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-
-			adapter = new ArrayAdapter<String>(PickInProgressEvaluationActivity.this,
-					R.layout.onside_list_item, R.id.label, titlesForInProgressEvaluations);
-			inProgressEvaluationsListView.setAdapter(adapter);
+			
+			if(titlesForInProgressEvaluations.isEmpty()){
+				showNoInProgressWarning();
+			} else {
+				adapter = new ArrayAdapter<String>(PickInProgressEvaluationActivity.this,
+						R.layout.onside_list_item, R.id.label, titlesForInProgressEvaluations);
+				inProgressEvaluationsListView.setAdapter(adapter);
+			}
 		}
 	}
 
+	private void showNoInProgressWarning() {
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+		dialogBuilder.setTitle("Oops ...").setMessage("There are no in progress evaluations for this member.")
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+						Intent intent = new Intent(PickInProgressEvaluationActivity.this, SelectEvaluationActivity.class);
+						startActivity(intent);
+						finish();
+					}
+				}).setIcon(android.R.drawable.ic_dialog_alert);
+		AlertDialog dialog = dialogBuilder.create();
+		dialog.setCanceledOnTouchOutside(false);
+		dialog.setCancelable(false);
+		dialog.show();
+	}
+	
 	private class RetrieveRatingsAndCommentsForEvaluation extends AsyncTask<Evaluation, Void, Void> {
 		private DatastoreFacade datastoreFacade;
 

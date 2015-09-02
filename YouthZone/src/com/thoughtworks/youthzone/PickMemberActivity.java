@@ -8,6 +8,8 @@ import com.thoughtworks.youthzone.helper.DatastoreFacade;
 import com.thoughtworks.youthzone.helper.ProjectMember;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -110,9 +112,30 @@ public class PickMemberActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 
-			adapter = new ArrayAdapter<String>(PickMemberActivity.this, R.layout.onside_list_item,
-					R.id.label, membersForProjectList);
-			membersForProjectListview.setAdapter(adapter);
+			if (membersForProject.isEmpty()) {
+				showNoMembersWarning();
+			} else {
+				adapter = new ArrayAdapter<String>(PickMemberActivity.this, R.layout.onside_list_item,
+						R.id.label, membersForProjectList);
+				membersForProjectListview.setAdapter(adapter);
+			}
 		}
+	}
+	
+	private void showNoMembersWarning() {
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+		dialogBuilder.setTitle("Oops ...").setMessage("There are no members in this project.")
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+						Intent intent = new Intent(PickMemberActivity.this, PickProjectActivity.class);
+						startActivity(intent);
+						finish();
+					}
+				}).setIcon(android.R.drawable.ic_dialog_alert);
+		AlertDialog dialog = dialogBuilder.create();
+		dialog.setCanceledOnTouchOutside(false);
+		dialog.setCancelable(false);
+		dialog.show();
 	}
 }
