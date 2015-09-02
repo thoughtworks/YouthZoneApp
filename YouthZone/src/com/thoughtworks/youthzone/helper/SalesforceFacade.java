@@ -1,10 +1,14 @@
 package com.thoughtworks.youthzone.helper;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -45,15 +49,23 @@ public class SalesforceFacade implements DatastoreFacade {
 
 		for (int i = 0; i < records.length(); i++) {
 
+			String birthDate = records.getJSONObject(i).getJSONObject("Member__r").getString("Birthdate__c");
+			String formattedBirthDate = formatDate(birthDate);
+			
 			ProjectMember projectMember = new ProjectMember(records.getJSONObject(i).getString("Id"),
 					records.getJSONObject(i).getJSONObject("Member__r").getString("Name"),
-					records.getJSONObject(i).getJSONObject("Member__r").getString("Birthdate__c"),
+					formattedBirthDate,
 					records.getJSONObject(i).getJSONObject("Member__r").getString("Member_Id__c"),
 					records.getJSONObject(i).getJSONObject("Member__r").getString("Id"));
 			projectMembers.add(projectMember);
 		}
 
 		return projectMembers;
+	}
+
+	private String formatDate(String birthDate) throws ParseException {
+		Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.UK).parse(birthDate);
+		return new SimpleDateFormat("dd-MM-yyyy", Locale.UK).format(date);
 	}
 
 	public Map<String, String> getQuestionsToOutcomes(String project) throws Exception {
@@ -132,7 +144,8 @@ public class SalesforceFacade implements DatastoreFacade {
 
 		for (int i = 0; i < records.length(); i++) {
 			Evaluation evaluation = new Evaluation();
-			evaluation.setDate(records.getJSONObject(i).getString("Date__c"));
+			String date = records.getJSONObject(i).getString("Date__c");
+			evaluation.setDate(formatDate(date));
 			evaluation.setName(records.getJSONObject(i).getString("Name"));
 			String comment = records.getJSONObject(i).getString("Youth_Zone_Comments__c");
 			if (comment.equals("null")) {

@@ -1,6 +1,7 @@
 package com.thoughtworks.youthzone;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
@@ -115,6 +116,7 @@ public class PickMemberActivity extends Activity {
 			if (membersForProject.isEmpty()) {
 				showNoMembersWarning();
 			} else {
+				Collections.sort(membersForProjectList);
 				adapter = new ArrayAdapter<String>(PickMemberActivity.this, R.layout.onside_list_item,
 						R.id.label, membersForProjectList);
 				membersForProjectListview.setAdapter(adapter);
