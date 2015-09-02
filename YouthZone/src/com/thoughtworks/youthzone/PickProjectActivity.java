@@ -98,8 +98,8 @@ public class PickProjectActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 
-			adapter = new ArrayAdapter<String>(PickProjectActivity.this, android.R.layout.simple_list_item_1,
-					projectList);
+			adapter = new ArrayAdapter<String>(PickProjectActivity.this, R.layout.onside_list_item,
+					R.id.label, projectList);
 			projectListview.setAdapter(adapter);
 		}
 

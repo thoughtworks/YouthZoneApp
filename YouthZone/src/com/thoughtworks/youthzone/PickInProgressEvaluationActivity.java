@@ -112,7 +112,7 @@ public class PickInProgressEvaluationActivity extends Activity {
 			super.onPostExecute(result);
 
 			adapter = new ArrayAdapter<String>(PickInProgressEvaluationActivity.this,
-					android.R.layout.simple_list_item_1, titlesForInProgressEvaluations);
+					R.layout.onside_list_item, R.id.label, titlesForInProgressEvaluations);
 			inProgressEvaluationsListView.setAdapter(adapter);
 		}
 	}

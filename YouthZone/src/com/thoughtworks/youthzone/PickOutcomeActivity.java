@@ -43,7 +43,7 @@ public class PickOutcomeActivity extends Activity {
 			themeTitles.add(outcome.getTitle());
 		}
 
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, themeTitles);
+		adapter = new ArrayAdapter<String>(this, R.layout.onside_list_item, R.id.label, themeTitles);
 		themesListView.setAdapter(adapter);
 
 		themesListView.setOnItemClickListener(new OnItemClickListener() {

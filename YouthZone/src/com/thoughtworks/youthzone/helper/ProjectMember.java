@@ -37,7 +37,7 @@ public class ProjectMember {
 	}
 
 	public String toString() {
-		return name + " " + birthDate + " " + memberId;
+		return name + " | " + birthDate + " | " + memberId;
 	}
 
 }

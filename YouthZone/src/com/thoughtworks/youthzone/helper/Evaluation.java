@@ -71,6 +71,6 @@ public class Evaluation {
 
 	@Override
 	public String toString() {
-		return date + " " + name;
+		return date + " | " + name;
 	}
 }
