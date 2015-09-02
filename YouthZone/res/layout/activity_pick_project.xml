@@ -3,22 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.thoughtworks.youthzone.PickProjectActivity" >
-    
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/part_of_onside_logo" />
 
     <ListView
         android:id="@+id/projects_listview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/imageView1" >
-
+        android:layout_alignParentStart="true" >
     </ListView>
     
 </RelativeLayout>

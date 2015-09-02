@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class QuestionActivity extends Activity {
 
@@ -59,7 +60,7 @@ public class QuestionActivity extends Activity {
 		questions = new ArrayList<String>();
 
 		outcomeToRating = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getOutcomesToRatings();
-
+		
 		for (String question : questionsToOutcomes.keySet()) {
 			if (outcomesForTheme.contains(questionsToOutcomes.get(question))) {
 				questions.add(question);
@@ -73,14 +74,29 @@ public class QuestionActivity extends Activity {
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
 				outcomeToRating.put(questionsToOutcomes.get(currentQuestion), ratingBar.getRating());
-
+				checkThemeComplete();
 			}
 		});
 	}
 
+	private void checkThemeComplete(){
+		boolean isComplete = true;
+		for(String outcome : outcomeToRating.keySet()){
+			if (outcomesForTheme.contains(outcome)){
+				if( ((Float) outcomeToRating.get(outcome) ) <= 0.0f ){
+					isComplete = false;
+					break;
+				}
+			}
+			
+		}
+		if(isComplete){
+			Toast.makeText(this, "Theme complete", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
 	private void setupNextQuestion() {
 
-		Log.d("*** ", "QUESTIONS SIZE: " + questions.size());
 		if (questionIndex < questions.size()) {
 			currentQuestion = questions.get(questionIndex);
 			questionTextview.setText(currentQuestion);
