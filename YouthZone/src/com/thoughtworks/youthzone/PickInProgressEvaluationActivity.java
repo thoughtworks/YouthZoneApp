@@ -76,7 +76,7 @@ public class PickInProgressEvaluationActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void doLogout() {
 		SalesforceSDKManager.getInstance().logout(this);
 	}
@@ -112,12 +112,12 @@ public class PickInProgressEvaluationActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			
-			if(titlesForInProgressEvaluations.isEmpty()){
+
+			if (titlesForInProgressEvaluations.isEmpty()) {
 				showNoInProgressWarning();
 			} else {
-				adapter = new ArrayAdapter<String>(PickInProgressEvaluationActivity.this,
-						R.layout.onside_list_item, R.id.label, titlesForInProgressEvaluations);
+				adapter = new ArrayAdapter<String>(PickInProgressEvaluationActivity.this, R.layout.onside_list_item,
+						R.id.label, titlesForInProgressEvaluations);
 				inProgressEvaluationsListView.setAdapter(adapter);
 			}
 		}
@@ -129,7 +129,8 @@ public class PickInProgressEvaluationActivity extends Activity {
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.cancel();
-						Intent intent = new Intent(PickInProgressEvaluationActivity.this, SelectEvaluationActivity.class);
+						Intent intent = new Intent(PickInProgressEvaluationActivity.this,
+								SelectEvaluationActivity.class);
 						startActivity(intent);
 						finish();
 					}
@@ -139,7 +140,7 @@ public class PickInProgressEvaluationActivity extends Activity {
 		dialog.setCancelable(false);
 		dialog.show();
 	}
-	
+
 	private class RetrieveRatingsAndCommentsForEvaluation extends AsyncTask<Evaluation, Void, Void> {
 		private DatastoreFacade datastoreFacade;
 

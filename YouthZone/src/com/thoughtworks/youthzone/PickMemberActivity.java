@@ -14,12 +14,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 public class PickMemberActivity extends Activity {
@@ -29,6 +32,7 @@ public class PickMemberActivity extends Activity {
 	private List<String> membersForProjectList;
 	private ListView membersForProjectListview;
 	private List<ProjectMember> membersForProject;
+	private EditText searchInput;
 	private ArrayAdapter<String> adapter;
 
 	@Override
@@ -36,6 +40,7 @@ public class PickMemberActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pick_member);
 
+		searchInput = (EditText) findViewById(R.id.search_input);
 		membersForProjectListview = (ListView) findViewById(R.id.members_listview);
 
 		membersForProjectListview.setOnItemClickListener(new OnItemClickListener() {
@@ -80,7 +85,7 @@ public class PickMemberActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void doLogout() {
 		SalesforceSDKManager.getInstance().logout(this);
 	}
@@ -117,13 +122,33 @@ public class PickMemberActivity extends Activity {
 				showNoMembersWarning();
 			} else {
 				Collections.sort(membersForProjectList);
-				adapter = new ArrayAdapter<String>(PickMemberActivity.this, R.layout.onside_list_item,
-						R.id.label, membersForProjectList);
+				adapter = new ArrayAdapter<String>(PickMemberActivity.this, R.layout.onside_list_item, R.id.label,
+						membersForProjectList);
 				membersForProjectListview.setAdapter(adapter);
+
+				searchInput.addTextChangedListener(new TextWatcher() {
+
+					@Override
+					public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+						// When user changed the Text
+						PickMemberActivity.this.adapter.getFilter().filter(cs);
+					}
+
+					@Override
+					public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void afterTextChanged(Editable arg0) {
+						// TODO Auto-generated method stub
+					}
+				});
 			}
 		}
 	}
-	
+
 	private void showNoMembersWarning() {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 		dialogBuilder.setTitle("Oops ...").setMessage("There are no members in this project.")

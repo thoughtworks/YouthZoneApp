@@ -51,10 +51,9 @@ public class SalesforceFacade implements DatastoreFacade {
 
 			String birthDate = records.getJSONObject(i).getJSONObject("Member__r").getString("Birthdate__c");
 			String formattedBirthDate = formatDate(birthDate);
-			
+
 			ProjectMember projectMember = new ProjectMember(records.getJSONObject(i).getString("Id"),
-					records.getJSONObject(i).getJSONObject("Member__r").getString("Name"),
-					formattedBirthDate,
+					records.getJSONObject(i).getJSONObject("Member__r").getString("Name"), formattedBirthDate,
 					records.getJSONObject(i).getJSONObject("Member__r").getString("Member_Id__c"),
 					records.getJSONObject(i).getJSONObject("Member__r").getString("Id"));
 			projectMembers.add(projectMember);
@@ -64,8 +63,14 @@ public class SalesforceFacade implements DatastoreFacade {
 	}
 
 	private String formatDate(String birthDate) throws ParseException {
-		Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.UK).parse(birthDate);
-		return new SimpleDateFormat("dd-MM-yyyy", Locale.UK).format(date);
+		String formattedDate = "N/A";
+		try {
+			Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.UK).parse(birthDate);
+			formattedDate = new SimpleDateFormat("dd-MM-yyyy", Locale.UK).format(date);
+		} catch (ParseException pe) {
+			pe.printStackTrace();
+		}
+		return formattedDate;
 	}
 
 	public Map<String, String> getQuestionsToOutcomes(String project) throws Exception {

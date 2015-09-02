@@ -56,7 +56,7 @@ public class SelectEvaluationActivity extends Activity {
 		Intent intent = new Intent(this, PickInProgressEvaluationActivity.class);
 		startActivity(intent);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -75,7 +75,7 @@ public class SelectEvaluationActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void doLogout() {
 		SalesforceSDKManager.getInstance().logout(this);
 	}

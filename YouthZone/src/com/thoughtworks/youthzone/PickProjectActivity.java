@@ -69,7 +69,7 @@ public class PickProjectActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void doLogout() {
 		SalesforceSDKManager.getInstance().logout(this);
 	}
@@ -98,8 +98,8 @@ public class PickProjectActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 
-			adapter = new ArrayAdapter<String>(PickProjectActivity.this, R.layout.onside_list_item,
-					R.id.label, projectList);
+			adapter = new ArrayAdapter<String>(PickProjectActivity.this, R.layout.onside_list_item, R.id.label,
+					projectList);
 			projectListview.setAdapter(adapter);
 		}
 

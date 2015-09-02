@@ -161,7 +161,7 @@ public class QuestionActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void doLogout() {
 		SalesforceSDKManager.getInstance().logout(this);
 	}
