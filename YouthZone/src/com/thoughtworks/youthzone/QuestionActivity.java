@@ -60,6 +60,7 @@ public class QuestionActivity extends Activity {
 		questions = new ArrayList<String>();
 
 		outcomeToRating = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getOutcomesToRatings();
+		checkThemeComplete();
 		
 		for (String question : questionsToOutcomes.keySet()) {
 			if (outcomesForTheme.contains(questionsToOutcomes.get(question))) {
