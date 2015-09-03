@@ -83,7 +83,7 @@ public class QuestionActivity extends Activity {
 	private void checkThemeComplete(){
 		boolean isComplete = true;
 		
-		if (outcomeToRating.keySet().size() == 0) {
+		if (outcomeToRating.keySet().isEmpty() || questions.isEmpty()) {
 			isComplete = false;
 		} else {
 			for(String outcome : outcomeToRating.keySet()){
