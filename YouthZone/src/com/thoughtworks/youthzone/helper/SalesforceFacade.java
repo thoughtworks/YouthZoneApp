@@ -112,19 +112,6 @@ public class SalesforceFacade implements DatastoreFacade {
 	@Override
 	public boolean uploadNewOutcome(ProjectMember projectMember, Evaluation evaluation, String interviewerName)
 			throws Exception {
-		
-		Log.d("***** evaluation", evaluation.toString());
-		for(Object rating : evaluation.getOutcomesToRatings().values()){
-			Log.d("***** rating", ((Float)rating).toString());
-		}
-
-		for(String comment : evaluation.getMemberComments().values()){
-			Log.d("***** comment", comment);
-		}
-		
-		Log.d("***** evaluation", evaluation.getComment());
-		Log.d("***** evaluation", evaluation.getStatus());
-		Log.d("***** interviewer", interviewerName);
 
 		Map<String, Object> uploadData = new LinkedHashMap<String, Object>();
 		uploadData.putAll(evaluation.getOutcomesToRatings());
@@ -142,20 +129,6 @@ public class SalesforceFacade implements DatastoreFacade {
 
 	@Override
 	public boolean updateExistingOutcome(Evaluation evaluation, String interviewerName) throws Exception {
-		
-		Log.d("***** evaluation", evaluation.getSalesForceId());
-		Log.d("***** evaluation", evaluation.toString());
-		for(Object rating : evaluation.getOutcomesToRatings().values()){
-			Log.d("***** rating", ((Float)rating).toString());
-		}
-
-		for(String comment : evaluation.getMemberComments().values()){
-			Log.d("***** comment", comment);
-		}
-		
-		Log.d("***** evaluation", evaluation.getComment());
-		Log.d("***** evaluation", evaluation.getStatus());
-		Log.d("***** interviewer", interviewerName);
 		
 		Map<String, Object> uploadData = new LinkedHashMap<String, Object>();
 		uploadData.putAll(evaluation.getOutcomesToRatings());

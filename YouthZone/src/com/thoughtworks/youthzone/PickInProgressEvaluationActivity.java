@@ -98,7 +98,7 @@ public class PickInProgressEvaluationActivity extends Activity {
 				String memberName = ((YouthZoneApp) getApplication()).getSelectedProjectMember().getName();
 
 				inProgressEvaluations = datastoreFacade.getInProgressEvaluations(projectName, memberName);
-				Log.d("*** InProg", "" + inProgressEvaluations.size());
+				
 				for (Evaluation e : inProgressEvaluations) {
 					titlesForInProgressEvaluations.add(e.toString());
 				}
