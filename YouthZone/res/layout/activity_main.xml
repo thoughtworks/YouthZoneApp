@@ -4,50 +4,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/part_of_onside_logo" />
-    
-    <EditText
-        android:id="@+id/staff_name_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/get_started"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="61dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:labelFor="@+id/staff_name_edit"
-        android:textAppearance="@style/OnsideTextEntry"
-        android:textColor="#455560" >
-
-        <requestFocus />
-    </EditText>
-
-    <Button
-        android:id="@+id/get_started"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:onClick="onPickProjectClick"
-        android:text="@string/get_started"
-        android:background="@drawable/onside_button_selector"
-        android:textAppearance="@style/OnsideButton" />
 
     <TextView
         android:id="@+id/staff_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/staff_name_edit"
+        android:layout_alignLeft="@+id/staff_name_edit"
+        android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/staff_name_edit"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginTop="55dp"
         android:text="@string/staff_name"
         android:textAppearance="@style/OnsideFont" />
+
+    <EditText
+        android:id="@+id/staff_name_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/staff_name_textview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:labelFor="@+id/staff_name_edit"
+        android:textAppearance="@style/OnsideTextEntry"
+        android:textColor="#455560" />
+
+    <Button
+        android:id="@+id/get_started"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/staff_name_edit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/onside_button_selector"
+        android:onClick="onPickProjectClick"
+        android:text="@string/get_started"
+        android:textAppearance="@style/OnsideButton" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/get_started"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/part_of_onside_logo" />
 
 </RelativeLayout>
