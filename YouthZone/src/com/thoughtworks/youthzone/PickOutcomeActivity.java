@@ -63,8 +63,23 @@ public class PickOutcomeActivity extends Activity {
 	}
 
 	public void onSubmitEvaluationClick(View view) {
-		String buttonText = ((Button) view).getText().toString();
-		new UploadOutcome().execute(buttonText);
+		final String buttonText = ((Button) view).getText().toString();
+		if (buttonText.equals(getString(R.string.complete_evaluation_button))) {
+			new AlertDialog.Builder(this).setTitle("Submit complete evaluation")
+			.setMessage("Are you sure you want to mark this evaluation as complete?")
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					new UploadOutcome().execute(buttonText);
+				}
+			})
+			.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					
+				}
+			}).setIcon(android.R.drawable.ic_dialog_alert).show();
+		} else {
+			new UploadOutcome().execute(buttonText);
+		}
 	}
 
 	public void onAddCommentClick(View view) {
