@@ -13,7 +13,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,7 +59,6 @@ public class QuestionActivity extends Activity {
 		questions = new ArrayList<String>();
 
 		outcomeToRating = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getOutcomesToRatings();
-		checkThemeComplete();
 		
 		for (String question : questionsToOutcomes.keySet()) {
 			if (outcomesForTheme.contains(questionsToOutcomes.get(question))) {
@@ -70,6 +68,8 @@ public class QuestionActivity extends Activity {
 
 		questionIndex = getIntent().getIntExtra("questionIndex", 0);
 		setupNextQuestion();
+		
+		checkThemeComplete();
 
 		ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -82,14 +82,18 @@ public class QuestionActivity extends Activity {
 
 	private void checkThemeComplete(){
 		boolean isComplete = true;
-		for(String outcome : outcomeToRating.keySet()){
-			if (outcomesForTheme.contains(outcome)){
-				if( ((Float) outcomeToRating.get(outcome) ) <= 0.0f ){
-					isComplete = false;
-					break;
+		
+		if (outcomeToRating.keySet().size() == 0) {
+			isComplete = false;
+		} else {
+			for(String outcome : outcomeToRating.keySet()){
+				if (outcomesForTheme.contains(outcome)){
+					if( ((Float) outcomeToRating.get(outcome) ) <= 0.0f ){
+						isComplete = false;
+						break;
+					}
 				}
 			}
-			
 		}
 		if(isComplete){
 			Toast.makeText(this, "Theme complete", Toast.LENGTH_SHORT).show();
@@ -101,8 +105,7 @@ public class QuestionActivity extends Activity {
 		if (questionIndex < questions.size()) {
 			currentQuestion = questions.get(questionIndex);
 			questionTextview.setText(currentQuestion);
-			String currentOutcome = questionsToOutcomes.get(currentQuestion);
-			ratingBar.setRating((Float) outcomeToRating.get(currentOutcome));
+			setRatingBar();
 		} else {
 			if (questions.isEmpty()) {
 				showWarning();
@@ -118,11 +121,20 @@ public class QuestionActivity extends Activity {
 		if (questionIndex >= 0) {
 			currentQuestion = questions.get(questionIndex);
 			questionTextview.setText(currentQuestion);
-			String currentOutcome = questionsToOutcomes.get(currentQuestion);
-			ratingBar.setRating((Float) outcomeToRating.get(currentOutcome));
+			setRatingBar();
 		} else {
 			Intent intent = new Intent(this, PickOutcomeActivity.class);
 			startActivity(intent);
+		}
+	}
+
+	private void setRatingBar() {
+		String currentOutcome = questionsToOutcomes.get(currentQuestion);
+		Float rating = (Float) outcomeToRating.get(currentOutcome);
+		if (rating == null) {
+			ratingBar.setRating(0.0f);
+		} else {
+			ratingBar.setRating(rating);
 		}
 	}
 
