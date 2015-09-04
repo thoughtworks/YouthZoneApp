@@ -15,7 +15,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,12 +23,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PickOutcomeActivity extends Activity {
 
 	private ListView themesListView;
 	private ArrayAdapter<String> adapter;
+	private TextView projectMemberTextView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class PickOutcomeActivity extends Activity {
 		setContentView(R.layout.activity_pick_outcome);
 
 		themesListView = (ListView) findViewById(R.id.themes_listview);
+		projectMemberTextView = (TextView) findViewById(R.id.project_member_textview);
+		projectMemberTextView.setText(((YouthZoneApp) getApplication()).getSelectedProjectMember().getName());
 
 		List<String> themeTitles = new ArrayList<String>();
 
@@ -66,17 +69,16 @@ public class PickOutcomeActivity extends Activity {
 		final String buttonText = ((Button) view).getText().toString();
 		if (buttonText.equals(getString(R.string.complete_evaluation_button))) {
 			new AlertDialog.Builder(this).setTitle("Submit complete evaluation")
-			.setMessage("Are you sure you want to mark this evaluation as complete?")
-			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					new UploadOutcome().execute(buttonText);
-				}
-			})
-			.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					
-				}
-			}).setIcon(android.R.drawable.ic_dialog_alert).show();
+					.setMessage("Are you sure you want to mark this evaluation as complete?")
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							new UploadOutcome().execute(buttonText);
+						}
+					}).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+
+						}
+					}).setIcon(android.R.drawable.ic_dialog_alert).show();
 		} else {
 			new UploadOutcome().execute(buttonText);
 		}

@@ -18,8 +18,6 @@ import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.rest.RestRequest;
 import com.salesforce.androidsdk.rest.RestResponse;
 
-import android.util.Log;
-
 public class SalesforceFacade implements DatastoreFacade {
 
 	private RestClient client;
@@ -129,14 +127,14 @@ public class SalesforceFacade implements DatastoreFacade {
 
 	@Override
 	public boolean updateExistingOutcome(Evaluation evaluation, String interviewerName) throws Exception {
-		
+
 		Map<String, Object> uploadData = new LinkedHashMap<String, Object>();
 		uploadData.putAll(evaluation.getOutcomesToRatings());
 		uploadData.putAll(evaluation.getMemberComments());
 		uploadData.put("Status__c", evaluation.getStatus());
 		uploadData.put("Youth_Zone_Comments__c", evaluation.getComment());
 		uploadData.put("Staff_Name__c", interviewerName);
-		
+
 		RestRequest restRequest = RestRequest.getRequestForUpdate(apiVersion, "Outcome__c",
 				evaluation.getSalesForceId(), uploadData);
 

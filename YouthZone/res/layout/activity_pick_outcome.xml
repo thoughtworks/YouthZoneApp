@@ -10,14 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.thoughtworks.youthzone.PickOutcomeActivity" >
 
-    <ListView
-        android:id="@+id/themes_listview"
-        android:layout_width="match_parent"
-        android:layout_height="325dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" >
-    </ListView>
-
     <RelativeLayout
         android:layout_width="200dp"
         android:layout_height="250dp"
@@ -40,6 +32,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/onside_button_selector"
             android:onClick="onSubmitEvaluationClick"
             android:text="@string/complete_evaluation_button"
@@ -57,5 +50,23 @@
             android:textAppearance="@style/OnsideButton" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/project_member_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="20dp"
+        android:textAppearance="@style/ProjectQuestion"
+        android:text="@string/project_member_default_text" />
+
+    <ListView
+        android:id="@+id/themes_listview"
+        android:layout_width="match_parent"
+        android:layout_height="325dp"
+        android:layout_alignStart="@+id/project_member_textview"
+        android:layout_below="@+id/project_member_textview" >
+    </ListView>
 
 </RelativeLayout>

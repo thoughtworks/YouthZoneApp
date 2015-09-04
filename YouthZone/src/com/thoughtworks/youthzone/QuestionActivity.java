@@ -59,7 +59,7 @@ public class QuestionActivity extends Activity {
 		questions = new ArrayList<String>();
 
 		outcomeToRating = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getOutcomesToRatings();
-		
+
 		for (String question : questionsToOutcomes.keySet()) {
 			if (outcomesForTheme.contains(questionsToOutcomes.get(question))) {
 				questions.add(question);
@@ -68,7 +68,7 @@ public class QuestionActivity extends Activity {
 
 		questionIndex = getIntent().getIntExtra("questionIndex", 0);
 		setupNextQuestion();
-		
+
 		checkThemeComplete();
 
 		ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
@@ -80,26 +80,26 @@ public class QuestionActivity extends Activity {
 		});
 	}
 
-	private void checkThemeComplete(){
+	private void checkThemeComplete() {
 		boolean isComplete = true;
-		
+
 		if (outcomeToRating.keySet().isEmpty() || questions.isEmpty()) {
 			isComplete = false;
 		} else {
-			for(String outcome : outcomeToRating.keySet()){
-				if (outcomesForTheme.contains(outcome)){
-					if( ((Float) outcomeToRating.get(outcome) ) <= 0.0f ){
+			for (String outcome : outcomeToRating.keySet()) {
+				if (outcomesForTheme.contains(outcome)) {
+					if (((Float) outcomeToRating.get(outcome)) <= 0.0f) {
 						isComplete = false;
 						break;
 					}
 				}
 			}
 		}
-		if(isComplete){
+		if (isComplete) {
 			Toast.makeText(this, "Theme complete", Toast.LENGTH_SHORT).show();
 		}
 	}
-	
+
 	private void setupNextQuestion() {
 
 		if (questionIndex < questions.size()) {
