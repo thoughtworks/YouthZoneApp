@@ -1,13 +1,11 @@
 package com.thoughtworks.youthzone;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
 import com.thoughtworks.youthzone.helper.Evaluation;
-import com.thoughtworks.youthzone.helper.Outcome;
 import com.thoughtworks.youthzone.helper.ProjectMember;
+import com.thoughtworks.youthzone.helper.ThemeData;
+import com.thoughtworks.youthzone.helper.ThemeListAdapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,8 +26,9 @@ import android.widget.Toast;
 public class PickOutcomeActivity extends Activity {
 
 	private ListView themesListView;
-	private ArrayAdapter<String> adapter;
+	private ThemeListAdapter adapter;
 	private TextView projectMemberTextView;
+	private Evaluation evaluation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +39,15 @@ public class PickOutcomeActivity extends Activity {
 		projectMemberTextView = (TextView) findViewById(R.id.project_member_textview);
 		projectMemberTextView.setText(((YouthZoneApp) getApplication()).getSelectedProjectMember().getName());
 
-		List<String> themeTitles = new ArrayList<String>();
+		evaluation = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation();
 
-		for (Outcome outcome : Outcome.values()) {
-			themeTitles.add(outcome.getTitle());
-		}
-
-		adapter = new ArrayAdapter<String>(this, R.layout.onside_list_item, R.id.label, themeTitles);
+		adapter = new ThemeListAdapter(this, R.layout.onside_list_item, evaluation.getThemeData());
 		themesListView.setAdapter(adapter);
 
 		themesListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-				String title = themesListView.getItemAtPosition(position).toString();
+				String title = ((ThemeData) themesListView.getItemAtPosition(position)).getName();
 				handleListItemClick(title);
 			}
 		});
@@ -113,7 +107,6 @@ public class PickOutcomeActivity extends Activity {
 	}
 
 	private class UploadOutcome extends AsyncTask<String, Void, Void> {
-		Evaluation evaluation;
 		ProjectMember projectMember;
 		DatastoreFacade salesforceFacade;
 		boolean uploadSuccess;
@@ -121,7 +114,6 @@ public class PickOutcomeActivity extends Activity {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			evaluation = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation();
 			projectMember = ((YouthZoneApp) getApplication()).getSelectedProjectMember();
 			salesforceFacade = ((YouthZoneApp) getApplication()).getDatastoreFacade();
 		}

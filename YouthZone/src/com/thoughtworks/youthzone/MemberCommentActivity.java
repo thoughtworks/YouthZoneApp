@@ -1,7 +1,5 @@
 package com.thoughtworks.youthzone;
 
-import java.util.Map;
-
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 
 import android.app.Activity;
@@ -15,8 +13,6 @@ import android.widget.EditText;
 public class MemberCommentActivity extends Activity {
 
 	private EditText editText;
-	private Map<String, String> memberComments;
-	private String currentOutcome;
 	private String memberComment;
 
 	@Override
@@ -24,11 +20,8 @@ public class MemberCommentActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_member_comment);
 
-		currentOutcome = getIntent().getStringExtra("currentOutcome");
-		memberComments = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getMemberComments();
-
-		memberComment = memberComments.get(currentOutcome.replace("Outcome", "Comments"));
-
+		memberComment = getIntent().getStringExtra("memberComment");
+		
 		editText = (EditText) findViewById(R.id.member_comment);
 		editText.setText(memberComment);
 	}
@@ -37,13 +30,9 @@ public class MemberCommentActivity extends Activity {
 		editText = (EditText) findViewById(R.id.member_comment);
 		memberComment = editText.getText().toString();
 
-		memberComments = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getMemberComments();
-		currentOutcome = getIntent().getStringExtra("currentOutcome");
-
-		memberComments.put(currentOutcome.replace("Outcome", "Comments"), memberComment);
-
 		Intent intent = new Intent(this, QuestionActivity.class);
 		intent.putExtra("questionIndex", getIntent().getIntExtra("questionIndex", 0));
+		intent.putExtra("memberComment", memberComment);
 		startActivity(intent);
 	}
 

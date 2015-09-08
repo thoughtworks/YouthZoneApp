@@ -26,12 +26,14 @@
  */
 package com.thoughtworks.youthzone;
 
+import java.util.List;
 import java.util.Map;
 
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
 import com.thoughtworks.youthzone.helper.Evaluation;
 import com.thoughtworks.youthzone.helper.ProjectMember;
+import com.thoughtworks.youthzone.helper.ThemeData;
 
 import android.app.Application;
 
@@ -50,6 +52,8 @@ public class YouthZoneApp extends Application {
 	private String selectedThemeTitle;
 
 	private String interviewerName;
+	
+	List<ThemeData> themeDatas;
 
 	@Override
 	public void onCreate() {
@@ -122,6 +126,14 @@ public class YouthZoneApp extends Application {
 
 	public void setInterviewerName(String interviewerName) {
 		this.interviewerName = interviewerName;
+	}
+
+	public List<ThemeData> getThemes() {
+		return themeDatas;
+	}
+	
+	public void setThemes(List<ThemeData> themeDatas) {
+		this.themeDatas = themeDatas;
 	}
 
 }

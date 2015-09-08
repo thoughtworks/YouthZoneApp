@@ -1,11 +1,15 @@
 package com.thoughtworks.youthzone;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
 import com.thoughtworks.youthzone.helper.Evaluation;
+import com.thoughtworks.youthzone.helper.QuestionData;
+import com.thoughtworks.youthzone.helper.ThemeData;
+import com.thoughtworks.youthzone.helper.ThemeToOutcome;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -38,14 +42,24 @@ public class SelectEvaluationActivity extends Activity {
 	}
 
 	public void onNewEvaluationClick(View view) {
-		Map<String, Object> outcomesToRatings = new LinkedHashMap<String, Object>();
 
-		for (String outcome : questionsToOutcomes.values()) {
-			outcomesToRatings.put(outcome, 0.0f);
+		List<ThemeData> themeData = new ArrayList<ThemeData>();
+		for (ThemeToOutcome theme : ThemeToOutcome.values()) {
+			List<QuestionData> questions = new ArrayList<QuestionData>();
+			for (String question : questionsToOutcomes.keySet()) {
+				if (theme.getOutcomes().contains(questionsToOutcomes.get(question))) {
+					String outcomeField = questionsToOutcomes.get(question);
+					questions.add(new QuestionData(outcomeField, question, 0.0f, "", outcomeField.replace("Outcome", "Comments")));
+				}
+			}
+			if (!questions.isEmpty()) {
+				themeData.add(new ThemeData(theme.getTitle(), questions));
+			}
 		}
-
+		
+		
 		Evaluation evaluation = new Evaluation();
-		evaluation.setOutcomesToRatings(outcomesToRatings);
+		evaluation.setThemeData(themeData);
 		((YouthZoneApp) getApplication()).setSelectedInProgressEvaluation(evaluation);
 
 		Intent intent = new Intent(this, PickOutcomeActivity.class);

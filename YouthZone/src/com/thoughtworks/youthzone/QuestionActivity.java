@@ -1,16 +1,14 @@
 package com.thoughtworks.youthzone;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
-import com.thoughtworks.youthzone.helper.Outcome;
+import com.thoughtworks.youthzone.helper.Evaluation;
+import com.thoughtworks.youthzone.helper.QuestionData;
+import com.thoughtworks.youthzone.helper.ThemeData;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,23 +17,19 @@ import android.view.View;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class QuestionActivity extends Activity {
 
 	DatastoreFacade datastoreFacade;
 
 	private RatingBar ratingBar;
-	private Map<String, String> questionsToOutcomes;
-	private List<String> questions;
+	private List<QuestionData> questionData;
 	private TextView questionTextview;
 
 	private int questionIndex = -1;
 
-	private String currentQuestion;
+	private QuestionData currentQuestionData;
 
-	private Map<String, Object> outcomeToRating;
-	private List<String> outcomesForTheme;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,81 +40,50 @@ public class QuestionActivity extends Activity {
 		ratingBar = (RatingBar) findViewById(R.id.question_ratingbar);
 
 		String themeTitle = ((YouthZoneApp) getApplication()).getSelectedThemeTitle();
-		outcomesForTheme = new ArrayList<String>();
-
-		for (Outcome outcome : Outcome.values()) {
-			if (outcome.getTitle().equals(themeTitle)) {
-				outcomesForTheme = outcome.getOutcomes();
-				break;
-			}
-		}
-
-		questionsToOutcomes = ((YouthZoneApp) getApplication()).getQuestionsToOutcomes();
-		questions = new ArrayList<String>();
-
-		outcomeToRating = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().getOutcomesToRatings();
-
-		for (String question : questionsToOutcomes.keySet()) {
-			if (outcomesForTheme.contains(questionsToOutcomes.get(question))) {
-				questions.add(question);
-			}
-		}
+		
+		Evaluation inProgressEvaluation = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation();
+		
+		ThemeData themeData = inProgressEvaluation.getThemeDataByTitle(themeTitle);
+		
+		questionData = themeData.getQuestions();
 
 		questionIndex = getIntent().getIntExtra("questionIndex", 0);
+		
+		currentQuestionData = questionData.get(questionIndex);
+		String memberComment = getIntent().getStringExtra("memberComment");
+		if(memberComment == null){
+			memberComment = currentQuestionData.getMemberComment();
+		} else {			
+			currentQuestionData.setMemberComment(memberComment);
+		}
+		
 		setupNextQuestion();
-
-		checkThemeComplete();
 
 		ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-
-				outcomeToRating.put(questionsToOutcomes.get(currentQuestion), ratingBar.getRating());
-				checkThemeComplete();
+				currentQuestionData.setRating(ratingBar.getRating());
 			}
 		});
 	}
 
-	private void checkThemeComplete() {
-		boolean isComplete = true;
-
-		if (outcomeToRating.keySet().isEmpty() || questions.isEmpty()) {
-			isComplete = false;
-		} else {
-			for (String outcome : outcomeToRating.keySet()) {
-				if (outcomesForTheme.contains(outcome)) {
-					if (((Float) outcomeToRating.get(outcome)) <= 0.0f) {
-						isComplete = false;
-						break;
-					}
-				}
-			}
-		}
-		if (isComplete) {
-			Toast.makeText(this, "Theme complete", Toast.LENGTH_SHORT).show();
-		}
-	}
-
 	private void setupNextQuestion() {
 
-		if (questionIndex < questions.size()) {
-			currentQuestion = questions.get(questionIndex);
-			questionTextview.setText(currentQuestion);
+		if (questionIndex < questionData.size()) {
+			currentQuestionData = questionData.get(questionIndex);
+			questionTextview.setText(currentQuestionData.getQuestion());
 			setRatingBar();
 		} else {
-			if (questions.isEmpty()) {
-				showWarning();
-			} else {
-				Intent intent = new Intent(this, PickOutcomeActivity.class);
-				startActivity(intent);
-			}
+			Intent intent = new Intent(this, PickOutcomeActivity.class);
+			startActivity(intent);
+			
 		}
 	}
 
 	private void setupPreviousQuestion() {
 
 		if (questionIndex >= 0) {
-			currentQuestion = questions.get(questionIndex);
-			questionTextview.setText(currentQuestion);
+			currentQuestionData = questionData.get(questionIndex);
+			questionTextview.setText(currentQuestionData.getQuestion());
 			setRatingBar();
 		} else {
 			Intent intent = new Intent(this, PickOutcomeActivity.class);
@@ -129,8 +92,7 @@ public class QuestionActivity extends Activity {
 	}
 
 	private void setRatingBar() {
-		String currentOutcome = questionsToOutcomes.get(currentQuestion);
-		Float rating = (Float) outcomeToRating.get(currentOutcome);
+		Float rating = currentQuestionData.getRating();
 		if (rating == null) {
 			ratingBar.setRating(0.0f);
 		} else {
@@ -151,25 +113,8 @@ public class QuestionActivity extends Activity {
 	public void onAddMemberCommentClick(View view) {
 		Intent intent = new Intent(this, MemberCommentActivity.class);
 		intent.putExtra("questionIndex", questionIndex);
-		intent.putExtra("currentOutcome", questionsToOutcomes.get(currentQuestion));
+		intent.putExtra("memberComment", currentQuestionData.getMemberComment());
 		startActivity(intent);
-	}
-
-	private void showWarning() {
-		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-		dialogBuilder.setTitle("Oops ...").setMessage("There are no questions for this theme.")
-				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.cancel();
-						Intent intent = new Intent(QuestionActivity.this, PickOutcomeActivity.class);
-						startActivity(intent);
-						finish();
-					}
-				}).setIcon(android.R.drawable.ic_dialog_alert);
-		AlertDialog dialog = dialogBuilder.create();
-		dialog.setCanceledOnTouchOutside(false);
-		dialog.setCancelable(false);
-		dialog.show();
 	}
 
 	@Override

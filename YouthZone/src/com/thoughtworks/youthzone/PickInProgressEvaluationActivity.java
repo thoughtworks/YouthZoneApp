@@ -7,6 +7,9 @@ import java.util.Map;
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.thoughtworks.youthzone.helper.DatastoreFacade;
 import com.thoughtworks.youthzone.helper.Evaluation;
+import com.thoughtworks.youthzone.helper.QuestionData;
+import com.thoughtworks.youthzone.helper.ThemeData;
+import com.thoughtworks.youthzone.helper.ThemeToOutcome;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -153,15 +156,33 @@ public class PickInProgressEvaluationActivity extends Activity {
 		@Override
 		protected Void doInBackground(Evaluation... params) {
 			try {
-
+				
 				Evaluation selectedEvaluation = params[0];
 				Map<String, Object> outcomesToRatings = datastoreFacade
 						.getRatingsForInProgressEvaluation(selectedEvaluation);
-				selectedEvaluation.setOutcomesToRatings(outcomesToRatings);
-
 				Map<String, String> memberComments = datastoreFacade
 						.getMemberCommentsForInProgressEvaluation(selectedEvaluation);
-				selectedEvaluation.setMemberComments(memberComments);
+				
+				
+				
+				Map<String, String> questionsToOutcomes = ((YouthZoneApp) getApplication()).getQuestionsToOutcomes();
+				
+				List<ThemeData> themeData = new ArrayList<ThemeData>();
+				for (ThemeToOutcome theme : ThemeToOutcome.values()) {
+					List<QuestionData> questions = new ArrayList<QuestionData>();
+					for (String question : questionsToOutcomes.keySet()) {
+						if (theme.getOutcomes().contains(questionsToOutcomes.get(question))) {
+							String outcomeField = questionsToOutcomes.get(question);
+							String commentField = outcomeField.replace("Outcome", "Comments");
+							questions.add(new QuestionData(outcomeField, question, (Float) outcomesToRatings.get(outcomeField), memberComments.get(commentField), commentField));
+						}
+					}
+					if (!questions.isEmpty()) {
+						themeData.add(new ThemeData(theme.getTitle(), questions));
+					}
+				}
+				
+				selectedEvaluation.setThemeData(themeData);
 
 				((YouthZoneApp) getApplication()).setSelectedInProgressEvaluation(selectedEvaluation);
 
