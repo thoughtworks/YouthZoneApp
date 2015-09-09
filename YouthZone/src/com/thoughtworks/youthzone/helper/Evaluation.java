@@ -1,5 +1,6 @@
 package com.thoughtworks.youthzone.helper;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,11 +10,9 @@ public class Evaluation {
 	private String date;
 	private String name;
 	private String salesForceId;
-	//private Map<String, Object> outcomesToRatings = new LinkedHashMap<String, Object>();
 	private String status = "In Progress";
 	private String comment = "";
-    //private Map<String, String> memberComments = new LinkedHashMap<String, String>();
-	private List<ThemeData> themeData;
+	private List<ThemeData> themeData = new ArrayList<ThemeData>();
 
 	public String getStatus() {
 		return status;
@@ -57,10 +56,6 @@ public class Evaluation {
 		
 		return outcomesToRatings;
 	}
-//
-//	public void setOutcomesToRatings(Map<String, Object> outcomesToRatings) {
-//		this.outcomesToRatings = outcomesToRatings;
-//	}
 
 	public String getComment() {
 		return comment;
@@ -80,17 +75,44 @@ public class Evaluation {
 		
 		return memberComments;
 	}
-
-//	public void setMemberComments(Map<String, String> memberComments) {
-//		this.memberComments = memberComments;
-//	}
 	
 	public List<ThemeData> getThemeData() {
 		return themeData;
 	}
-
-	public void setThemeData(List<ThemeData> themeData) {
-		this.themeData = themeData;
+	
+	
+	public void initialiseDataForThemes(Map<String, String> questionsToOutcomes) {
+		generateThemeList(questionsToOutcomes, null, null);
+	}
+	
+	public void initialiseDataForThemes(Map<String, String> questionsToOutcomes, Map<String, Object> outcomesToRatings, Map<String, String> memberComments){
+		generateThemeList(questionsToOutcomes, outcomesToRatings, memberComments);
+	}
+	
+	private void generateThemeList(Map<String, String> questionsToOutcomes, Map<String, Object> outcomesToRatings, Map<String, String> memberComments){
+		
+		boolean newEvaluationStarted = true;
+		if(outcomesToRatings != null && memberComments != null){
+			newEvaluationStarted = false;
+		}
+		
+		for (ThemeToOutcome theme : ThemeToOutcome.values()) {
+			List<QuestionData> questions = new ArrayList<QuestionData>();
+			for (String question : questionsToOutcomes.keySet()) {
+				if (theme.getOutcomes().contains(questionsToOutcomes.get(question))) {
+					String outcomeField = questionsToOutcomes.get(question);
+					String commentField = outcomeField.replace("Outcome", "Comments");
+					if(newEvaluationStarted){
+						questions.add(new QuestionData(outcomeField, question, 0.0f, "", commentField));
+					} else {
+						questions.add(new QuestionData(outcomeField, question, (Float) outcomesToRatings.get(outcomeField), memberComments.get(commentField), commentField));
+					}
+				}
+			}
+			if (!questions.isEmpty()) {
+				themeData.add(new ThemeData(theme.getTitle(), questions));
+			}
+		}
 	}
 	
 	public ThemeData getThemeDataByTitle(String title){
