@@ -105,7 +105,11 @@ public class Evaluation {
 					if(newEvaluationStarted){
 						questions.add(new QuestionData(outcomeField, question, 0.0f, "", commentField));
 					} else {
-						questions.add(new QuestionData(outcomeField, question, (Float) outcomesToRatings.get(outcomeField), memberComments.get(commentField), commentField));
+						Float rating = (Float) outcomesToRatings.get(outcomeField);
+						if (rating == null) {
+							rating = 0.0f;
+						}
+						questions.add(new QuestionData(outcomeField, question, rating, memberComments.get(commentField), commentField));
 					}
 				}
 			}
