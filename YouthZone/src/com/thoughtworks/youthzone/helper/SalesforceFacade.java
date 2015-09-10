@@ -112,7 +112,7 @@ public class SalesforceFacade implements DatastoreFacade {
 			throws Exception {
 
 		Map<String, Object> uploadData = new LinkedHashMap<String, Object>();
-		uploadData.putAll(evaluation.getOutcomesToRatings());
+		uploadData.putAll(filterEmptyRatings(evaluation.getOutcomesToRatings()));
 		uploadData.putAll(evaluation.getMemberComments());
 		uploadData.put("Member_Name__c", projectMember.getSalesForceId());
 		uploadData.put("Project_Member__c", projectMember.getProjectMemberId());
@@ -129,7 +129,7 @@ public class SalesforceFacade implements DatastoreFacade {
 	public boolean updateExistingOutcome(Evaluation evaluation, String interviewerName) throws Exception {
 
 		Map<String, Object> uploadData = new LinkedHashMap<String, Object>();
-		uploadData.putAll(evaluation.getOutcomesToRatings());
+		uploadData.putAll(filterEmptyRatings(evaluation.getOutcomesToRatings()));
 		uploadData.putAll(evaluation.getMemberComments());
 		uploadData.put("Status__c", evaluation.getStatus());
 		uploadData.put("Youth_Zone_Comments__c", evaluation.getComment());
@@ -140,6 +140,17 @@ public class SalesforceFacade implements DatastoreFacade {
 
 		RestResponse result = client.sendSync(restRequest);
 		return result.isSuccess();
+	}
+	
+	private Map<String, Object> filterEmptyRatings(Map<String, Object> outcomesToRatings){
+		Map<String, Object> filteredOutcomesToRatings = new LinkedHashMap<String, Object>();
+		for(String outcome : outcomesToRatings.keySet()){
+			Float value = (Float)outcomesToRatings.get(outcome);
+			if(value  > 0.0f){
+				filteredOutcomesToRatings.put(outcome, value);
+			}
+		}
+		return filteredOutcomesToRatings;
 	}
 
 	@Override
