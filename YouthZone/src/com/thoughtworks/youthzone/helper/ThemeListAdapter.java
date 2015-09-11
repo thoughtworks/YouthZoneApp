@@ -40,24 +40,23 @@ public class ThemeListAdapter extends ArrayAdapter<ThemeData> {
         if (themeData != null) {
         	TextView textView = (TextView) view.findViewById(R.id.label);
         	textView.setCompoundDrawablePadding(30);
-        	Drawable incomplete = parent.getResources().getDrawable(R.drawable.blank_mark);
-        	Bitmap incompleteBmp = ((BitmapDrawable) incomplete).getBitmap();
-        	// Scale it to 50 x 50
-        	incomplete = new BitmapDrawable(parent.getResources(), Bitmap.createScaledBitmap(incompleteBmp, 50, 50, true));
-        	textView.setCompoundDrawablesWithIntrinsicBounds(incomplete, null, null, null);
         	
+        	textView.setCompoundDrawablesWithIntrinsicBounds(getListIcon(view, R.drawable.blank_mark), null, null, null);
             textView.setText(themeData.getName());
             
             if (themeData.isComplete()) {
             	textView.setBackgroundColor(0x707bc143);
-            	Drawable complete = parent.getResources().getDrawable(R.drawable.check_mark);
-            	Bitmap completeBmp = ((BitmapDrawable) complete).getBitmap();
-            	// Scale it to 50 x 50
-            	complete = new BitmapDrawable(parent.getResources(), Bitmap.createScaledBitmap(completeBmp, 50, 50, true));
-            	textView.setCompoundDrawablesWithIntrinsicBounds(complete, null, null, null);
+            	textView.setCompoundDrawablesWithIntrinsicBounds(getListIcon(view, R.drawable.check_mark), null, null, null);
             }
         }
 
         return view;
+	}
+	
+	private Drawable getListIcon(View view, int resourceId) {
+		Drawable incomplete = view.getResources().getDrawable(resourceId);
+    	Bitmap incompleteBmp = ((BitmapDrawable) incomplete).getBitmap();
+    	// Scale it to 50 x 50
+    	return new BitmapDrawable(view.getResources(), Bitmap.createScaledBitmap(incompleteBmp, 50, 50, true));
 	}
 }
