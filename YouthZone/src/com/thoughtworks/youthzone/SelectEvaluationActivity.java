@@ -71,7 +71,7 @@ public class SelectEvaluationActivity extends Activity {
 	}
 
 	private void doLogout() {
-		SalesforceSDKManager.getInstance().logout(this);
+		SalesforceSDKManager.getInstance().logout(this, true);
 	}
 
 	private class RetrieveQuestionsToOutcomes extends AsyncTask<String, Void, Void> {

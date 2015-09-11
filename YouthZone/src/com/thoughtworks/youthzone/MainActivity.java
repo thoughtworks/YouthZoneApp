@@ -127,6 +127,6 @@ public class MainActivity extends SalesforceActivity {
 	}
 
 	private void doLogout() {
-		SalesforceSDKManager.getInstance().logout(this);
+		SalesforceSDKManager.getInstance().logout(this, true);
 	}
 }

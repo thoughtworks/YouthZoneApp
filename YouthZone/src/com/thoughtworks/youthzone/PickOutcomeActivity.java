@@ -103,7 +103,7 @@ public class PickOutcomeActivity extends Activity {
 	}
 
 	private void doLogout() {
-		SalesforceSDKManager.getInstance().logout(this);
+		SalesforceSDKManager.getInstance().logout(this, true);
 	}
 
 	private class UploadOutcome extends AsyncTask<String, Void, Void> {

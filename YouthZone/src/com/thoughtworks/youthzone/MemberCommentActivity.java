@@ -56,6 +56,6 @@ public class MemberCommentActivity extends Activity {
 	}
 
 	private void doLogout() {
-		SalesforceSDKManager.getInstance().logout(this);
+		SalesforceSDKManager.getInstance().logout(this, true);
 	}
 }

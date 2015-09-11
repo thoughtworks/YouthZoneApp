@@ -87,7 +87,7 @@ public class PickMemberActivity extends Activity {
 	}
 
 	private void doLogout() {
-		SalesforceSDKManager.getInstance().logout(this);
+		SalesforceSDKManager.getInstance().logout(this, true);
 	}
 
 	private class RetrieveMembers extends AsyncTask<String, Void, Void> {

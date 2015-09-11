@@ -71,7 +71,7 @@ public class PickProjectActivity extends Activity {
 	}
 
 	private void doLogout() {
-		SalesforceSDKManager.getInstance().logout(this);
+		SalesforceSDKManager.getInstance().logout(this, true);
 	}
 
 	private class RetrieveProject extends AsyncTask<Void, Void, Void> {

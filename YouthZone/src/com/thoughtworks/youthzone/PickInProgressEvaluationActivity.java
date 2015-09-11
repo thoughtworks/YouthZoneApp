@@ -77,7 +77,7 @@ public class PickInProgressEvaluationActivity extends Activity {
 	}
 
 	private void doLogout() {
-		SalesforceSDKManager.getInstance().logout(this);
+		SalesforceSDKManager.getInstance().logout(this, true);
 	}
 
 	private class RetrieveInProgressEvaluations extends AsyncTask<Void, Void, Void> {
