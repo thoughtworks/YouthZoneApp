@@ -29,6 +29,12 @@ public class QuestionActivity extends Activity {
 	private int questionIndex = -1;
 
 	private QuestionData currentQuestionData;
+	
+	private final String[] descriptions = {"","I’m not thinking about this at the moment",
+			                                  "I’m interested but don’t know what to do",
+				                              "I’ve started to do something about this",
+				                              "I’m working well on this",
+				                              "This is part of my everyday life"};  
 
 
 	@Override
@@ -61,6 +67,8 @@ public class QuestionActivity extends Activity {
 
 		ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+				int position = (int) rating;
+				setDescription(position);
 				currentQuestionData.setRating(ratingBar.getRating());
 			}
 		});
@@ -75,7 +83,6 @@ public class QuestionActivity extends Activity {
 		} else {
 			Intent intent = new Intent(this, PickOutcomeActivity.class);
 			startActivity(intent);
-			
 		}
 	}
 
@@ -94,10 +101,16 @@ public class QuestionActivity extends Activity {
 	private void setRatingBar() {
 		Float rating = currentQuestionData.getRating();
 		if (rating == null) {
-			ratingBar.setRating(0.0f);
-		} else {
-			ratingBar.setRating(rating);
+			rating = 0.0f;
 		}
+		ratingBar.setRating(rating);
+		int position = rating.intValue();
+		setDescription(position);
+	}
+	
+	private void setDescription(int position) {
+		TextView description = (TextView) findViewById(R.id.description_textview);
+		description.setText(descriptions[position]);
 	}
 
 	public void onNextQuestionClick(View view) {

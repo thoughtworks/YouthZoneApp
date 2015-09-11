@@ -8,17 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.thoughtworks.youthzone.QuestionActivity" >
 
-    <TextView
-        android:id="@+id/question_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="83dp"
-        android:gravity="center_horizontal"
-        android:textAppearance="@style/ProjectQuestion" />
-
     <Button
         android:id="@+id/next_question_button"
         android:layout_width="wrap_content"
@@ -48,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/question_textview"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="102dp"
+        android:layout_marginTop="130dp"
         android:stepSize="1.0" />
 
     <Button
@@ -58,10 +47,32 @@
         android:layout_alignEnd="@+id/next_question_button"
         android:layout_alignStart="@+id/previous_question_button"
         android:layout_below="@+id/question_ratingbar"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="120dp"
         android:background="@drawable/onside_button_selector"
         android:onClick="onAddMemberCommentClick"
         android:text="@string/add_member_comments"
         android:textAppearance="@style/OnsideButton" />
+
+    <TextView
+        android:id="@+id/question_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/ProjectQuestion" />
+
+    <TextView
+        android:id="@+id/description_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/question_textview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#455560" />
 
 </RelativeLayout>
