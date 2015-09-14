@@ -26,4 +26,12 @@
         android:layout_below="@+id/project_member_textview" >
     </ListView>
 
+    <TextView
+        android:id="@+id/staff_comment_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/themes_listview"
+        android:layout_below="@+id/themes_listview"
+        android:textAppearance="@style/StaffComment" />
+
 </RelativeLayout>

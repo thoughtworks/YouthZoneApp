@@ -21,6 +21,7 @@ public class PickThemeForPreviousActivity extends Activity {
 	private ListView themesListView;
 	private ThemeListAdapter adapter;
 	private TextView projectMemberTextView;
+	private TextView staffCommentTextView;
 	private Evaluation evaluation;
 
 	@Override
@@ -31,8 +32,15 @@ public class PickThemeForPreviousActivity extends Activity {
 		themesListView = (ListView) findViewById(R.id.themes_listview);
 		projectMemberTextView = (TextView) findViewById(R.id.project_member_textview);
 		projectMemberTextView.setText(((YouthZoneApp) getApplication()).getSelectedProjectMember().getName());
+		staffCommentTextView = (TextView) findViewById(R.id.staff_comment_textview);
 
 		evaluation = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation();
+		String comment = evaluation.getComment();
+		if (comment.isEmpty() || comment == null) {
+			comment = "N/A";
+		}
+		String commentToDisplay = "Staff comment:\n\"" + comment + "\"";
+		staffCommentTextView.setText(commentToDisplay);
 
 		adapter = new ThemeListAdapter(this, R.layout.onside_list_item, evaluation.getThemeData());
 		themesListView.setAdapter(adapter);
@@ -48,8 +56,8 @@ public class PickThemeForPreviousActivity extends Activity {
 
 	private void handleListItemClick(String title) {
 		((YouthZoneApp) getApplication()).setSelectedThemeTitle(title);
-//		Intent intent = new Intent(this, QuestionActivity.class);
-//		startActivity(intent);
+		Intent intent = new Intent(this, ThemeReviewActivity.class);
+		startActivity(intent);
 	}
 
 	@Override

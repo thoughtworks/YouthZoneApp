@@ -3,7 +3,6 @@ package com.thoughtworks.youthzone;
 import java.util.List;
 
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
-import com.thoughtworks.youthzone.helper.DatastoreFacade;
 import com.thoughtworks.youthzone.helper.Evaluation;
 import com.thoughtworks.youthzone.helper.QuestionData;
 import com.thoughtworks.youthzone.helper.ThemeData;
@@ -19,8 +18,6 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 
 public class QuestionActivity extends Activity {
-
-	DatastoreFacade datastoreFacade;
 
 	private RatingBar ratingBar;
 	private List<QuestionData> questionData;

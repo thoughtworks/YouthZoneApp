@@ -119,6 +119,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thoughtworks.youthzone.PickPreviousEvaluationActivity" />
         </activity>
+        <activity
+            android:name=".ThemeReviewActivity"
+            android:label="@string/title_activity_theme_review"
+            android:parentActivityName=".PickThemeForPreviousActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thoughtworks.youthzone.PickThemeForPreviousActivity" />
+        </activity>
     </application>
 
 </manifest>
