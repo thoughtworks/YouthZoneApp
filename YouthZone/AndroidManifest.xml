@@ -106,7 +106,8 @@
         <activity
             android:name=".PickPreviousEvaluationActivity"
             android:label="@string/title_activity_pick_in_progress_evaluation"
-            android:parentActivityName=".SelectEvaluationActivity" >
+            android:parentActivityName=".SelectEvaluationActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thoughtworks.youthzone.SelectEvaluationActivity" />
@@ -114,7 +115,8 @@
         <activity
             android:name=".PickThemeForPreviousActivity"
             android:label="@string/title_activity_pick_theme"
-            android:parentActivityName=".PickPreviousEvaluationActivity" >
+            android:parentActivityName=".PickPreviousEvaluationActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thoughtworks.youthzone.PickPreviousEvaluationActivity" />
@@ -122,7 +124,8 @@
         <activity
             android:name=".ThemeReviewActivity"
             android:label="@string/title_activity_theme_review"
-            android:parentActivityName=".PickThemeForPreviousActivity" >
+            android:parentActivityName=".PickThemeForPreviousActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thoughtworks.youthzone.PickThemeForPreviousActivity" />

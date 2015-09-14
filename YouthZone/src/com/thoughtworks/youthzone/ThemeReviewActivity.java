@@ -41,8 +41,13 @@ public class ThemeReviewActivity extends Activity {
 			if (comment == null || comment.isEmpty()) {
 				comment = "N/A";
 			}
+			
+			String rating = qd.getRating().toString();
+			if (rating.equals("0.0")) {
+				rating = "N/A";
+			}
 
-			String question = "\nStatement: " + qd.getQuestion() + "\n\nRating: " + qd.getRating() + "\n\nComment:\n\""
+			String question = "\nStatement: " + qd.getQuestion() + "\n\nRating: " + rating + "\n\nComment:\n\""
 					+ comment + "\"\n";
 			questions.add(question);
 		}

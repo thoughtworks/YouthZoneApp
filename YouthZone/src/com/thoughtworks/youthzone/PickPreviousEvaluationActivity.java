@@ -96,7 +96,7 @@ public class PickPreviousEvaluationActivity extends Activity {
 				String projectName = ((YouthZoneApp) getApplication()).getSelectedProjectName();
 				String memberName = ((YouthZoneApp) getApplication()).getSelectedProjectMember().getName();
 
-				previousEvaluations = datastoreFacade.getAllEvaluations(projectName, memberName);
+				previousEvaluations = datastoreFacade.getCompletedEvaluations(projectName, memberName);
 
 				for (Evaluation e : previousEvaluations) {
 					titlesForPreviousEvaluations.add(e.toString());
