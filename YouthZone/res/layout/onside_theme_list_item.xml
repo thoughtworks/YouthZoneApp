@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/label"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/theme_list_item"
+    android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="60dp"
-    android:text="@+id/label"
-    android:gravity="center_vertical"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:textSize="24sp" >
-</TextView>
+    android:layout_height="60dp" >
+
+    <TextView
+        android:id="@+id/label_title"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical"
+        android:layout_alignParentStart="true"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="@+id/label"
+        android:textSize="24sp" >
+    </TextView>
+    
+    <TextView
+        android:id="@+id/label_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical"
+        android:layout_alignParentEnd="true"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="@+id/label"
+        android:textSize="24sp" >
+    </TextView>
+
+</RelativeLayout>

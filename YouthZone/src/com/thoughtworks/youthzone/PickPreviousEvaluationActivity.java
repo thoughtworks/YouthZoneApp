@@ -155,12 +155,8 @@ public class PickPreviousEvaluationActivity extends Activity {
 			try {
 				
 				Evaluation selectedEvaluation = params[0];
-				Map<String, Object> outcomesToRatings = datastoreFacade
-						.getRatingsForEvaluation(selectedEvaluation);
-				Map<String, String> memberComments = datastoreFacade
-						.getMemberCommentsForEvaluation(selectedEvaluation);
-				
-				
+				Map<String, Object> outcomesToRatings = datastoreFacade.getRatingsForEvaluation(selectedEvaluation);
+				Map<String, String> memberComments = datastoreFacade.getMemberCommentsForEvaluation(selectedEvaluation);
 				
 				Map<String, String> questionsToOutcomes = ((YouthZoneApp) getApplication()).getQuestionsToOutcomes();
 

@@ -32,7 +32,7 @@
         android:textAppearance="@style/OnsideButton" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/view_previous_evaluations"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

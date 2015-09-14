@@ -21,6 +21,7 @@ public class SelectEvaluationActivity extends Activity {
 
 	private Button newEvaluation;
 	private Button inProgressEvaluations;
+	private Button completeEvaluations;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,9 @@ public class SelectEvaluationActivity extends Activity {
 
 		inProgressEvaluations = (Button) findViewById(R.id.in_progress_evaluations);
 		inProgressEvaluations.setEnabled(false);
+		
+		completeEvaluations = (Button) findViewById(R.id.view_previous_evaluations);
+		completeEvaluations.setEnabled(false);
 
 		new RetrieveQuestionsToOutcomes().execute(((YouthZoneApp) getApplication()).getSelectedProjectName());
 	}
@@ -107,7 +111,7 @@ public class SelectEvaluationActivity extends Activity {
 
 			newEvaluation.setEnabled(true);
 			inProgressEvaluations.setEnabled(true);
-
+			completeEvaluations.setEnabled(true);
 		}
 	}
 }

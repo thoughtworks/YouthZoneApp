@@ -19,34 +19,35 @@ public class ThemeReviewActivity extends Activity {
 
 	private List<QuestionData> questionData;
 	private ArrayAdapter<String> adapter;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_theme_review);
-		
+
 		ListView reviewListView = (ListView) findViewById(R.id.review_listview);
 		List<String> questions = new ArrayList<String>();
-		
+
 		String themeTitle = ((YouthZoneApp) getApplication()).getSelectedThemeTitle();
-		
+
 		Evaluation inProgressEvaluation = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation();
-		
+
 		ThemeData themeData = inProgressEvaluation.getThemeDataByTitle(themeTitle);
-		
+
 		questionData = themeData.getQuestions();
-		
+
 		for (QuestionData qd : questionData) {
 			String comment = qd.getMemberComment();
-			if(comment.isEmpty() || comment==null){
-			  comment = "N/A";	
+			if (comment == null || comment.isEmpty()) {
+				comment = "N/A";
 			}
-			
-			String question = "\nStatement: " + qd.getQuestion() + "\n\nRating: " + qd.getRating() + "\n\nComment:\n\"" + comment + "\"\n";
+
+			String question = "\nStatement: " + qd.getQuestion() + "\n\nRating: " + qd.getRating() + "\n\nComment:\n\""
+					+ comment + "\"\n";
 			questions.add(question);
 		}
-		
-		adapter = new ArrayAdapter<String>(this, R.layout.onside_theme_review_list_item, questions);
+
+		adapter = new ArrayAdapter<String>(this, R.layout.onside_questions_review_list_item, questions);
 		reviewListView.setAdapter(adapter);
 	}
 

@@ -3,7 +3,7 @@ package com.thoughtworks.youthzone;
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.thoughtworks.youthzone.helper.Evaluation;
 import com.thoughtworks.youthzone.helper.ThemeData;
-import com.thoughtworks.youthzone.helper.ThemeListAdapter;
+import com.thoughtworks.youthzone.helper.ThemeListCompleteAdapter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,7 +19,7 @@ import android.widget.TextView;
 public class PickThemeForPreviousActivity extends Activity {
 
 	private ListView themesListView;
-	private ThemeListAdapter adapter;
+	private ThemeListCompleteAdapter adapter;
 	private TextView projectMemberTextView;
 	private TextView staffCommentTextView;
 	private Evaluation evaluation;
@@ -36,13 +36,13 @@ public class PickThemeForPreviousActivity extends Activity {
 
 		evaluation = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation();
 		String comment = evaluation.getComment();
-		if (comment.isEmpty() || comment == null) {
+		if (comment == null || comment.isEmpty()) {
 			comment = "N/A";
 		}
 		String commentToDisplay = "Staff comment:\n\"" + comment + "\"";
 		staffCommentTextView.setText(commentToDisplay);
 
-		adapter = new ThemeListAdapter(this, R.layout.onside_list_item, evaluation.getThemeData());
+		adapter = new ThemeListCompleteAdapter(this, R.layout.onside_theme_list_item, evaluation.getThemeData());
 		themesListView.setAdapter(adapter);
 
 		themesListView.setOnItemClickListener(new OnItemClickListener() {

@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/themes_listview"
         android:layout_below="@+id/themes_listview"
+        android:paddingTop="30dp"
         android:textAppearance="@style/StaffComment" />
 
 </RelativeLayout>

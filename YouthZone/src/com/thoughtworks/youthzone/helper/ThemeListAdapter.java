@@ -15,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class ThemeListAdapter extends ArrayAdapter<ThemeData> {
+	
+	private int resource;
 
 	public ThemeListAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
@@ -22,6 +24,7 @@ public class ThemeListAdapter extends ArrayAdapter<ThemeData> {
 
     public ThemeListAdapter(Context context, int resource, List<ThemeData> themeData) {
         super(context, resource, themeData);
+        this.resource = resource;
     }
 
 	@Override
@@ -32,7 +35,7 @@ public class ThemeListAdapter extends ArrayAdapter<ThemeData> {
         if (view == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            view = vi.inflate(R.layout.onside_list_item, parent, false);
+            view = vi.inflate(resource, parent, false);
         }
 
         ThemeData themeData = getItem(position);
