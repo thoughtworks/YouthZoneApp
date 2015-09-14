@@ -36,9 +36,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/onside_button_selector"
+        android:onClick="onPreviousEvaluationClick"
         android:text="@string/view_previous_evaluations"
         android:textAppearance="@style/OnsideButton" />
 

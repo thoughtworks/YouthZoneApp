@@ -18,38 +18,38 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
-public class PickInProgressEvaluationActivity extends Activity {
-
-	private ListView inProgressEvaluationsListView;
+public class PickPreviousEvaluationActivity extends Activity {
+	
+	private ListView previousEvaluationsListView;
 	private ArrayAdapter<String> adapter;
 
-	private List<Evaluation> inProgressEvaluations;
-	private List<String> titlesForInProgressEvaluations = new ArrayList<String>();
+	private List<Evaluation> previousEvaluations;
+	private List<String> titlesForPreviousEvaluations = new ArrayList<String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_pick_in_progress_evaluation);
+		setContentView(R.layout.activity_pick_previous_evaluation);
 
-		inProgressEvaluationsListView = (ListView) findViewById(R.id.in_progress_evaluations_listview);
+		previousEvaluationsListView = (ListView) findViewById(R.id.previous_evaluations_listview);
 
-		inProgressEvaluationsListView.setOnItemClickListener(new OnItemClickListener() {
+		previousEvaluationsListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-				String evaluation = inProgressEvaluationsListView.getItemAtPosition(position).toString();
+				String evaluation = previousEvaluationsListView.getItemAtPosition(position).toString();
 				handleListItemClick(evaluation);
 			}
 		});
 
-		new RetrieveInProgressEvaluations().execute();
+		new RetrievePreviousEvaluations().execute();
 	}
 
 	private void handleListItemClick(String listElementText) {
-		for (Evaluation selectedEvaluation : inProgressEvaluations) {
+		for (Evaluation selectedEvaluation : previousEvaluations) {
 			if (selectedEvaluation.toString().equals(listElementText)) {
 				new RetrieveRatingsAndCommentsForEvaluation().execute(selectedEvaluation);
 				break;
@@ -80,7 +80,7 @@ public class PickInProgressEvaluationActivity extends Activity {
 		SalesforceSDKManager.getInstance().logout(this, true);
 	}
 
-	private class RetrieveInProgressEvaluations extends AsyncTask<Void, Void, Void> {
+	private class RetrievePreviousEvaluations extends AsyncTask<Void, Void, Void> {
 		private DatastoreFacade datastoreFacade;
 
 		@Override
@@ -96,10 +96,10 @@ public class PickInProgressEvaluationActivity extends Activity {
 				String projectName = ((YouthZoneApp) getApplication()).getSelectedProjectName();
 				String memberName = ((YouthZoneApp) getApplication()).getSelectedProjectMember().getName();
 
-				inProgressEvaluations = datastoreFacade.getInProgressEvaluations(projectName, memberName);
+				previousEvaluations = datastoreFacade.getAllEvaluations(projectName, memberName);
 
-				for (Evaluation e : inProgressEvaluations) {
-					titlesForInProgressEvaluations.add(e.toString());
+				for (Evaluation e : previousEvaluations) {
+					titlesForPreviousEvaluations.add(e.toString());
 				}
 
 			} catch (Exception e) {
@@ -112,23 +112,23 @@ public class PickInProgressEvaluationActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 
-			if (titlesForInProgressEvaluations.isEmpty()) {
+			if (titlesForPreviousEvaluations.isEmpty()) {
 				showNoInProgressWarning();
 			} else {
-				adapter = new ArrayAdapter<String>(PickInProgressEvaluationActivity.this, R.layout.onside_list_item,
-						R.id.label, titlesForInProgressEvaluations);
-				inProgressEvaluationsListView.setAdapter(adapter);
+				adapter = new ArrayAdapter<String>(PickPreviousEvaluationActivity.this, R.layout.onside_list_item,
+						R.id.label, titlesForPreviousEvaluations);
+				previousEvaluationsListView.setAdapter(adapter);
 			}
 		}
 	}
 
 	private void showNoInProgressWarning() {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-		dialogBuilder.setTitle("Oops ...").setMessage("There are no in progress evaluations for this member.")
+		dialogBuilder.setTitle("Oops ...").setMessage("There are no previous evaluations for this member.")
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.cancel();
-						Intent intent = new Intent(PickInProgressEvaluationActivity.this,
+						Intent intent = new Intent(PickPreviousEvaluationActivity.this,
 								SelectEvaluationActivity.class);
 						startActivity(intent);
 						finish();
@@ -177,7 +177,7 @@ public class PickInProgressEvaluationActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			Intent intent = new Intent(PickInProgressEvaluationActivity.this, PickThemeForInProgressActivity.class);
+			Intent intent = new Intent(PickPreviousEvaluationActivity.this, PickThemeForPreviousActivity.class);
 			startActivity(intent);
 		}
 	}

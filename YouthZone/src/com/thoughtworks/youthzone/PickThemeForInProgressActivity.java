@@ -23,7 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PickOutcomeActivity extends Activity {
+public class PickThemeForInProgressActivity extends Activity {
 
 	private ListView themesListView;
 	private ThemeListAdapter adapter;
@@ -33,7 +33,7 @@ public class PickOutcomeActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_pick_outcome);
+		setContentView(R.layout.activity_pick_theme_for_in_progress);
 
 		themesListView = (ListView) findViewById(R.id.themes_listview);
 		projectMemberTextView = (TextView) findViewById(R.id.project_member_textview);
@@ -145,11 +145,11 @@ public class PickOutcomeActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			if (uploadSuccess) {
-				Toast.makeText(PickOutcomeActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
-				Intent intent = new Intent(PickOutcomeActivity.this, SelectEvaluationActivity.class);
+				Toast.makeText(PickThemeForInProgressActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(PickThemeForInProgressActivity.this, SelectEvaluationActivity.class);
 				startActivity(intent);
 			} else {
-				new AlertDialog.Builder(PickOutcomeActivity.this).setTitle("Upload Failed")
+				new AlertDialog.Builder(PickThemeForInProgressActivity.this).setTitle("Upload Failed")
 						.setMessage("Please try again")
 						.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {

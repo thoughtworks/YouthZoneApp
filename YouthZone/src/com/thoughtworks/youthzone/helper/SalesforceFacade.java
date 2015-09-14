@@ -158,8 +158,30 @@ public class SalesforceFacade implements DatastoreFacade {
 		JSONArray records = sendRequest(
 				"SELECT Date__c, Name, Youth_Zone_Comments__c, Id FROM Outcome__c WHERE Status__c = 'In Progress' AND Project1__c = '"
 						+ projectName + "' AND Member_Name__r.Name = '" + memberName + "'");
+		
+		return getEvaluations(records);
+	}
+	
+	@Override
+	public List<Evaluation> getCompletedEvaluations(String projectName, String memberName) throws Exception {
+		JSONArray records = sendRequest(
+				"SELECT Date__c, Name, Youth_Zone_Comments__c, Id FROM Outcome__c WHERE Status__c = 'Complete' AND Project1__c = '"
+						+ projectName + "' AND Member_Name__r.Name = '" + memberName + "'");
+		
+		return getEvaluations(records);
+	}
+	
+	@Override
+	public List<Evaluation> getAllEvaluations(String projectName, String memberName) throws Exception {
+		JSONArray records = sendRequest(
+				"SELECT Date__c, Name, Youth_Zone_Comments__c, Id FROM Outcome__c WHERE Project1__c = '"
+						+ projectName + "' AND Member_Name__r.Name = '" + memberName + "'");
+		
+		return getEvaluations(records);
+	}
+	
+	private List<Evaluation> getEvaluations(JSONArray records) throws Exception {
 		List<Evaluation> inProgressEvaluations = new ArrayList<Evaluation>();
-
 		for (int i = 0; i < records.length(); i++) {
 			Evaluation evaluation = new Evaluation();
 			String date = records.getJSONObject(i).getString("Date__c");
@@ -178,7 +200,7 @@ public class SalesforceFacade implements DatastoreFacade {
 	}
 
 	@Override
-	public Map<String, Object> getRatingsForInProgressEvaluation(Evaluation evaluation) throws Exception {
+	public Map<String, Object> getRatingsForEvaluation(Evaluation evaluation) throws Exception {
 		JSONArray record = sendRequest(
 				"SELECT Aspirations_Outcome_1__c,Aspirations_Outcome_2__c,Aspirations_Outcome_3__c,Citizenship_Outcome_1__c,Citizenship_Outcome_2__c,Citizenship_Outcome_3__c,Cohesion_Outcome_1__c,Cohesion_Outcome_2__c,Cohesion_Outcome_3__c,Communication_Skills_Outcome_1__c,Communication_Skills_Outcome_2__c,Communication_Skills_Outcome_3__c,Confidence_Outcome_1__c,Confidence_Outcome_2__c,Confidence_Outcome_3__c,Determination_Outcome_1__c,Determination_Outcome_2__c,Determination_Outcome_3__c,Empathy_Outcome_1__c,Empathy_Outcome_2__c,Empathy_Outcome_3__c,Leadership_Skills_Outcome_1__c,Leadership_Skills_Outcome_2__c,Leadership_Skills_Outcome_3__c,Life_Skills_Outcome_1__c,Life_Skills_Outcome_2__c,Life_Skills_Outcome_3__c,Managing_Feelings_Outcome_1__c,Managing_Feelings_Outcome_2__c,Managing_Feelings_Outcome_3__c,Mental_Wellbeing_Outcome_1__c,Mental_Wellbeing_Outcome_2__c,Mental_Wellbeing_Outcome_3__c,Physical_Health_Outcome_1__c,Physical_Health_Outcome_2__c,Physical_Health_Outcome_3__c,Positive_Health_Choices_Outcome_1__c,Positive_Health_Choices_Outcome_2__c,Positive_Health_Choices_Outcome_3__c,Problem_Solving_Outcome_1__c,Problem_Solving_Outcome_2__c,Problem_Solving_Outcome_3__c,Ready_for_Work_LLL_Outcome_1__c,Ready_for_Work_LLL_Outcome_2__c,Ready_for_Work_LLL_Outcome_3__c,Resilience_Outcome_1__c,Resilience_Outcome_2__c,Resilience_Outcome_3__c,Self_Awareness_Outcome_1__c,Self_Awareness_Outcome_2__c,Self_Awareness_Outcome_3__c,Self_Efficiency_Outcome_1__c,Self_Efficiency_Outcome_2__c,Self_Efficiency_Outcome_3__c,Self_Esteem_Outcome_1__c,Self_Esteem_Outcome_2__c,Self_Esteem_Outcome_3__c,Social_Skills_Outcome_1__c,Social_Skills_Outcome_2__c,Social_Skills_Outcome_3__c FROM Outcome__c WHERE Id = '"
 						+ evaluation.getSalesForceId() + "'");
@@ -199,7 +221,7 @@ public class SalesforceFacade implements DatastoreFacade {
 	}
 
 	@Override
-	public Map<String, String> getMemberCommentsForInProgressEvaluation(Evaluation evaluation) throws Exception {
+	public Map<String, String> getMemberCommentsForEvaluation(Evaluation evaluation) throws Exception {
 		JSONArray record = sendRequest(
 				"SELECT Aspirations_Comments_1__c,Aspirations_Comments_2__c,Aspirations_Comments_3__c,Citizenship_Comments_1__c,Citizenship_Comments_2__c,Citizenship_Comments_3__c,Cohesion_Comments_1__c,Cohesion_Comments_2__c,Cohesion_Comments_3__c,Communication_Skills_Comments_1__c,Communication_Skills_Comments_2__c,Communication_Skills_Comments_3__c,Confidence_Comments_1__c,Confidence_Comments_2__c,Confidence_Comments_3__c,Determination_Comments_1__c,Determination_Comments_2__c,Determination_Comments_3__c,Empathy_Comments_1__c,Empathy_Comments_2__c,Empathy_Comments_3__c,Leadership_Skills_Comments_1__c,Leadership_Skills_Comments_2__c,Leadership_Skills_Comments_3__c,Life_Skills_Comments_1__c,Life_Skills_Comments_2__c,Life_Skills_Comments_3__c,Managing_Feelings_Comments_1__c,Managing_Feelings_Comments_2__c,Managing_Feelings_Comments_3__c,Mental_Wellbeing_Comments_1__c,Mental_Wellbeing_Comments_2__c,Mental_Wellbeing_Comments_3__c,Physical_Health_Comments_1__c,Physical_Health_Comments_2__c,Physical_Health_Comments_3__c,Positive_Health_Choices_Comments_1__c,Positive_Health_Choices_Comments_2__c,Positive_Health_Choices_Comments_3__c,Problem_Solving_Comments_1__c,Problem_Solving_Comments_2__c,Problem_Solving_Comments_3__c,Ready_for_Work_LLL_Comments_1__c,Ready_for_Work_LLL_Comments_2__c,Ready_for_Work_LLL_Comments_3__c,Resilience_Comments_1__c,Resilience_Comments_2__c,Resilience_Comments_3__c,Self_Awareness_Comments_1__c,Self_Awareness_Comments_2__c,Self_Awareness_Comments_3__c,Self_Efficiency_Comments_1__c,Self_Efficiency_Comments_2__c,Self_Efficiency_Comments_3__c,Self_Esteem_Comments_1__c,Self_Esteem_Comments_2__c,Self_Esteem_Comments_3__c,Social_Skills_Comments_1__c,Social_Skills_Comments_2__c,Social_Skills_Comments_3__c FROM Outcome__c WHERE Id = '"
 						+ evaluation.getSalesForceId() + "'");

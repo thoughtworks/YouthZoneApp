@@ -19,7 +19,7 @@
     <string name="search_hint">Search members</string>
     <string name="title_activity_select_evaluation">Evaluation Options</string>
     <string name="new_evaluation">New evaluation</string>
-    <string name="title_activity_pick_outcome">Choose an Outcome</string>
+    <string name="title_activity_pick_theme">Choose a Theme</string>
     <string name="project_member_default_text">Project Member</string>
     <string name="save_in_progress_button">Save for later</string>
     <string name="complete_evaluation_button">Submit evaluation</string>

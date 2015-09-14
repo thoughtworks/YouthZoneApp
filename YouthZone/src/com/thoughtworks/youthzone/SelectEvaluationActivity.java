@@ -42,12 +42,17 @@ public class SelectEvaluationActivity extends Activity {
 		evaluation.initialiseDataForThemes(questionsToOutcomes);
 		((YouthZoneApp) getApplication()).setSelectedInProgressEvaluation(evaluation);
 
-		Intent intent = new Intent(this, PickOutcomeActivity.class);
+		Intent intent = new Intent(this, PickThemeForInProgressActivity.class);
 		startActivity(intent);
 	}
 
 	public void onContinueEvaluationClick(View view) {
 		Intent intent = new Intent(this, PickInProgressEvaluationActivity.class);
+		startActivity(intent);
+	}
+	
+	public void onPreviousEvaluationClick(View view) {
+		Intent intent = new Intent(this, PickPreviousEvaluationActivity.class);
 		startActivity(intent);
 	}
 

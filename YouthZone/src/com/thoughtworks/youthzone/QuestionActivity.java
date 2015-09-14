@@ -81,7 +81,7 @@ public class QuestionActivity extends Activity {
 			questionTextview.setText(currentQuestionData.getQuestion());
 			setRatingBar();
 		} else {
-			Intent intent = new Intent(this, PickOutcomeActivity.class);
+			Intent intent = new Intent(this, PickThemeForInProgressActivity.class);
 			startActivity(intent);
 		}
 	}
@@ -93,7 +93,7 @@ public class QuestionActivity extends Activity {
 			questionTextview.setText(currentQuestionData.getQuestion());
 			setRatingBar();
 		} else {
-			Intent intent = new Intent(this, PickOutcomeActivity.class);
+			Intent intent = new Intent(this, PickThemeForInProgressActivity.class);
 			startActivity(intent);
 		}
 	}

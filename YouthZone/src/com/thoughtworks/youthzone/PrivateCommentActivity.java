@@ -33,7 +33,7 @@ public class PrivateCommentActivity extends Activity {
 
 		((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation().setComment(comment);
 
-		Intent intent = new Intent(this, PickOutcomeActivity.class);
+		Intent intent = new Intent(this, PickThemeForInProgressActivity.class);
 		startActivity(intent);
 	}
 

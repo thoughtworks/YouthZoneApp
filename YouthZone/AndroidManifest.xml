@@ -42,8 +42,8 @@
         <activity
             android:name=".PickProjectActivity"
             android:label="@string/title_activity_pick_project"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thoughtworks.youthzone.MainActivity" />
@@ -51,8 +51,8 @@
         <activity
             android:name=".PickMemberActivity"
             android:label="@string/title_activity_pick_member"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".PickProjectActivity" >
+            android:parentActivityName=".PickProjectActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thoughtworks.youthzone.PickProjectActivity" />
@@ -60,17 +60,17 @@
         <activity
             android:name=".SelectEvaluationActivity"
             android:label="@string/title_activity_select_evaluation"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".PickMemberActivity" >
+            android:parentActivityName=".PickMemberActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thoughtworks.youthzone.PickMemberActivity" />
         </activity>
         <activity
-            android:name=".PickOutcomeActivity"
-            android:label="@string/title_activity_pick_outcome"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".SelectEvaluationActivity" >
+            android:name=".PickThemeForInProgressActivity"
+            android:label="@string/title_activity_pick_theme"
+            android:parentActivityName=".SelectEvaluationActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thoughtworks.youthzone.SelectEvaluationActivity" />
@@ -78,8 +78,8 @@
         <activity
             android:name=".QuestionActivity"
             android:label="@string/title_activity_question"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".PickOutcomeActivity" >
+            android:parentActivityName=".PickThemeForInProgressActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thoughtworks.youthzone.PickOutcomeActivity" />
@@ -87,8 +87,8 @@
         <activity
             android:name=".PickInProgressEvaluationActivity"
             android:label="@string/title_activity_pick_in_progress_evaluation"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".SelectEvaluationActivity" >
+            android:parentActivityName=".SelectEvaluationActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.thoughtworks.youthzone.SelectEvaluationActivity" />
@@ -102,6 +102,22 @@
             android:name=".MemberCommentActivity"
             android:label="@string/title_activity_member_comment"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".PickPreviousEvaluationActivity"
+            android:label="@string/title_activity_pick_in_progress_evaluation"
+            android:parentActivityName=".SelectEvaluationActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thoughtworks.youthzone.SelectEvaluationActivity" />
+        </activity>
+        <activity
+            android:name=".PickThemeForPreviousActivity"
+            android:label="@string/title_activity_pick_theme"
+            android:parentActivityName=".PickPreviousEvaluationActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.thoughtworks.youthzone.PickPreviousEvaluationActivity" />
         </activity>
     </application>
 
