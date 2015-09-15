@@ -41,7 +41,7 @@ public class PickThemeForInProgressActivity extends Activity {
 
 		evaluation = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation();
 
-		adapter = new ThemeListAdapter(this, R.layout.onside_list_item, evaluation.getThemeData());
+		adapter = new ThemeListAdapter(this, R.layout.onside_list_item, evaluation.getAllThemeData());
 		themesListView.setAdapter(adapter);
 
 		themesListView.setOnItemClickListener(new OnItemClickListener() {

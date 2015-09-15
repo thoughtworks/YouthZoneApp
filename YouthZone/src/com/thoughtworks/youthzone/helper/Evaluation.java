@@ -76,7 +76,7 @@ public class Evaluation {
 		return memberComments;
 	}
 	
-	public List<ThemeData> getThemeData() {
+	public List<ThemeData> getAllThemeData() {
 		return themeData;
 	}
 	
