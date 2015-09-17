@@ -20,6 +20,7 @@
         android:ems="10"
         android:gravity="top|start"
         android:inputType="textMultiLine"
+        android:maxLength="9990"
         android:labelFor="@+id/private_comment" >
 
         <requestFocus />
