@@ -39,7 +39,7 @@ public class PickThemeForPreviousActivity extends Activity {
 		if (comment == null || comment.isEmpty()) {
 			comment = "N/A";
 		}
-		String commentToDisplay = "Staff comment:\n\"" + comment + "\"";
+		String commentToDisplay = "Staff comment:\n" + comment;
 		staffCommentTextView.setText(commentToDisplay);
 
 		adapter = new ThemeListCompleteAdapter(this, R.layout.onside_theme_list_item, evaluation.getAllThemeData());

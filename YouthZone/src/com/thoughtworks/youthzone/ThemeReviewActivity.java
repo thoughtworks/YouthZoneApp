@@ -47,8 +47,8 @@ public class ThemeReviewActivity extends Activity {
 				rating = "N/A";
 			}
 
-			String question = "\nStatement: " + qd.getQuestion() + "\n\nRating: " + rating + "\n\nComment:\n\""
-					+ comment + "\"\n";
+			String question = "\nStatement: " + qd.getQuestion() + "\n\nRating: " + rating + "\n\nComment:\n"
+					+ comment + "\n";
 			questions.add(question);
 		}
 
