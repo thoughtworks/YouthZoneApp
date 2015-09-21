@@ -42,12 +42,15 @@ public class ThemeReviewActivity extends Activity {
 				comment = "N/A";
 			}
 			
-			String rating = qd.getRating().toString();
-			if (rating.equals("0.0")) {
-				rating = "N/A";
+			Integer rating = qd.getRating().intValue();
+			String ratingString = null;
+			if (rating == 0) {
+				ratingString = "N/A";
+			} else {
+				ratingString = rating.toString();
 			}
 
-			String question = "\nStatement: " + qd.getQuestion() + "\n\nRating: " + rating + "\n\nComment:\n"
+			String question = "\nStatement: " + qd.getQuestion() + "\n\nRating: " + ratingString + "\n\nComment:\n"
 					+ comment + "\n";
 			questions.add(question);
 		}

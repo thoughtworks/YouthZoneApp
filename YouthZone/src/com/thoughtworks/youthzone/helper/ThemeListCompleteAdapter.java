@@ -67,7 +67,7 @@ public class ThemeListCompleteAdapter extends ArrayAdapter<ThemeData> {
 			if(noOfQuestions == 0){
 				textViewRating.setText(String.format("N/A"));
 			} else {
-				textViewRating.setText(String.format("%.1f", sum / noOfQuestions));
+				textViewRating.setText(String.format("%.0f", sum / noOfQuestions));
 			}
 		}
 
