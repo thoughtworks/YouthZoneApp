@@ -141,12 +141,12 @@ public class SalesforceFacade implements DatastoreFacade {
 		RestResponse result = client.sendSync(restRequest);
 		return result.isSuccess();
 	}
-	
-	private Map<String, Object> filterEmptyRatings(Map<String, Object> outcomesToRatings){
+
+	private Map<String, Object> filterEmptyRatings(Map<String, Object> outcomesToRatings) {
 		Map<String, Object> filteredOutcomesToRatings = new LinkedHashMap<String, Object>();
-		for(String outcome : outcomesToRatings.keySet()){
-			Float value = (Float)outcomesToRatings.get(outcome);
-			if(value  > 0.0f){
+		for (String outcome : outcomesToRatings.keySet()) {
+			Float value = (Float) outcomesToRatings.get(outcome);
+			if (value > 0.0f) {
 				filteredOutcomesToRatings.put(outcome, value);
 			}
 		}
@@ -158,28 +158,28 @@ public class SalesforceFacade implements DatastoreFacade {
 		JSONArray records = sendRequest(
 				"SELECT Date__c, Name, Youth_Zone_Comments__c, Id FROM Outcome__c WHERE Status__c = 'In Progress' AND Project1__c = '"
 						+ projectName + "' AND Member_Name__r.Name = '" + memberName + "'");
-		
+
 		return getEvaluations(records);
 	}
-	
+
 	@Override
 	public List<Evaluation> getCompletedEvaluations(String projectName, String memberName) throws Exception {
 		JSONArray records = sendRequest(
 				"SELECT Date__c, Name, Youth_Zone_Comments__c, Id FROM Outcome__c WHERE Status__c = 'Complete' AND Project1__c = '"
 						+ projectName + "' AND Member_Name__r.Name = '" + memberName + "'");
-		
+
 		return getEvaluations(records);
 	}
-	
+
 	@Override
 	public List<Evaluation> getAllEvaluations(String projectName, String memberName) throws Exception {
 		JSONArray records = sendRequest(
-				"SELECT Date__c, Name, Youth_Zone_Comments__c, Id FROM Outcome__c WHERE Project1__c = '"
-						+ projectName + "' AND Member_Name__r.Name = '" + memberName + "'");
-		
+				"SELECT Date__c, Name, Youth_Zone_Comments__c, Id FROM Outcome__c WHERE Project1__c = '" + projectName
+						+ "' AND Member_Name__r.Name = '" + memberName + "'");
+
 		return getEvaluations(records);
 	}
-	
+
 	private List<Evaluation> getEvaluations(JSONArray records) throws Exception {
 		List<Evaluation> inProgressEvaluations = new ArrayList<Evaluation>();
 		for (int i = 0; i < records.length(); i++) {

@@ -41,7 +41,7 @@ public class ThemeReviewActivity extends Activity {
 			if (comment == null || comment.isEmpty()) {
 				comment = "N/A";
 			}
-			
+
 			Integer rating = qd.getRating().intValue();
 			String ratingString = null;
 			if (rating == 0) {

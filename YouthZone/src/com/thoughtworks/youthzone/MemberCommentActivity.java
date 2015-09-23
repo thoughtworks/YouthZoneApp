@@ -21,7 +21,7 @@ public class MemberCommentActivity extends Activity {
 		setContentView(R.layout.activity_member_comment);
 
 		memberComment = getIntent().getStringExtra("memberComment");
-		
+
 		editText = (EditText) findViewById(R.id.member_comment);
 		editText.setText(memberComment);
 	}

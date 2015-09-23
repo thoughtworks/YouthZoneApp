@@ -33,7 +33,7 @@ public class SelectEvaluationActivity extends Activity {
 
 		inProgressEvaluations = (Button) findViewById(R.id.in_progress_evaluations);
 		inProgressEvaluations.setEnabled(false);
-		
+
 		completeEvaluations = (Button) findViewById(R.id.view_previous_evaluations);
 		completeEvaluations.setEnabled(false);
 
@@ -54,7 +54,7 @@ public class SelectEvaluationActivity extends Activity {
 		Intent intent = new Intent(this, PickInProgressEvaluationActivity.class);
 		startActivity(intent);
 	}
-	
+
 	public void onPreviousEvaluationClick(View view) {
 		Intent intent = new Intent(this, PickPreviousEvaluationActivity.class);
 		startActivity(intent);

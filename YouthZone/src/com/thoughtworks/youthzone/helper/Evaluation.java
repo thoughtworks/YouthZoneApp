@@ -48,12 +48,12 @@ public class Evaluation {
 
 	public Map<String, Object> getOutcomesToRatings() {
 		Map<String, Object> outcomesToRatings = new LinkedHashMap<String, Object>();
-		for(ThemeData theme : themeData){
-			for(QuestionData question : theme.getQuestions()){
+		for (ThemeData theme : themeData) {
+			for (QuestionData question : theme.getQuestions()) {
 				outcomesToRatings.put(question.getOutcome(), question.getRating());
 			}
 		}
-		
+
 		return outcomesToRatings;
 	}
 
@@ -67,49 +67,51 @@ public class Evaluation {
 
 	public Map<String, String> getMemberComments() {
 		Map<String, String> memberComments = new LinkedHashMap<String, String>();
-		for(ThemeData theme : themeData){
-			for(QuestionData question : theme.getQuestions()){
+		for (ThemeData theme : themeData) {
+			for (QuestionData question : theme.getQuestions()) {
 				memberComments.put(question.getMemberCommentField(), question.getMemberComment());
 			}
 		}
-		
+
 		return memberComments;
 	}
-	
+
 	public List<ThemeData> getAllThemeData() {
 		return themeData;
 	}
-	
-	
+
 	public void initialiseDataForThemes(Map<String, String> questionsToOutcomes) {
 		generateThemeList(questionsToOutcomes, null, null);
 	}
-	
-	public void initialiseDataForThemes(Map<String, String> questionsToOutcomes, Map<String, Object> outcomesToRatings, Map<String, String> memberComments){
+
+	public void initialiseDataForThemes(Map<String, String> questionsToOutcomes, Map<String, Object> outcomesToRatings,
+			Map<String, String> memberComments) {
 		generateThemeList(questionsToOutcomes, outcomesToRatings, memberComments);
 	}
-	
-	private void generateThemeList(Map<String, String> questionsToOutcomes, Map<String, Object> outcomesToRatings, Map<String, String> memberComments){
-		
+
+	private void generateThemeList(Map<String, String> questionsToOutcomes, Map<String, Object> outcomesToRatings,
+			Map<String, String> memberComments) {
+
 		boolean newEvaluationStarted = true;
-		if(outcomesToRatings != null && memberComments != null){
+		if (outcomesToRatings != null && memberComments != null) {
 			newEvaluationStarted = false;
 		}
-		
+
 		for (ThemeToOutcome theme : ThemeToOutcome.values()) {
 			List<QuestionData> questions = new ArrayList<QuestionData>();
 			for (String question : questionsToOutcomes.keySet()) {
 				if (theme.getOutcomes().contains(questionsToOutcomes.get(question))) {
 					String outcomeField = questionsToOutcomes.get(question);
 					String commentField = outcomeField.replace("Outcome", "Comments");
-					if(newEvaluationStarted){
+					if (newEvaluationStarted) {
 						questions.add(new QuestionData(outcomeField, question, 0.0f, "", commentField));
 					} else {
 						Float rating = (Float) outcomesToRatings.get(outcomeField);
 						if (rating == null) {
 							rating = 0.0f;
 						}
-						questions.add(new QuestionData(outcomeField, question, rating, memberComments.get(commentField), commentField));
+						questions.add(new QuestionData(outcomeField, question, rating, memberComments.get(commentField),
+								commentField));
 					}
 				}
 			}
@@ -118,20 +120,19 @@ public class Evaluation {
 			}
 		}
 	}
-	
-	public ThemeData getThemeDataByTitle(String title){
-		for(ThemeData themeData : themeData){
+
+	public ThemeData getThemeDataByTitle(String title) {
+		for (ThemeData themeData : themeData) {
 			if (themeData.getName().equals(title)) {
 				return themeData;
 			}
 		}
 		return null;
 	}
-	
 
 	@Override
 	public String toString() {
 		return date + " | " + name;
 	}
-	
+
 }

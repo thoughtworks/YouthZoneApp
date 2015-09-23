@@ -7,8 +7,9 @@ public class QuestionData {
 	private Float rating;
 	private String memberComment;
 	private String memberCommentField;
-	
-	public QuestionData(String outcome, String question, Float rating, String memberComment, String memberCommentField) {
+
+	public QuestionData(String outcome, String question, Float rating, String memberComment,
+			String memberCommentField) {
 		super();
 		this.outcome = outcome;
 		this.question = question;
@@ -56,5 +57,5 @@ public class QuestionData {
 	public void setMemberCommentField(String memberCommentField) {
 		this.memberCommentField = memberCommentField;
 	}
-	
+
 }

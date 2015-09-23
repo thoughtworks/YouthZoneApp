@@ -23,7 +23,7 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class PickPreviousEvaluationActivity extends Activity {
-	
+
 	private ListView previousEvaluationsListView;
 	private ArrayAdapter<String> adapter;
 
@@ -128,8 +128,7 @@ public class PickPreviousEvaluationActivity extends Activity {
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.cancel();
-						Intent intent = new Intent(PickPreviousEvaluationActivity.this,
-								SelectEvaluationActivity.class);
+						Intent intent = new Intent(PickPreviousEvaluationActivity.this, SelectEvaluationActivity.class);
 						startActivity(intent);
 						finish();
 					}
@@ -153,11 +152,11 @@ public class PickPreviousEvaluationActivity extends Activity {
 		@Override
 		protected Void doInBackground(Evaluation... params) {
 			try {
-				
+
 				Evaluation selectedEvaluation = params[0];
 				Map<String, Object> outcomesToRatings = datastoreFacade.getRatingsForEvaluation(selectedEvaluation);
 				Map<String, String> memberComments = datastoreFacade.getMemberCommentsForEvaluation(selectedEvaluation);
-				
+
 				Map<String, String> questionsToOutcomes = ((YouthZoneApp) getApplication()).getQuestionsToOutcomes();
 
 				selectedEvaluation.initialiseDataForThemes(questionsToOutcomes, outcomesToRatings, memberComments);

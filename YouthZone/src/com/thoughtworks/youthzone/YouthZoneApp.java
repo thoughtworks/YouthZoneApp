@@ -52,7 +52,7 @@ public class YouthZoneApp extends Application {
 	private String selectedThemeTitle;
 
 	private String interviewerName;
-	
+
 	private List<ThemeData> themeData;
 
 	@Override
@@ -131,7 +131,7 @@ public class YouthZoneApp extends Application {
 	public List<ThemeData> getThemes() {
 		return themeData;
 	}
-	
+
 	public void setThemes(List<ThemeData> themeDatas) {
 		this.themeData = themeDatas;
 	}

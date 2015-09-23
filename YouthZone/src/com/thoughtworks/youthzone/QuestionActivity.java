@@ -26,13 +26,10 @@ public class QuestionActivity extends Activity {
 	private int questionIndex = -1;
 
 	private QuestionData currentQuestionData;
-	
-	private final String[] descriptions = {"","I’m not thinking about this at the moment",
-			                                  "I’m interested but don’t know what to do",
-				                              "I’ve started to do something about this",
-				                              "I’m working well on this",
-				                              "This is part of my everyday life"};  
 
+	private final String[] descriptions = { "", "I’m not thinking about this at the moment",
+			"I’m interested but don’t know what to do", "I’ve started to do something about this",
+			"I’m working well on this", "This is part of my everyday life" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,23 +40,23 @@ public class QuestionActivity extends Activity {
 		ratingBar = (RatingBar) findViewById(R.id.question_ratingbar);
 
 		String themeTitle = ((YouthZoneApp) getApplication()).getSelectedThemeTitle();
-		
+
 		Evaluation inProgressEvaluation = ((YouthZoneApp) getApplication()).getSelectedInProgressEvaluation();
-		
+
 		ThemeData themeData = inProgressEvaluation.getThemeDataByTitle(themeTitle);
-		
+
 		questionData = themeData.getQuestions();
 
 		questionIndex = getIntent().getIntExtra("questionIndex", 0);
-		
+
 		currentQuestionData = questionData.get(questionIndex);
 		String memberComment = getIntent().getStringExtra("memberComment");
-		if(memberComment == null){
+		if (memberComment == null) {
 			memberComment = currentQuestionData.getMemberComment();
-		} else {			
+		} else {
 			currentQuestionData.setMemberComment(memberComment);
 		}
-		
+
 		setupNextQuestion();
 
 		ratingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
@@ -104,7 +101,7 @@ public class QuestionActivity extends Activity {
 		int position = rating.intValue();
 		setDescription(position);
 	}
-	
+
 	private void setDescription(int position) {
 		TextView description = (TextView) findViewById(R.id.description_textview);
 		description.setText(descriptions[position]);

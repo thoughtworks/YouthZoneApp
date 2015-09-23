@@ -15,7 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class ThemeListCompleteAdapter extends ArrayAdapter<ThemeData> {
-	
+
 	private int resource;
 
 	public ThemeListCompleteAdapter(Context context, int textViewResourceId) {
@@ -59,12 +59,12 @@ public class ThemeListCompleteAdapter extends ArrayAdapter<ThemeData> {
 
 			if (themeData.isComplete()) {
 				textViewTitle.setBackgroundColor(0x707bc143);
-				textViewTitle.setCompoundDrawablesWithIntrinsicBounds(getListIcon(view, R.drawable.check_mark), null, null,
-						null);
+				textViewTitle.setCompoundDrawablesWithIntrinsicBounds(getListIcon(view, R.drawable.check_mark), null,
+						null, null);
 			}
-			
+
 			TextView textViewRating = (TextView) view.findViewById(R.id.label_rating);
-			if(noOfQuestions == 0){
+			if (noOfQuestions == 0) {
 				textViewRating.setText(String.format("N/A"));
 			} else {
 				textViewRating.setText(String.format("%.0f", sum / noOfQuestions));
