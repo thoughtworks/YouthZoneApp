@@ -2,6 +2,7 @@ apply plugin: 'android'
 
 dependencies {
   compile project(':libs:SalesforceSDK')
+//  compile 'com.salesforce.mobilesdk:SalesforceSDK:6.0.0'
 }
 
 android {
