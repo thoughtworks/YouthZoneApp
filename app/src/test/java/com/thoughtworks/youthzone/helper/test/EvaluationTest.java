@@ -23,9 +23,9 @@ public class EvaluationTest {
 	@Before
 	public void setup() {
 		evaluation = new Evaluation();
-		questionsToOutcomes = new LinkedHashMap<String, String>();
-		outcomesToRatings = new LinkedHashMap<String, Object>();
-		memberComments = new LinkedHashMap<String, String>();
+		questionsToOutcomes = new LinkedHashMap<>();
+		outcomesToRatings = new LinkedHashMap<>();
+		memberComments = new LinkedHashMap<>();
 		
 		questionsToOutcomes.put("a question", "Confidence_Outcome_1__c");
 		outcomesToRatings.put("Confidence_Outcome_1__c", 3.0f);

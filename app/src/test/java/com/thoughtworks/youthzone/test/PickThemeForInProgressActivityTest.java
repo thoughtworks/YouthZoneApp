@@ -38,8 +38,7 @@ public class PickThemeForInProgressActivityTest extends ActivityUnitTestCase<Pic
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-		
+
 		evaluation = mock(Evaluation.class);
 		
 		QuestionData question = new QuestionData("", "", 1.0f, "", "");
@@ -71,14 +70,14 @@ public class PickThemeForInProgressActivityTest extends ActivityUnitTestCase<Pic
 		application.setInterviewerName("name");
 		setApplication(application);
 
-		pickThemeForInProgressIntent = new Intent(getInstrumentation().getTargetContext(), PickThemeForInProgressActivity.class);
+		pickThemeForInProgressIntent = new Intent(null, PickThemeForInProgressActivity.class);
 	}
 	
 	@SmallTest
 	public void testShouldHaveListViewPopulatedWithCorrectThemes() {
 		startActivity(pickThemeForInProgressIntent, null, null);
 		
-		final ListView themeList = (ListView) getActivity()
+		final ListView themeList = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.themes_listview);
 		
 		String listItem0 = ((ThemeData) themeList.getItemAtPosition(0)).getName();
@@ -98,7 +97,7 @@ public class PickThemeForInProgressActivityTest extends ActivityUnitTestCase<Pic
 	public void testShouldStoreCorrectThemeTitleWhenListItemClicked() {
 		startActivity(pickThemeForInProgressIntent, null, null);
 		
-		final ListView themeList = (ListView) getActivity()
+		final ListView themeList = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.themes_listview);
 		themeList.performItemClick(themeList.getAdapter().getView(0, null, null), 0,
 				themeList.getAdapter().getItemId(0));
@@ -115,7 +114,7 @@ public class PickThemeForInProgressActivityTest extends ActivityUnitTestCase<Pic
 			e.printStackTrace();
 		}
 
-		final ListView themeList = (ListView) getActivity()
+		final ListView themeList = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.themes_listview);
 		themeList.performItemClick(themeList.getAdapter().getView(0, null, null), 0,
 				themeList.getAdapter().getItemId(0));
@@ -128,7 +127,7 @@ public class PickThemeForInProgressActivityTest extends ActivityUnitTestCase<Pic
 	public void testShouldLaunchPrivateCommentActivityWithIntent() {
 		startActivity(pickThemeForInProgressIntent, null, null);
 		
-		final Button addComment = (Button) getActivity()
+		final Button addComment = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.add_comment_button);
 		addComment.performClick();
 		
@@ -142,7 +141,7 @@ public class PickThemeForInProgressActivityTest extends ActivityUnitTestCase<Pic
 		when(evaluation.getSalesForceId()).thenReturn(null);
 		when(salesforceFacade.uploadNewOutcome(projectMember, evaluation, "name")).thenReturn(true);
 		
-		final Button saveForLater = (Button) getActivity()
+		final Button saveForLater = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.submit_in_progress_button);
 		saveForLater.performClick();
 		
@@ -162,7 +161,7 @@ public class PickThemeForInProgressActivityTest extends ActivityUnitTestCase<Pic
 		when(evaluation.getStatus()).thenReturn("In Progress");
 		when(salesforceFacade.updateExistingOutcome(evaluation, "name")).thenReturn(true);
 		
-		final Button saveForLater = (Button) getActivity()
+		final Button saveForLater = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.submit_in_progress_button);
 		saveForLater.performClick();
 		

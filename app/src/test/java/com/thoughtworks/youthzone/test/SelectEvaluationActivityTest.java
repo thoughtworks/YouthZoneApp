@@ -29,7 +29,7 @@ public class SelectEvaluationActivityTest extends ActivityUnitTestCase<SelectEva
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+
 		salesforceFacade = mock(SalesforceFacade.class);
 		Map<String, String> questionsToOutcomes = new LinkedHashMap<String, String>();
 		questionsToOutcomes.put("question1", "Confidence_Outcome_1__c");
@@ -42,7 +42,7 @@ public class SelectEvaluationActivityTest extends ActivityUnitTestCase<SelectEva
 
 		setApplication(application);
 
-		selectEvaluationIntent = new Intent(getInstrumentation().getTargetContext(), SelectEvaluationActivity.class);
+		selectEvaluationIntent = new Intent(null, SelectEvaluationActivity.class);
 	}
 
 	@MediumTest
@@ -55,7 +55,7 @@ public class SelectEvaluationActivityTest extends ActivityUnitTestCase<SelectEva
 			e.printStackTrace();
 		}
 
-		final Button startEvaluationButton = (Button) getActivity()
+		final Button startEvaluationButton = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.new_evaluation_button);
 		startEvaluationButton.performClick();
 

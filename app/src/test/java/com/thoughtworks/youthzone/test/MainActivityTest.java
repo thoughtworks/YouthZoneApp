@@ -3,6 +3,7 @@ package com.thoughtworks.youthzone.test;
 import com.thoughtworks.youthzone.MainActivity;
 import com.thoughtworks.youthzone.YouthZoneApp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.test.ActivityUnitTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -25,20 +26,14 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 		application = new YouthZoneApp();
 		setApplication(application);
 
-		mainIntent = new Intent(getInstrumentation().getTargetContext(), MainActivity.class);
+		mainIntent = new Intent(null, MainActivity.class);
 	}
 
 	@SmallTest
 	public void testShouldLaunchPickProjectActivityWithIntent() {
-		// TO-DO: find better way to synchronise
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		startActivity(mainIntent, null, null);
 
-		final Button pickProjectButton = (Button) getActivity()
+		final Button pickProjectButton = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.get_started);
 		pickProjectButton.performClick();
 
@@ -50,10 +45,10 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 	public void testShouldStoreStaffNameWhenGetStartedButtonClicked() {
 		startActivity(mainIntent, null, null);
 		
-		final EditText editText = (EditText) getActivity().findViewById(com.thoughtworks.youthzone.R.id.staff_name_edit);
+		final EditText editText = getActivity().findViewById(com.thoughtworks.youthzone.R.id.staff_name_edit);
 		editText.setText("name");
 
-		final Button pickProjectButton = (Button) getActivity()
+		final Button pickProjectButton = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.get_started);
 		pickProjectButton.performClick();
 

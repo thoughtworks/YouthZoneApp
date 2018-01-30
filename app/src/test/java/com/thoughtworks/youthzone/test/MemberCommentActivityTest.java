@@ -24,24 +24,22 @@ public class MemberCommentActivityTest extends ActivityUnitTestCase<MemberCommen
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
-		
-		Evaluation evaluation = mock(Evaluation.class); 
+		Evaluation evaluation = mock(Evaluation.class);
 
 		application = new YouthZoneApp();
 		application.setSelectedInProgressEvaluation(evaluation);
 
 		setApplication(application);
 
-		memberCommentIntent = new Intent(getInstrumentation().getTargetContext(), PrivateCommentActivity.class);
+		memberCommentIntent = new Intent(null, PrivateCommentActivity.class);
 		memberCommentIntent.putExtra("memberComment", "a comment");
 	}
 
 	public void testShouldLaunchPickOutcomeActivityWithIntent() {
 		startActivity(memberCommentIntent, null, null);
 
-		final Button done = (Button) getActivity()
+		final Button done = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.save_member_comment_button);
 		done.performClick();
 
@@ -52,7 +50,7 @@ public class MemberCommentActivityTest extends ActivityUnitTestCase<MemberCommen
 	public void testShouldDisplayCorrectCommentInTextField() {
 		startActivity(memberCommentIntent, null, null);
 
-		final EditText editText = (EditText) getActivity().findViewById(com.thoughtworks.youthzone.R.id.member_comment);
+		final EditText editText = getActivity().findViewById(com.thoughtworks.youthzone.R.id.member_comment);
 		String comment = editText.getText().toString();
 
 		assertEquals("a comment", comment);
@@ -61,10 +59,10 @@ public class MemberCommentActivityTest extends ActivityUnitTestCase<MemberCommen
 	public void testShouldStoreCommentWhenDoneButtonClicked() {
 		startActivity(memberCommentIntent, null, null);
 		
-		final EditText editText = (EditText) getActivity().findViewById(com.thoughtworks.youthzone.R.id.member_comment);
+		final EditText editText = getActivity().findViewById(com.thoughtworks.youthzone.R.id.member_comment);
 		editText.setText("comment");
 		
-		final Button done = (Button) getActivity()
+		final Button done = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.save_member_comment_button);
 		done.performClick();
 		

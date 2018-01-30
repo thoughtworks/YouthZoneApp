@@ -35,11 +35,10 @@ public class PickPreviousEvaluationActivityTest extends ActivityUnitTestCase<Pic
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		salesforceFacade = mock(SalesforceFacade.class);
 		projectMember = mock(ProjectMember.class);
 
-		List<Evaluation> previousEvaluations = new ArrayList<Evaluation>();
+		List<Evaluation> previousEvaluations = new ArrayList<>();
 		evaluation = mock(Evaluation.class);
 		when(evaluation.toString()).thenReturn("evaluation details");
 		previousEvaluations.add(evaluation);
@@ -53,20 +52,13 @@ public class PickPreviousEvaluationActivityTest extends ActivityUnitTestCase<Pic
 
 		setApplication(application);
 
-		pickPreviousEvaluationIntent = new Intent(getInstrumentation().getTargetContext(),
-				PickInProgressEvaluationActivity.class);
+		pickPreviousEvaluationIntent = new Intent(null, PickInProgressEvaluationActivity.class);
 	}
 	
 	public void testShouldPopulateListViewWithCorrectData() {
 		startActivity(pickPreviousEvaluationIntent, null, null);
-		// TODO: find better way to synchronise
-		try {
-			Thread.sleep(500);
-			verify(salesforceFacade).getCompletedEvaluations(anyString(), anyString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		final ListView previousEvaluationsListView = (ListView) getActivity()
+
+		final ListView previousEvaluationsListView = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.previous_evaluations_listview);
 		
 		String listItem = (String) previousEvaluationsListView.getItemAtPosition(0);
@@ -76,13 +68,8 @@ public class PickPreviousEvaluationActivityTest extends ActivityUnitTestCase<Pic
 
 	public void testShouldLaunchPickThemeForPreviousActivityWithIntent() {
 		startActivity(pickPreviousEvaluationIntent, null, null);
-		// TODO: find better way to synchronise
-		try {
-			Thread.sleep(500);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		final ListView previousEvaluationsListView = (ListView) getActivity()
+
+		final ListView previousEvaluationsListView = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.previous_evaluations_listview);
 
 		previousEvaluationsListView.performItemClick(

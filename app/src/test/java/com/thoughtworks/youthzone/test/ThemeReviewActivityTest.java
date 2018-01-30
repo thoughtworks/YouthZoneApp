@@ -41,12 +41,11 @@ public class ThemeReviewActivityTest extends ActivityUnitTestCase<ThemeReviewAct
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-		
+
 		evaluation = mock(Evaluation.class);
 		
 		QuestionData question = new QuestionData("", questionText, rating, comment, "");
-		List<QuestionData> questions = new ArrayList<QuestionData>();
+		List<QuestionData> questions = new ArrayList<>();
 		questions.add(question);
 		
 		ThemeData themeData = new ThemeData(ThemeToOutcome.CONFIDENCE.getTitle(), questions); 
@@ -63,14 +62,14 @@ public class ThemeReviewActivityTest extends ActivityUnitTestCase<ThemeReviewAct
 		application.setInterviewerName("name");
 		setApplication(application);
 
-		themeReviewIntent = new Intent(getInstrumentation().getTargetContext(), PickThemeForInProgressActivity.class);
+		themeReviewIntent = new Intent(null, PickThemeForInProgressActivity.class);
 	}
 	
 	@SmallTest
 	public void testShouldHaveListViewPopulatedWithCorrectData() {
 		startActivity(themeReviewIntent, null, null);
 		
-		final ListView themeList = (ListView) getActivity()
+		final ListView themeList = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.review_listview);
 		final TextView questionData = (TextView) themeList.getAdapter().getView(0, null, null);
 		

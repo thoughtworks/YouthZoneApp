@@ -34,7 +34,6 @@ public class QuestionActivityTest extends ActivityUnitTestCase<QuestionActivity>
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		salesforceFacade = mock(SalesforceFacade.class);
 
 		YouthZoneApp application = new YouthZoneApp();
@@ -56,23 +55,23 @@ public class QuestionActivityTest extends ActivityUnitTestCase<QuestionActivity>
 
 		setApplication(application);
 
-		questionIntent = new Intent(getInstrumentation().getTargetContext(), QuestionActivity.class);
+		questionIntent = new Intent(null, QuestionActivity.class);
 	}
 
 	@MediumTest
 	public void testShouldUpdateCurrentQuestionWhenNextButtonClicked() {
 		startActivity(questionIntent, null, null);
 
-		TextView currentQuestion = (TextView) getActivity()
+		TextView currentQuestion = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.question_textview);
 
 		assertEquals("question1", currentQuestion.getText());
 
-		final Button nextQuestionButton = (Button) getActivity()
+		final Button nextQuestionButton = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.next_question_button);
 		nextQuestionButton.performClick();
 
-		currentQuestion = (TextView) getActivity().findViewById(com.thoughtworks.youthzone.R.id.question_textview);
+		currentQuestion = getActivity().findViewById(com.thoughtworks.youthzone.R.id.question_textview);
 		assertEquals("question2", currentQuestion.getText());
 	}
 
@@ -80,16 +79,16 @@ public class QuestionActivityTest extends ActivityUnitTestCase<QuestionActivity>
 	public void testShouldUpdateCurrentQuestionWhenBackButtonClicked() {
 		startActivity(questionIntent, null, null);
 
-		TextView currentQuestion = (TextView) getActivity()
+		TextView currentQuestion = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.question_textview);
 
 		assertEquals("question1", currentQuestion.getText());
 
-		final Button nextQuestionButton = (Button) getActivity()
+		final Button nextQuestionButton = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.next_question_button);
 		nextQuestionButton.performClick();
 
-		final Button previousQuestionButton = (Button) getActivity()
+		final Button previousQuestionButton = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.previous_question_button);
 		previousQuestionButton.performClick();
 
@@ -101,15 +100,15 @@ public class QuestionActivityTest extends ActivityUnitTestCase<QuestionActivity>
 	public void testShouldSetRatingBarWhenNextButtonClicked() {
 		startActivity(questionIntent, null, null);
 
-		RatingBar ratingBar = (RatingBar) getActivity()
+		RatingBar ratingBar = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.question_ratingbar);
 		assertEquals(1.0f, ratingBar.getRating());
 
-		final Button nextQuestionButton = (Button) getActivity()
+		final Button nextQuestionButton = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.next_question_button);
 		nextQuestionButton.performClick();
 
-		ratingBar = (RatingBar) getActivity().findViewById(com.thoughtworks.youthzone.R.id.question_ratingbar);
+		ratingBar = getActivity().findViewById(com.thoughtworks.youthzone.R.id.question_ratingbar);
 		assertEquals(2.0f, ratingBar.getRating());
 	}
 
@@ -117,7 +116,7 @@ public class QuestionActivityTest extends ActivityUnitTestCase<QuestionActivity>
 	public void testShouldLaunchActivityWhenBackButtonClicked() {
 		startActivity(questionIntent, null, null);
 
-		final Button previousQuestionButton = (Button) getActivity()
+		final Button previousQuestionButton = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.previous_question_button);
 		previousQuestionButton.performClick();
 

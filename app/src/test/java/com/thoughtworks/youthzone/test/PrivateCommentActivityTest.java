@@ -22,7 +22,6 @@ public class PrivateCommentActivityTest extends ActivityUnitTestCase<PrivateComm
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
 		Evaluation evaluation = mock(Evaluation.class);
 		when(evaluation.getComment()).thenReturn("a comment");
@@ -32,13 +31,13 @@ public class PrivateCommentActivityTest extends ActivityUnitTestCase<PrivateComm
 
 		setApplication(application);
 
-		privateCommentIntent = new Intent(getInstrumentation().getTargetContext(), PrivateCommentActivity.class);
+		privateCommentIntent = new Intent(null, PrivateCommentActivity.class);
 	}
 
 	public void testShouldLaunchPickOutcomeActivityWithIntent() {
 		startActivity(privateCommentIntent, null, null);
 
-		final Button done = (Button) getActivity().findViewById(com.thoughtworks.youthzone.R.id.save_comment_button);
+		final Button done = getActivity().findViewById(com.thoughtworks.youthzone.R.id.save_comment_button);
 		done.performClick();
 
 		final Intent launchIntent = getStartedActivityIntent();
@@ -48,7 +47,7 @@ public class PrivateCommentActivityTest extends ActivityUnitTestCase<PrivateComm
 	public void testShouldDisplayCorrectCommentInTextField() {
 		startActivity(privateCommentIntent, null, null);
 
-		final EditText editText = (EditText) getActivity()
+		final EditText editText = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.private_comment);
 		String comment = editText.getText().toString();
 

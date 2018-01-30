@@ -28,9 +28,8 @@ public class PickProjectActivityTest extends ActivityUnitTestCase<PickProjectAct
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		salesforceFacade = mock(SalesforceFacade.class);
-		List<String> projects = new ArrayList<String>();
+		List<String> projects = new ArrayList<>();
 		projects.add("hello");
 		when(salesforceFacade.getProjects()).thenReturn(projects);
 
@@ -39,18 +38,13 @@ public class PickProjectActivityTest extends ActivityUnitTestCase<PickProjectAct
 
 		setApplication(application);
 
-		pickProjectIntent = new Intent(getInstrumentation().getTargetContext(), PickProjectActivity.class);
+		pickProjectIntent = new Intent(null, PickProjectActivity.class);
 	}
 
 	public void testShouldLaunchPickMemberActivityWithIntent() {
 		startActivity(pickProjectIntent, null, null);
-		// TODO: find better way to synchronise
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		final ListView projectList = (ListView) getActivity()
+
+		final ListView projectList = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.projects_listview);
 
 		projectList.performItemClick(projectList.getAdapter().getView(0, null, null), 0,

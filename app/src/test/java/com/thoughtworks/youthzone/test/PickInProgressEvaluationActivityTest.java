@@ -31,7 +31,7 @@ public class PickInProgressEvaluationActivityTest extends ActivityUnitTestCase<P
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+
 		salesforceFacade = mock(SalesforceFacade.class);
 		projectMember = mock(ProjectMember.class);
 
@@ -49,19 +49,12 @@ public class PickInProgressEvaluationActivityTest extends ActivityUnitTestCase<P
 
 		setApplication(application);
 
-		pickInProgressEvaluationIntent = new Intent(getInstrumentation().getTargetContext(),
-				PickInProgressEvaluationActivity.class);
+		pickInProgressEvaluationIntent = new Intent(null, PickInProgressEvaluationActivity.class);
 	}
 	
 	public void testShouldPopulateListViewWithCorrectData() {
 		startActivity(pickInProgressEvaluationIntent, null, null);
-		// TODO: find better way to synchronise
-		try {
-			Thread.sleep(500);
-			verify(salesforceFacade).getInProgressEvaluations(anyString(), anyString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 		final ListView inProgressEvaluationsListView = (ListView) getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.in_progress_evaluations_listview);
 		
@@ -72,12 +65,7 @@ public class PickInProgressEvaluationActivityTest extends ActivityUnitTestCase<P
 
 	public void testShouldLaunchPickThemeForInProgressActivityWithIntent() {
 		startActivity(pickInProgressEvaluationIntent, null, null);
-		// TODO: find better way to synchronise
-		try {
-			Thread.sleep(500);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 		final ListView inProgressEvaluationsListView = (ListView) getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.in_progress_evaluations_listview);
 

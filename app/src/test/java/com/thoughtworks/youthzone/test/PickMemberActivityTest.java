@@ -31,7 +31,6 @@ public class PickMemberActivityTest extends ActivityUnitTestCase<PickMemberActiv
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		salesforceFacade = mock(SalesforceFacade.class);
 		projectMember = mock(ProjectMember.class);
 
@@ -46,18 +45,13 @@ public class PickMemberActivityTest extends ActivityUnitTestCase<PickMemberActiv
 
 		setApplication(application);
 
-		pickMemberIntent = new Intent(getInstrumentation().getTargetContext(), PickMemberActivity.class);
+		pickMemberIntent = new Intent(null, PickMemberActivity.class);
 	}
 	
 	public void testShouldPopulateMemberListWithCorrectData() {
 		startActivity(pickMemberIntent, null, null);
-		// TODO: find better way to synchronise
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		final ListView memberList = (ListView) getActivity()
+
+		final ListView memberList = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.members_listview);
 		
 		String listItem = (String) memberList.getItemAtPosition(0);
@@ -67,13 +61,8 @@ public class PickMemberActivityTest extends ActivityUnitTestCase<PickMemberActiv
 
 	public void testShouldLaunchSelectEvaluationActivityWithIntent() {
 		startActivity(pickMemberIntent, null, null);
-		// TODO: find better way to synchronise
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		final ListView memberList = (ListView) getActivity()
+
+		final ListView memberList = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.members_listview);
 
 		memberList.performItemClick(memberList.getAdapter().getView(0, null, null), 0,

@@ -38,12 +38,11 @@ public class PickThemeForPreviousActivityTest extends ActivityUnitTestCase<PickT
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-		
+
 		evaluation = mock(Evaluation.class);
 		
 		QuestionData question = new QuestionData("", "", 1.0f, "", "");
-		List<QuestionData> questions = new ArrayList<QuestionData>();
+		List<QuestionData> questions = new ArrayList<>();
 		questions.add(question);
 		
 		ThemeData themeData1 = new ThemeData(ThemeToOutcome.CONFIDENCE.getTitle(), questions); 
@@ -52,7 +51,7 @@ public class PickThemeForPreviousActivityTest extends ActivityUnitTestCase<PickT
 		ThemeData themeData4 = new ThemeData(ThemeToOutcome.HEALTH.getTitle(), questions);
 		ThemeData themeData5 = new ThemeData(ThemeToOutcome.ASPIRATIONS.getTitle(), questions);
 		
-		List<ThemeData> themes = new ArrayList<ThemeData>();
+		List<ThemeData> themes = new ArrayList<>();
 		themes.add(themeData1);
 		themes.add(themeData2);
 		themes.add(themeData3);
@@ -71,14 +70,14 @@ public class PickThemeForPreviousActivityTest extends ActivityUnitTestCase<PickT
 		application.setInterviewerName("name");
 		setApplication(application);
 
-		pickThemeForPreviousIntent = new Intent(getInstrumentation().getTargetContext(), PickThemeForInProgressActivity.class);
+		pickThemeForPreviousIntent = new Intent(null, PickThemeForInProgressActivity.class);
 	}
 	
 	@SmallTest
 	public void testShouldHaveListViewPopulatedWithCorrectThemes() {
 		startActivity(pickThemeForPreviousIntent, null, null);
 		
-		final ListView themeList = (ListView) getActivity()
+		final ListView themeList = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.themes_listview);
 		
 		String listItem0 = ((ThemeData) themeList.getItemAtPosition(0)).getName();
@@ -98,7 +97,7 @@ public class PickThemeForPreviousActivityTest extends ActivityUnitTestCase<PickT
 	public void testShouldStoreCorrectThemeTitleWhenListItemClicked() {
 		startActivity(pickThemeForPreviousIntent, null, null);
 		
-		final ListView themeList = (ListView) getActivity()
+		final ListView themeList = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.themes_listview);
 		themeList.performItemClick(themeList.getAdapter().getView(0, null, null), 0,
 				themeList.getAdapter().getItemId(0));
@@ -115,7 +114,7 @@ public class PickThemeForPreviousActivityTest extends ActivityUnitTestCase<PickT
 			e.printStackTrace();
 		}
 
-		final ListView themeList = (ListView) getActivity()
+		final ListView themeList = getActivity()
 				.findViewById(com.thoughtworks.youthzone.R.id.themes_listview);
 		themeList.performItemClick(themeList.getAdapter().getView(0, null, null), 0,
 				themeList.getAdapter().getItemId(0));
@@ -132,7 +131,7 @@ public class PickThemeForPreviousActivityTest extends ActivityUnitTestCase<PickT
 
 		String expectedCommentOutput = "Staff comment:\na comment";
 		
-		final TextView staffComment = (TextView) getActivity().findViewById(com.thoughtworks.youthzone.R.id.staff_comment_textview);
+		final TextView staffComment = getActivity().findViewById(com.thoughtworks.youthzone.R.id.staff_comment_textview);
 		
 		assertEquals(expectedCommentOutput, staffComment.getText());
 	}
@@ -145,7 +144,7 @@ public class PickThemeForPreviousActivityTest extends ActivityUnitTestCase<PickT
 
 		String expectedCommentOutput = "Staff comment:\nN/A";
 		
-		final TextView staffComment = (TextView) getActivity().findViewById(com.thoughtworks.youthzone.R.id.staff_comment_textview);
+		final TextView staffComment = getActivity().findViewById(com.thoughtworks.youthzone.R.id.staff_comment_textview);
 		
 		assertEquals(expectedCommentOutput, staffComment.getText());
 	}
@@ -155,8 +154,8 @@ public class PickThemeForPreviousActivityTest extends ActivityUnitTestCase<PickT
 		
 		startActivity(pickThemeForPreviousIntent, null, null);
 		
-		final ListView themesList = (ListView) getActivity().findViewById(com.thoughtworks.youthzone.R.id.themes_listview);
-		final TextView averageRating = (TextView) themesList.getAdapter().getView(0, null, null).findViewById(com.thoughtworks.youthzone.R.id.label_rating);
+		final ListView themesList = getActivity().findViewById(com.thoughtworks.youthzone.R.id.themes_listview);
+		final TextView averageRating = themesList.getAdapter().getView(0, null, null).findViewById(com.thoughtworks.youthzone.R.id.label_rating);
 		
 		assertEquals("1", averageRating.getText());
 	}
