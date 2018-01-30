@@ -19,8 +19,6 @@ public interface DatastoreFacade {
 
 	List<Evaluation> getCompletedEvaluations(String projectName, String memberName) throws Exception;
 
-	List<Evaluation> getAllEvaluations(String projectName, String memberName) throws Exception;
-
 	Map<String, Object> getRatingsForEvaluation(Evaluation evaluation) throws Exception;
 
 	Map<String, String> getMemberCommentsForEvaluation(Evaluation evaluation) throws Exception;

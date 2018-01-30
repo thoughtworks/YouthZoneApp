@@ -1,5 +1,6 @@
 package com.thoughtworks.youthzone.helper;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,11 +13,15 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.rest.RestRequest;
 import com.salesforce.androidsdk.rest.RestResponse;
+
+import static java.util.Arrays.asList;
+import static java.util.Collections.*;
 
 public class SalesforceFacade implements DatastoreFacade {
 
@@ -33,7 +38,7 @@ public class SalesforceFacade implements DatastoreFacade {
 
 		String requiredField = "Name";
 		JSONArray records = sendRequest("SELECT " + requiredField + " FROM Projects__c");
-		List<String> projectList = new ArrayList<String>();
+		List<String> projectList = new ArrayList<>();
 
 		for (int i = 0; i < records.length(); i++) {
 			projectList.add(records.getJSONObject(i).getString(requiredField));
@@ -45,7 +50,7 @@ public class SalesforceFacade implements DatastoreFacade {
 		JSONArray records = sendRequest(
 				"SELECT Id, Member__r.Name, Member__r.Birthdate__c, Member__r.Member_Id__c, Member__r.Id  FROM Project_Members__c WHERE Project__r.Name = '"
 						+ projectName + "'");
-		List<ProjectMember> projectMembers = new ArrayList<ProjectMember>();
+		List<ProjectMember> projectMembers = new ArrayList<>();
 
 		for (int i = 0; i < records.length(); i++) {
 
@@ -74,7 +79,7 @@ public class SalesforceFacade implements DatastoreFacade {
 	}
 
 	public Map<String, String> getQuestionsToOutcomes(String project) throws Exception {
-		Map<String, String> questionsToOutcomes = new LinkedHashMap<String, String>();
+		Map<String, String> questionsToOutcomes = new LinkedHashMap<>();
 
 		JSONArray records = sendRequest(
 				"SELECT Aspirations_Indicator_1__c,Aspirations_Indicator_2__c,Aspirations_Indicator_3__c,Citizenship_Indicator_1__c,Citizenship_Indicator_2__c,Citizenship_Indicator_3__c,Cohesion_Indicator_1__c,Cohesion_Indicator_2__c,Cohesion_Indicator_3__c,Communication_Skills_Indicator_1__c,Communication_Skills_Indicator_2__c,Communication_Skills_Indicator_3__c,Confidence_Indicator_1__c,Confidence_Indicator_2__c,Confidence_Indicator_3__c,Determination_Indicator_1__c,Determination_Indicator_2__c,Determination_Indicator_3__c,Empathy_Indicator_1__c,Empathy_Indicator_2__c,Empathy_Indicator_3__c,Leadership_Skills_Indicator_1__c,Leadership_Skills_Indicator_2__c,Leadership_Skills_Indicator_3__c,Life_Skills_Indicator_1__c,Life_Skills_Indicator_2__c,Life_Skills_Indicator_3__c,Managing_Feelings_Indicator_1__c,Managing_Feelings_Indicator_2__c,Managing_Feelings_Indicator_3__c,Mental_Wellbeing_Indicator_1__c,Mental_Wellbeing_Indicator_2__c,Mental_Wellbeing_Indicator_3__c,Physical_Health_Indicator_1__c,Physical_Health_Indicator_2__c,Physical_Health_Indicator_3__c,Positive_Health_Choices_Indicator_1__c,Positive_Health_Choices_Indicator_2__c,Positive_Health_Choices_Indicator_3__c,Problem_Solving_Indicator_1__c,Problem_Solving_Indicator_2__c,Problem_Solving_Indicator_3__c,Ready_for_Work_LLL_Indicator_1__c,Ready_for_Work_LLL_Indicator_2__c,Ready_for_Work_LLL_Indicator_3__c,Resilience_Indicator_1__c,Resilience_Indicator_2__c,Resilience_Indicator_3__c,Self_Awareness_Indicator_1__c,Self_Awareness_Indicator_2__c,Self_Awareness_Indicator_3__c,Self_Efficiency_Indicator_1__c,Self_Efficiency_Indicator_2__c,Self_Efficiency_Indicator_3__c,Self_Esteem_Indicator_1__c,Self_Esteem_Indicator_2__c,Self_Esteem_Indicator_3__c,Social_Skills_Indicator_1__c,Social_Skills_Indicator_2__c,Social_Skills_Indicator_3__c FROM Projects__c WHERE Name = '"
@@ -96,22 +101,57 @@ public class SalesforceFacade implements DatastoreFacade {
 	}
 
 	private JSONArray sendRequest(String soql) throws UnsupportedEncodingException {
-		RestRequest restRequest = RestRequest.getRequestForQuery(apiVersion, soql);
-
 		try {
-			RestResponse result = client.sendSync(restRequest);
-			return result.asJSONObject().getJSONArray("records");
+
+            RestRequest restRequest = RestRequest.getRequestForQuery(apiVersion, soql);
+            JSONObject result = client.sendSync(restRequest).asJSONObject();
+
+            List<JSONObject> results = getMoreResults(result);
+
+            return concatenateResults(results);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
+    private List<JSONObject> getMoreResults(JSONObject result) throws JSONException, IOException {
+        List<JSONObject> results = new ArrayList<>();
+        results.add(result);
+
+        while (!result.getBoolean("done")) {
+
+            result = client.sendSync(new RestRequest(
+                    RestRequest.RestMethod.GET, result.getString("nextRecordsUrl")
+            )).asJSONObject();
+
+            results.add(result);
+        }
+
+        return results;
+    }
+
+    private JSONArray concatenateResults(List<JSONObject> results) throws JSONException {
+
+        if(results.size() == 1) return results.get(0).getJSONArray("records");
+
+        JSONArray output = new JSONArray();
+        for (JSONObject result : results) {
+            JSONArray records = result.getJSONArray("records");
+            for (int i = 0; i < records.length(); i++) {
+                output.put(records.get(i));
+            }
+        }
+
+        return output;
+    }
+
 	@Override
 	public boolean uploadNewOutcome(ProjectMember projectMember, Evaluation evaluation, String interviewerName)
 			throws Exception {
 
-		Map<String, Object> uploadData = new LinkedHashMap<String, Object>();
+		Map<String, Object> uploadData = new LinkedHashMap<>();
 		uploadData.putAll(filterEmptyRatings(evaluation.getOutcomesToRatings()));
 		uploadData.putAll(evaluation.getMemberComments());
 		uploadData.put("Member_Name__c", projectMember.getSalesForceId());
@@ -128,7 +168,7 @@ public class SalesforceFacade implements DatastoreFacade {
 	@Override
 	public boolean updateExistingOutcome(Evaluation evaluation, String interviewerName) throws Exception {
 
-		Map<String, Object> uploadData = new LinkedHashMap<String, Object>();
+		Map<String, Object> uploadData = new LinkedHashMap<>();
 		uploadData.putAll(filterEmptyRatings(evaluation.getOutcomesToRatings()));
 		uploadData.putAll(evaluation.getMemberComments());
 		uploadData.put("Status__c", evaluation.getStatus());
@@ -143,7 +183,7 @@ public class SalesforceFacade implements DatastoreFacade {
 	}
 
 	private Map<String, Object> filterEmptyRatings(Map<String, Object> outcomesToRatings) {
-		Map<String, Object> filteredOutcomesToRatings = new LinkedHashMap<String, Object>();
+		Map<String, Object> filteredOutcomesToRatings = new LinkedHashMap<>();
 		for (String outcome : outcomesToRatings.keySet()) {
 			Float value = (Float) outcomesToRatings.get(outcome);
 			if (value > 0.0f) {
@@ -171,17 +211,8 @@ public class SalesforceFacade implements DatastoreFacade {
 		return getEvaluations(records);
 	}
 
-	@Override
-	public List<Evaluation> getAllEvaluations(String projectName, String memberName) throws Exception {
-		JSONArray records = sendRequest(
-				"SELECT Date__c, Name, Youth_Zone_Comments__c, Id FROM Outcome__c WHERE Project1__c = '" + projectName
-						+ "' AND Member_Name__r.Name = '" + memberName + "'");
-
-		return getEvaluations(records);
-	}
-
 	private List<Evaluation> getEvaluations(JSONArray records) throws Exception {
-		List<Evaluation> inProgressEvaluations = new ArrayList<Evaluation>();
+		List<Evaluation> inProgressEvaluations = new ArrayList<>();
 		for (int i = 0; i < records.length(); i++) {
 			Evaluation evaluation = new Evaluation();
 			String date = records.getJSONObject(i).getString("Date__c");
@@ -205,7 +236,7 @@ public class SalesforceFacade implements DatastoreFacade {
 				"SELECT Aspirations_Outcome_1__c,Aspirations_Outcome_2__c,Aspirations_Outcome_3__c,Citizenship_Outcome_1__c,Citizenship_Outcome_2__c,Citizenship_Outcome_3__c,Cohesion_Outcome_1__c,Cohesion_Outcome_2__c,Cohesion_Outcome_3__c,Communication_Skills_Outcome_1__c,Communication_Skills_Outcome_2__c,Communication_Skills_Outcome_3__c,Confidence_Outcome_1__c,Confidence_Outcome_2__c,Confidence_Outcome_3__c,Determination_Outcome_1__c,Determination_Outcome_2__c,Determination_Outcome_3__c,Empathy_Outcome_1__c,Empathy_Outcome_2__c,Empathy_Outcome_3__c,Leadership_Skills_Outcome_1__c,Leadership_Skills_Outcome_2__c,Leadership_Skills_Outcome_3__c,Life_Skills_Outcome_1__c,Life_Skills_Outcome_2__c,Life_Skills_Outcome_3__c,Managing_Feelings_Outcome_1__c,Managing_Feelings_Outcome_2__c,Managing_Feelings_Outcome_3__c,Mental_Wellbeing_Outcome_1__c,Mental_Wellbeing_Outcome_2__c,Mental_Wellbeing_Outcome_3__c,Physical_Health_Outcome_1__c,Physical_Health_Outcome_2__c,Physical_Health_Outcome_3__c,Positive_Health_Choices_Outcome_1__c,Positive_Health_Choices_Outcome_2__c,Positive_Health_Choices_Outcome_3__c,Problem_Solving_Outcome_1__c,Problem_Solving_Outcome_2__c,Problem_Solving_Outcome_3__c,Ready_for_Work_LLL_Outcome_1__c,Ready_for_Work_LLL_Outcome_2__c,Ready_for_Work_LLL_Outcome_3__c,Resilience_Outcome_1__c,Resilience_Outcome_2__c,Resilience_Outcome_3__c,Self_Awareness_Outcome_1__c,Self_Awareness_Outcome_2__c,Self_Awareness_Outcome_3__c,Self_Efficiency_Outcome_1__c,Self_Efficiency_Outcome_2__c,Self_Efficiency_Outcome_3__c,Self_Esteem_Outcome_1__c,Self_Esteem_Outcome_2__c,Self_Esteem_Outcome_3__c,Social_Skills_Outcome_1__c,Social_Skills_Outcome_2__c,Social_Skills_Outcome_3__c FROM Outcome__c WHERE Id = '"
 						+ evaluation.getSalesForceId() + "'");
 
-		Map<String, Object> outcomesToRatings = new LinkedHashMap<String, Object>();
+		Map<String, Object> outcomesToRatings = new LinkedHashMap<>();
 
 		JSONObject jsonObject = record.getJSONObject(0);
 		Iterator<?> keys = jsonObject.keys();
@@ -226,7 +257,7 @@ public class SalesforceFacade implements DatastoreFacade {
 				"SELECT Aspirations_Comments_1__c,Aspirations_Comments_2__c,Aspirations_Comments_3__c,Citizenship_Comments_1__c,Citizenship_Comments_2__c,Citizenship_Comments_3__c,Cohesion_Comments_1__c,Cohesion_Comments_2__c,Cohesion_Comments_3__c,Communication_Skills_Comments_1__c,Communication_Skills_Comments_2__c,Communication_Skills_Comments_3__c,Confidence_Comments_1__c,Confidence_Comments_2__c,Confidence_Comments_3__c,Determination_Comments_1__c,Determination_Comments_2__c,Determination_Comments_3__c,Empathy_Comments_1__c,Empathy_Comments_2__c,Empathy_Comments_3__c,Leadership_Skills_Comments_1__c,Leadership_Skills_Comments_2__c,Leadership_Skills_Comments_3__c,Life_Skills_Comments_1__c,Life_Skills_Comments_2__c,Life_Skills_Comments_3__c,Managing_Feelings_Comments_1__c,Managing_Feelings_Comments_2__c,Managing_Feelings_Comments_3__c,Mental_Wellbeing_Comments_1__c,Mental_Wellbeing_Comments_2__c,Mental_Wellbeing_Comments_3__c,Physical_Health_Comments_1__c,Physical_Health_Comments_2__c,Physical_Health_Comments_3__c,Positive_Health_Choices_Comments_1__c,Positive_Health_Choices_Comments_2__c,Positive_Health_Choices_Comments_3__c,Problem_Solving_Comments_1__c,Problem_Solving_Comments_2__c,Problem_Solving_Comments_3__c,Ready_for_Work_LLL_Comments_1__c,Ready_for_Work_LLL_Comments_2__c,Ready_for_Work_LLL_Comments_3__c,Resilience_Comments_1__c,Resilience_Comments_2__c,Resilience_Comments_3__c,Self_Awareness_Comments_1__c,Self_Awareness_Comments_2__c,Self_Awareness_Comments_3__c,Self_Efficiency_Comments_1__c,Self_Efficiency_Comments_2__c,Self_Efficiency_Comments_3__c,Self_Esteem_Comments_1__c,Self_Esteem_Comments_2__c,Self_Esteem_Comments_3__c,Social_Skills_Comments_1__c,Social_Skills_Comments_2__c,Social_Skills_Comments_3__c FROM Outcome__c WHERE Id = '"
 						+ evaluation.getSalesForceId() + "'");
 
-		Map<String, String> memberComments = new LinkedHashMap<String, String>();
+		Map<String, String> memberComments = new LinkedHashMap<>();
 
 		JSONObject jsonObject = record.getJSONObject(0);
 		Iterator<?> keys = jsonObject.keys();
