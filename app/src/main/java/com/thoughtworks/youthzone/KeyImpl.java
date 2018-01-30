@@ -26,8 +26,8 @@
  */
 package com.thoughtworks.youthzone;
 
+import com.salesforce.androidsdk.analytics.security.Encryptor;
 import com.salesforce.androidsdk.app.SalesforceSDKManager.KeyInterface;
-import com.salesforce.androidsdk.security.Encryptor;
 
 /**
  * This class provides an implementation of KeyInterface.

@@ -28,7 +28,7 @@ package com.thoughtworks.youthzone;
 
 import com.salesforce.androidsdk.app.SalesforceSDKManager;
 import com.salesforce.androidsdk.rest.RestClient;
-import com.salesforce.androidsdk.ui.sfnative.SalesforceActivity;
+import com.salesforce.androidsdk.ui.SalesforceActivity;
 import com.thoughtworks.youthzone.helper.SalesforceFacade;
 
 import android.content.Intent;
