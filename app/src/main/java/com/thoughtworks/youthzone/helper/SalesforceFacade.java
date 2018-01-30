@@ -20,9 +20,6 @@ import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.rest.RestRequest;
 import com.salesforce.androidsdk.rest.RestResponse;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.*;
-
 public class SalesforceFacade implements DatastoreFacade {
 
 	private RestClient client;
@@ -108,7 +105,7 @@ public class SalesforceFacade implements DatastoreFacade {
 
             List<JSONObject> results = getMoreResults(result);
 
-            return concatenateResults(results);
+            return concatenateRecords(results);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,7 +129,7 @@ public class SalesforceFacade implements DatastoreFacade {
         return results;
     }
 
-    private JSONArray concatenateResults(List<JSONObject> results) throws JSONException {
+    private JSONArray concatenateRecords(List<JSONObject> results) throws JSONException {
 
         if(results.size() == 1) return results.get(0).getJSONArray("records");
 
