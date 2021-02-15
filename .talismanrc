@@ -1,0 +1,4 @@
+fileignoreconfig:
+- filename: '*.png'
+  checksum: 46a7c0f576ff5f4f7d23185fc4deadc20beef9ac53708c1bae3ae40b7257c2ca
+  ignore_detectors: [filencontent]
