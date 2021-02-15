@@ -1,8 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
+
     compileSdkVersion 26
     buildToolsVersion '25.0.0'
+    lintOptions {
+        abortOnError false
+    }
     defaultConfig {
         applicationId "com.thoughtworks.youthzone"
         minSdkVersion 19
@@ -36,4 +40,5 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile group: 'org.mockito', name: 'mockito-all', version: '1.8.4'
+
 }
