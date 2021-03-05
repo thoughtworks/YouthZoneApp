@@ -12,8 +12,6 @@
 
 ### Running locally
 
-- Running with intellij?
-
 ```bash
 ./gradlew build
 ```

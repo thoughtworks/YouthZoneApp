@@ -4,6 +4,11 @@ dependencyCheck {
     analyzers {
         assemblyEnabled=false
     }
+    skipConfigurations += 'lintClassPath'
+}
+
+subprojects {
+    task allDeps(type: DependencyReportTask) {}
 }
 
 android {
