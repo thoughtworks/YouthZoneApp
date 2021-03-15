@@ -34,4 +34,6 @@ Please make sure to update tests as appropriate.
 
 # License details
 
+See LICENSE file.
+
 Copyright © 2021
