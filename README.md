@@ -2,7 +2,7 @@
 
 ## What is Youth Zone? 
 
-- Interviewing students
+- This is a simple Android application originally created by [ThoughtWorks](https://www.thoughtworks.com) to support the activities of [Onside Youth Zones](https://www.onsideyouthzones.org/) which has now been made open source by ThoughtWorks.
 
 ## Getting Started
 
